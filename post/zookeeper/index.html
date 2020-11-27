@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="君子终日乾乾，夕惕若，厉，无咎。">
 <meta name="theme-color" content="#000">
-<title>7、mybatis | 异见</title>
+<title>Zookeeper笔记 | 异见</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1606471877586">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="7、mybatis" />
-  <meta name="keywords" content="Gridea" />
+  <meta name="description" content="Zookeeper笔记" />
+  <meta name="keywords" content="分布式,Zookeeper" />
 </head>
 
 <body>
@@ -178,6 +178,264 @@
 
 <div class="sidebar">
   
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+      <div class="sidebar-body pisces" id="sidebar_body">
+        
+          
+            <div style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#zookeeper%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5">zookeeper中的一些概念</a>
+<ul>
+<li><a href="#1-%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7"><strong>1、顺序一致性</strong></a></li>
+<li><a href="#2-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B">2、数据模型</a></li>
+<li><a href="#3-%E4%BC%9A%E8%AF%9D">3、会话</a></li>
+<li><a href="#4-watcher">4、Watcher</a></li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">事件的实现原理</a></li>
+<li><a href="#5-acl">5、ACL</a></li>
+<li><a href="#6-stat%E4%BF%A1%E6%81%AF"><strong>6、stat信息</strong></a></li>
+<li><a href="#7-zookeeper-%E4%B8%8B-server%E5%B7%A5%E4%BD%9C%E7%8A%B6%E6%80%81">7、Zookeeper 下 Server工作状态</a></li>
+<li><a href="#1-zk%E7%9A%84%E5%91%BD%E5%90%8D%E6%9C%8D%E5%8A%A1">1、<code>zk</code>的命名服务</a></li>
+<li><a href="#2-zk%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86">2、<code>zk</code>的配置管理</a></li>
+<li><a href="#3-zookeeper%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86">3、Zookeeper集群管理</a></li>
+<li><a href="#4-%E9%98%9F%E5%88%97%E7%AE%A1%E7%90%86">4、队列管理</a></li>
+<li><a href="#5-zookeeper%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">5、Zookeeper分布式锁</a></li>
+</ul>
+</li>
+<li><a href="#zookeeper%E9%9B%86%E7%BE%A4">Zookeeper集群</a>
+<ul>
+<li><a href="#41%E5%A4%84%E7%90%86%E8%AF%BB%E8%AF%B7%E6%B1%82">4.1处理读请求：</a></li>
+<li><a href="#42-%E5%86%99%E8%AF%B7%E6%B1%82%E4%BA%8B%E5%8A%A1%E8%AF%B7%E6%B1%82">4.2、写请求（事务请求）</a></li>
+<li><a href="#43-%E9%9B%86%E7%BE%A4%E8%A7%92%E8%89%B2">4.3、集群角色</a>
+<ul>
+<li><a href="#leader-%E8%A7%92%E8%89%B2">Leader 角色</a></li>
+<li><a href="#follower-%E8%A7%92%E8%89%B2">Follower 角色</a></li>
+<li><a href="#observer-%E8%A7%92%E8%89%B2">Observer 角色</a></li>
+</ul>
+</li>
+<li><a href="#44-%E9%9B%86%E7%BE%A4%E7%BB%84%E6%88%90">4.4、集群组成</a></li>
+</ul>
+</li>
+<li><a href="#zab%E5%8D%8F%E8%AE%AE%E5%8E%9F%E5%AD%90%E6%B6%88%E6%81%AF%E5%B9%BF%E6%92%AD%E5%8D%8F%E8%AE%AE">ZAB协议（原子消息广播协议）</a>
+<ul>
+<li><a href="#zab-%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%A0%B8%E5%BF%83%E5%AE%9A%E4%B9%89">ZAB 协议的核心定义</a></li>
+<li><a href="#zab%E5%8D%8F%E8%AE%AE4%E9%98%B6%E6%AE%B5">ZAB协议4阶段</a></li>
+<li><a href="#zab%E5%8D%8F%E8%AE%AE%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F">ZAB协议两种模式</a>
+<ul>
+<li><a href="#%E6%B6%88%E6%81%AF%E5%B9%BF%E6%92%AD%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">消息广播的实现原理</a></li>
+<li><a href="#%E5%B4%A9%E6%BA%83%E6%81%A2%E5%A4%8D%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D">崩溃恢复(数据恢复)</a>
+<ul>
+<li><a href="#%E5%B7%B2%E7%BB%8F%E8%A2%AB%E5%A4%84%E7%90%86%E7%9A%84%E6%B6%88%E6%81%AF%E4%B8%8D%E8%83%BD%E4%B8%A2%E5%A4%B1">已经被处理的消息不能丢失</a></li>
+<li><a href="#%E8%A2%AB%E4%B8%A2%E5%BC%83%E7%9A%84%E6%B6%88%E6%81%AF%E4%B8%8D%E8%83%BD%E5%86%8D%E6%AC%A1%E5%87%BA%E7%8E%B0">被丢弃的消息不能再次出现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#zookeeper%E8%8A%82%E7%82%B9%E5%AE%95%E6%9C%BA%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86">Zookeeper节点宕机如何处理？</a>
+<ul>
+<li><a href="#zookeeper%E9%80%89%E5%8F%96%E4%B8%BBleader"><strong>Zookeeper选取主leader</strong></a><br>
+*
+<ul>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96">初始化</a></li>
+<li><a href="#%E8%BF%90%E8%A1%8C%E6%9C%9F%E9%97%B4">运行期间</a></li>
+</ul>
+</li>
+<li><a href="#zookeeper%E5%90%8C%E6%AD%A5%E6%B5%81%E7%A8%8B">Zookeeper同步流程</a></li>
+</ul>
+</li>
+<li><a href="#zoocfg%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90"><strong><code>zoo.cfg</code>配置文件分析</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
+          
+        
+      </div>
+    </div>
+  
 </div>
 <script>
   const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
@@ -260,8 +518,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://jboone1989.github.io/post/mybatis/">
-      7、mybatis
+    <a class="post-title-link" href="https://jboone1989.github.io/post/zookeeper/">
+      Zookeeper笔记
     </a>
   </h1>
   <div class="post-meta">
@@ -278,8 +536,14 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://jboone1989.github.io/tag/82RsYFj8K/">
-        <span>Gridea</span>
+      <a href="https://jboone1989.github.io/tag/Ay5ogIeq-/">
+        <span>分布式</span>
+      </a>、
+      
+      
+      
+      <a href="https://jboone1989.github.io/tag/MUd07q86BU/">
+        <span>Zookeeper</span>
       </a>
       
       
@@ -288,82 +552,254 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>12<span class="language" data-lan="minute">分钟</span></span>
+      <span>23<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>3043<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>6333<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p><strong>1、#{}和${}的区别是什么？</strong></p>
-<p>答：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow></mrow><mi mathvariant="normal">是</mi><mi>P</mi><mi>r</mi><mi>o</mi><mi>p</mi><mi>e</mi><mi>r</mi><mi>t</mi><mi>i</mi><mi>e</mi><mi>s</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">件</mi><mi mathvariant="normal">中</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">占</mi><mi mathvariant="normal">位</mi><mi mathvariant="normal">符</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">它</mi><mi mathvariant="normal">可</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">用</mi><mi mathvariant="normal">于</mi><mi mathvariant="normal">标</mi><mi mathvariant="normal">签</mi><mi mathvariant="normal">属</mi><mi mathvariant="normal">性</mi><mi mathvariant="normal">值</mi><mi mathvariant="normal">和</mi><mi>s</mi><mi>q</mi><mi>l</mi><mi mathvariant="normal">内</mi><mi mathvariant="normal">部</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">属</mi><mi mathvariant="normal">于</mi><mi mathvariant="normal">静</mi><mi mathvariant="normal">态</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">本</mi><mi mathvariant="normal">替</mi><mi mathvariant="normal">换</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">比</mi><mi mathvariant="normal">如</mi></mrow><annotation encoding="application/x-tex">{}是Properties文件中的变量占位符，它可以用于标签属性值和sql内部，属于静态文本替换，比如</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"></span><span class="mord cjk_fallback">是</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord cjk_fallback">文</span><span class="mord cjk_fallback">件</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">占</span><span class="mord cjk_fallback">位</span><span class="mord cjk_fallback">符</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">它</span><span class="mord cjk_fallback">可</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">用</span><span class="mord cjk_fallback">于</span><span class="mord cjk_fallback">标</span><span class="mord cjk_fallback">签</span><span class="mord cjk_fallback">属</span><span class="mord cjk_fallback">性</span><span class="mord cjk_fallback">值</span><span class="mord cjk_fallback">和</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord cjk_fallback">内</span><span class="mord cjk_fallback">部</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">属</span><span class="mord cjk_fallback">于</span><span class="mord cjk_fallback">静</span><span class="mord cjk_fallback">态</span><span class="mord cjk_fallback">文</span><span class="mord cjk_fallback">本</span><span class="mord cjk_fallback">替</span><span class="mord cjk_fallback">换</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">比</span><span class="mord cjk_fallback">如</span></span></span></span>{driver}会被静态替换为com.mysql.jdbc.Driver。#{}是sql的参数占位符，Mybatis会将sql中的#{}替换为?号，在sql执行前会使用PreparedStatement的参数设置方法，按序给sql的?号占位符设置参数值，比如ps.setInt(0, parameterValue)，#{item.name}的取值方式为使用反射从参数对象中获取item对象的name属性值，相当于param.getItem().getName()。</p>
-<p><strong>2、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？</strong></p>
-<p>答：还有很多其他的标签，<resultMap>、<parameterMap>、<sql>、<include>、<selectKey>，加上动态sql的9个标签，trim|where|set|foreach|if|choose|when|otherwise|bind等，其中<strong>为sql片段标签，通过标签引入sql片段</strong>，<selectKey>为不支持自增的主键生成策略标签。</p>
-<p><strong>3、最佳实践中，通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？</strong></p>
-<p>答：Dao接口，就是人们常说的Mapper接口，接口的全限名，就是映射文件中的namespace的值，接口的方法名，就是映射文件中<strong>MappedStatement</strong>的id值，接口方法内的参数，就是传递给sql的参数。Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MappedStatement，举例：com.mybatis3.mappers.StudentDao.findStudentById，可以唯一找到namespace为com.mybatis3.mappers.StudentDao下面id = findStudentById的MappedStatement。在Mybatis中，每一个<select>、<insert>、<update>、<delete>标签，都会被解析为一个MappedStatement对象。</p>
-<p><strong>Dao接口里的方法，是不能重载的，因为是全限名+方法名的保存和寻找策略。</strong></p>
-<p>Dao接口的工作原理是<strong>JDK动态代理</strong>，Mybatis运行时会使用JDK动态代理为Dao接口生成代理proxy对象，代理对象proxy会拦截接口方法，转而执行MappedStatement所代表的sql，然后将sql执行结果返回。</p>
-<p><strong>4、Mybatis是如何进行分页的？分页插件的原理是什么？</strong></p>
-<p>答：Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。</p>
-<p>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。</p>
-<p>举例：select * from student，拦截sql后重写为：select t.* from （select * from student）t limit 0，10</p>
-<p><strong>5、简述Mybatis的插件运行原理，以及如何编写一个插件。</strong></p>
-<p>答：Mybatis仅可以编写针对<strong>ParameterHandler、ResultSetHandler、StatementHandler、Executor</strong>这4种接口的插件，Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。</p>
-<p>实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，别忘了在配置文件中配置你编写的插件。</p>
-<p><strong>6、Mybatis执行批量插入，能返回数据库主键列表吗？</strong></p>
-<p>答：能，JDBC都能，Mybatis当然也能。</p>
-<p><strong>7、Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？</strong></p>
-<p>答：Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写动态sql，完成逻辑判断和动态拼接sql的功能，Mybatis提供了9种动态sql标签trim|where|set|foreach|if|choose|when|otherwise|bind。</p>
-<p>其执行原理为，使<strong>用OGNL从sql参数对象中计算表达式的值，根据表达式的值动态拼接sql</strong>，以此来完成动态sql的功能。</p>
-<p><strong>8、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？</strong></p>
-<p>答：第一种是使用****标签，逐一定义列名和对象属性名之间的映射关系。第二种是使用sql列的别名功能，将列别名书写为对象属性名，比如T_NAME AS NAME，对象属性名一般是name，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成T_NAME AS NaMe，Mybatis一样可以正常工作。</p>
-<p>有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。</p>
-<p><strong>9、Mybatis能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别。</strong></p>
-<p>答：能，Mybatis不仅可以执行一对一、一对多的关联查询，还可以执行多对一，多对多的关联查询，多对一查询，其实就是一对一查询，只需要把selectOne()修改为selectList()即可；多对多查询，其实就是一对多查询，只需要把selectOne()修改为selectList()即可。</p>
-<p>关联对象查询，有两种实现方式，一种是单独发送一个sql去查询关联对象，赋给主对象，然后返回主对象。另一种是使用嵌套查询，嵌套查询的含义为使用join查询，一部分列是A对象的属性值，另外一部分列是关联对象B的属性值，好处是只发一个sql查询，就可以把主对象和其关联对象查出来。</p>
-<p>那么问题来了，join查询出来100条记录，如何确定主对象是5个，而不是100个？其去重复的原理是<resultMap>标签内的<id>子标签，指定了唯一确定一条记录的id列，Mybatis根据<id>列值来完成100条记录的去重复功能，<id>可以有多个，代表了联合主键的语意。</p>
-<p>同样主对象的关联对象，也是根据这个原理去重复的，尽管一般情况下，只有主对象会有重复记录，关联对象一般不会重复。</p>
-<p>举例：下面join查询出来6条记录，一、二列是Teacher对象列，第三列为Student对象列，Mybatis去重复处理后，结果为1个老师6个学生，而不是6个老师6个学生。</p>
-<p>​    t_id   t_name      s_id</p>
-<p>|      1 | teacher    |    38 |</p>
-<p>|      1 | teacher    |    39 |</p>
-<p>|      1 | teacher    |    40 |</p>
-<p>|      1 | teacher    |    41 |</p>
-<p>|      1 | teacher    |    42 |</p>
-<p>|      1 | teacher    |    43 |</p>
-<p><strong>10、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？</strong></p>
-<p>答：Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。</p>
-<p>它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。</p>
-<p>当然了，不光是Mybatis，几乎所有的包括Hibernate，支持延迟加载的原理都是一样的。</p>
-<p><strong>11、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？</strong></p>
-<p>答：不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；毕竟namespace不是必须的，只是最佳实践而已。</p>
-<p>原因就是namespace+id是作为Map&lt;String, MappedStatement&gt;的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。</p>
-<p><strong>12、Mybatis中如何执行批处理？</strong></p>
-<p>答：使用BatchExecutor完成批处理。</p>
-<p><strong>13、Mybatis都有哪些Executor执行器？它们之间的区别是什么？</strong></p>
-<p>答：Mybatis有三种基本的Executor执行器，<strong>SimpleExecutor、ReuseExecutor、BatchExecutor。</strong></p>
-<p>**SimpleExecutor：**每执行一次update或select，就开启一个Statement对象，用完立刻关闭Statement对象。</p>
-<p>**ReuseExecutor：**执行update或select，以sql作为key查找Statement对象，存在就使用，不存在就创建，用完后，不关闭Statement对象，而是放置于Map&lt;String, Statement&gt;内，供下一次使用。简言之，就是重复使用Statement对象。</p>
-<p>**BatchExecutor：**执行update（没有select，JDBC批处理不支持select），将所有sql都添加到批处理中（addBatch()），等待统一执行（executeBatch()），它缓存了多个Statement对象，每个Statement对象都是addBatch()完毕后，等待逐一执行executeBatch()批处理。与JDBC批处理相同。</p>
-<p>作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。</p>
-<p><strong>14、Mybatis中如何指定使用哪一种Executor执行器？</strong></p>
-<p>答：在Mybatis配置文件中，可以指定默认的ExecutorType执行器类型，也可以手动给DefaultSqlSessionFactory的创建SqlSession的方法传递ExecutorType类型参数。</p>
-<p><strong>15、Mybatis是否可以映射Enum枚举类？</strong></p>
-<p>答：Mybatis可以映射枚举类，不单可以映射枚举类，Mybatis可以映射任何对象到表的一列上。映射方式为自定义一个TypeHandler，实现TypeHandler的setParameter()和getResult()接口方法。TypeHandler有两个作用，一是完成从javaType至jdbcType的转换，二是完成jdbcType至javaType的转换，体现为setParameter()和getResult()两个方法，分别代表设置sql问号占位符参数和获取列查询结果。</p>
-<p><strong>16、Mybatis映射文件中，如果A标签通过include引用了B标签的内容，请问，B标签能否定义在A标签的后面，还是说必须定义在A标签的前面？</strong></p>
-<p>答：虽然Mybatis解析Xml映射文件是按照顺序解析的，但是，被引用的B标签依然可以定义在任何地方，Mybatis都可以正确识别。</p>
-<p>原理是，Mybatis解析A标签，发现A标签引用了B标签，但是B标签尚未解析到，尚不存在，此时，Mybatis会将A标签标记为<strong>未解析状态</strong>，然后继续解析余下的标签，包含B标签，待所有标签解析完毕，Mybatis会重新解析那些被标记为未解析的标签，此时再解析A标签时，B标签已经存在，A标签也就可以正常解析完成了。</p>
-<p><strong>17、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？</strong></p>
-<p>答：Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，<parameterMap>标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。<strong>标签会被解析为ResultMap对象</strong>，其每个子元素会被解析为<strong>ResultMapping对象</strong>。每一个<select>、<insert>、<update>、<delete>标签均会被解析为<strong>MappedStatement</strong>对象，标签内的sql会被解析为BoundSql对象。</p>
-<p><strong>18、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</strong></p>
-<p>答：Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
-<p>19、Mapper原理</p>
-<figure data-type="image" tabindex="1"><img src="../$%7Bimages%7D/cl11%E6%97%A5ipboard.png" alt="img" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="../$%7Bimages%7D/clipboa131231rd.png" alt="img" loading="lazy"></figure>
+              <p>Zookeeper是一个<strong>分布式协调服务</strong>，可用于服务发现，分布式锁，分布式领导选举，配置管理等。Zookeeper提供了一个类似于Linux文件系统的树形结构（可认为是轻量级的内存文件系统，但只适合存少量信息，完全不适合存储大量文件或者大文件），同时提供了对于每个节点的监控与通知机制。</p>
+<h2 id="zookeeper中的一些概念">zookeeper中的一些概念</h2>
+<h3 id="1-顺序一致性"><strong>1、顺序一致性</strong></h3>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180608091516108.png" alt="img" loading="lazy"></figure>
+<p>zookeeper采用了<strong>递增的事务Id</strong>来标识，所有的proposal（提议）都在被提出的时候加上了<code>zxid</code>，<code>zxid</code>实际上是一个64位的数字，高32位是<strong>epoch</strong>用来标识leader是否发生改变，如果有新的leader产生出来，epoch会自增，<strong>低 32 位是counter消息计数器</strong>，用来递增计数。</p>
+<ul>
+<li>
+<p><strong>epoch</strong>：可以理解为当前集群所处的年代或者周期，每个leader 就像皇帝，都有自己的年号，所以每次改朝换代，leader 变更之后，都会在前一个年代的基础上加 1。这样就算旧的 leader 崩溃恢复之后，也没有人听他的了，因为follower 只听从当前年代的 leader 的命令。</p>
+</li>
+<li>
+<p>**counter消息计数器:**每接收到一条事务消息这个值就+1</p>
+</li>
+</ul>
+<p>当处理事务请求时，会先成一个事务ID（ZXID）如图，同一个Leader的统治下epoch是相同的，counter消息计数器随着事务的增加而递增，会按照请求顺序转发给Leader，并保存在一个FIFO队列中，这样就可以保证事务的顺序一致性。同时当这个Leader挂了，新选举出的Leader的epoch会+1，这样当这个节点在链接上来的时候，未处理的事务由于epoch过期了全部清除过期的事务</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bv8xel.png" alt="img" loading="lazy"></figure>
+<h3 id="2-数据模型">2、数据模型</h3>
+<p>zookeeper的数据模型和文件系统类似，每一个节点称为：znode.  是zookeeper中的最小数据单元。每一个znode上都可以保存数据和挂载子节点。 从而构成一个层次化的属性结构节点特性；</p>
+<p><strong>持久化节点</strong>：节点创建后会一直存在zookeeper服务器上，直到主动删除；</p>
+<p><strong>持久化有序节点</strong>：每个节点都会为它的一级子节点维护一个顺序；</p>
+<p><strong>临时节点</strong>： 临时节点的生命周期和客户端的会话保持一致。当客户端会话失效，该节点自动清理；</p>
+<p><strong>临时有序节点</strong>：在临时节点上多加一个顺序性特性；</p>
+<h3 id="3-会话">3、会话</h3>
+<p>会话中的请求按FIFO顺序执行。一旦客户端连接到服务器，将建立会话并向客户端分配会话ID 。客户端以特定的时间间 隔发送心跳以保持会话有效。如果<code>ZooKeeper</code>集合在超过服务器开启时指定的期间（会话超时）都没有从客户端接收到心跳，则它会 判定客户端死机。</p>
+<p>会话超时通常以毫秒为单位。当会话由于任何原因结束时，在该会话期间创建的临时节点也会被删除。</p>
+<h3 id="4-watcher">4、Watcher</h3>
+<p>zookeeper提供了分布式数据发布/订阅,zookeeper允许客户端向服务器注册一个watcher监听。当服务器端的节点触发指定事件的 时候会触发watcher。</p>
+<ul>
+<li>
+<p>一次性触发数据发生改变时，一个watcher event会被发送到client，但是client<strong>只会收到一次这样的信息</strong>。</p>
+</li>
+<li>
+<p>watcher event异步发送</p>
+<p>watcher的通知事件从server发送到client是<strong>异步</strong>的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于<strong>网络延迟或其他因素导致客户端在不同的时刻监听到事件</strong>，由于Zookeeper本身提供了<strong>ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化</strong>。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper<strong>只能保证最终的一致性，而无法保证强一致性</strong>。</p>
+</li>
+<li>
+<p>注册watcher <strong><code>getData</code>、exists、<code>getChildren</code></strong></p>
+</li>
+<li>
+<p>凡是事务类型的操作，都会触发watcher <strong>create、delete、<code>setData</code></strong></p>
+<h3 id="事件的实现原理">事件的实现原理</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180613085557311.png" alt="img" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180613085628613.png" alt="img" loading="lazy"><br>
+<img src="zookeeper.assets/20180613085645577.png" alt="img" loading="lazy"></p>
+</li>
+</ul>
+<h3 id="5-acl">5、ACL</h3>
+<p>zookeeper提供控制节点访问权限的功能，用于有效的保证zookeeper中数据的安全性。</p>
+<p>CREATE /READ/WRITE/DELETE/ADMIN</p>
+<p><strong>zookeeper的命令操作</strong></p>
+<pre><code>1. create [-s] [-e] path data acl
+-s 表示节点是否有序
+-e 表示是否为临时节点
+默认情况下，是持久化节点
+
+2. get path [watch]:获得指定 path的信息
+
+3.set path data [version]:修改节点 path对应的data
+
+4.delete path [version]:删除节点
+</code></pre>
+<h3 id="6-stat信息"><strong>6、stat信息</strong></h3>
+<pre><code>cversion = 0       子节点的版本号
+aclVersion = 0     表示acl的版本号，修改节点权限
+dataVersion = 1    表示的是当前节点数据的版本号
+
+czxid    节点被创建时的事务ID
+mzxid   节点最后一次被更新的事务ID
+pzxid    当前节点下的子节点最后一次被修改时的事务ID
+
+ctime = Sat Aug 05 20:48:26 CST 2017:创建时间
+mtime = Sat Aug 05 20:48:50 CST 2017：修改时间
+
+ephemeralOwner = 0x0   创建临时节点的时候，会有一个sessionId 。 该值存储的就是这个sessionid
+dataLength = 3    数据值长度
+numChildren = 0  子节点数
+</code></pre>
+<h3 id="7-zookeeper-下-server工作状态">7、Zookeeper 下 Server工作状态</h3>
+<p>LEADING：说明此节点已经是leader节点，处于领导者地位的状态，差不多就是一般集群中的master。但在zookeeper中，只有leader才有写权限，其他节点（FOLLOWING）是没有写权限的，可以读</p>
+<p><strong>LOOKING</strong>：选举中，正在寻找leader，即将进入leader选举流程中</p>
+<p><strong>FOLLOWING</strong>：跟随者，表示当前集群中的leader已经选举出来了，主要具备以下几个功能点</p>
+<p>​            向leader发送请求（PING消息、REQUEST消息、ACK消息、REVALIDATE消息）</p>
+<p>​            接收leader消息并进行处理；</p>
+<p>​            接收client发送过来的请求，如果为写请求，会发送给Leader进行投票处理，然后返回client结果。</p>
+<p><strong>OBSERVING</strong>：OBSERVING和FOLLOWING差不多，但不参加投票和选举，接受leader选举后的结果</p>
+<p>##Zookeeper的应用</p>
+<h3 id="1-zk的命名服务">1、<code>zk</code>的命名服务</h3>
+<p>命名服务是指通过指定的名字来获取资源或者服务的地址，利用<code>zk</code>创建一个全局的路径，即是唯一的路径，这个路径就可以作为一个 名字，指向集群中的集群，提供的服务的地址，或者一个远程的对象等等。</p>
+<h3 id="2-zk的配置管理">2、<code>zk</code>的配置管理</h3>
+<p>程序分布式的部署在不同的机器上，将程序的配置信息放在<code>zk</code>的znode下，当有配置发生改变时，也就是znode发生变化时，可以通 过改变<code>zk</code>中某个目录节点的内容，利用watcher通知给各个客户端，从而更改配置。</p>
+<h3 id="3-zookeeper集群管理">3、Zookeeper集群管理</h3>
+<p>所谓集群管理无在乎两点：是否有机器退出和加入、选举master。</p>
+<p>对于第一点，所有机器约定在父目录下创建临时目录节点，然后监听父目录节点的子节点变化消息。一旦有机器挂掉，该机器与  zookeeper的连接断开，其所创建的临时目录节点被删除，所有其他机器都收到通知：某个兄弟目录被删除。 新机器加入也是类似，所有机器收到通知：</p>
+<p>对于第二点，我们稍微改变一下，所有机器创建 临时顺序编号目录节点，每次选取编号最小的机器作为master就好。</p>
+<h3 id="4-队列管理">4、队列管理</h3>
+<p>两种类型的队列：</p>
+<p>1、同步队列，当一个队列的成员都聚齐时，这个队列才可用，否则一直等待所有成员到达。</p>
+<p>在约定目录下创建临时目录节点，监听节点数目是否是我们要求的数目。</p>
+<p>2、队列按照 FIFO 方式进行入队和出队操作。</p>
+<p>和分布式锁服务中的控制时序场景基本原理一致，入列有编号，出列按编号。在特定的目录下创建PERSISTENT_SEQUENTIA L节点，创建成功时Watcher通知等待的队列，队列删除序列号最小的节点用以消费。此场景下Zookeeper的znode用于消息存储， znode存储的数据就是消息队列中的消息内容，SEQUENTIAL序列号就是消息的编号，按序取出即可。由于创建的节点是持久化的， 所以不必担心队列消息的丢失问题。</p>
+<h3 id="5-zookeeper分布式锁">5、Zookeeper分布式锁</h3>
+<p>有了zookeeper的一致性文件系统，锁的问题变得容易。锁服务可以分为两类，一个是保持独占，另一个是控制时序。  对于第一类，我们将zookeeper上的一个znode看作是一把锁，通过<code>createznode</code>的方式来实现。所有客户端都去创建  /distribute_lock 节点，最终成功创建的那个客户端也即拥有了这把锁。用完删除掉自己创建的distribute_lock 节点就释放 出锁。</p>
+<p>对于第二类， /distribute_lock 已经预先存在，所有客户端在它下面创建临时顺序编号目录节点，和选master一样，编号最小 的获得锁，用完删除，依次方便。</p>
+<h2 id="zookeeper集群">Zookeeper集群</h2>
+<h3 id="41处理读请求">4.1处理读请求：</h3>
+<p>​    任意节点都可以去处理读请求不需要转发：</p>
+<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607214225328.png" alt="img" loading="lazy"></figure>
+<h3 id="42-写请求事务请求">4.2、写请求（事务请求）</h3>
+<p>​    会转发给Leader(改进版2pc，过半同意即可)</p>
+<figure data-type="image" tabindex="4"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607214358436.png" alt="img" loading="lazy"></figure>
+<p>​    1.事务请求发送到follower服务器节点（若发送给Leader节点少了转发这一步）</p>
+<p>​    2.首先会把事务请求转发给leader， Leader 接收到消息请求后，将消息赋予一个<code>zxid</code>，并保存在一个FIFO队列中，这样就可以保证事务的顺序一致性；</p>
+<p>​    3.leader 服务器把客户端的请求转化成一个事务 Proposal（提议），并把这个 Proposal 分发给集群中的所有 Follower 服务器，</p>
+<p>​    4.当 follower 接收到 proposal，先把 proposal 写到磁盘，写入成功以后再向 leader 回复一个 ack</p>
+<p>​    5.Leader 就会再次向所有的Follower 服务器发送 Commit 消息，要求各个 follower 节点对前面的一个 Proposal 进行提交，同时会在本地执行该消息;</p>
+<p>​    6.把最后的结果同步给Observer节点,</p>
+<p>​    7.把结果返回给客户端。</p>
+<h3 id="43-集群角色">4.3、集群角色</h3>
+<h4 id="leader-角色">Leader 角色</h4>
+<p>Leader 服务器是整个 zookeeper 集群的核心，主要的工作 任务有两项</p>
+<pre><code>1. 事物请求的唯一调度和处理者，保证集群事物处理的顺序性 
+
+2. 集群内部各服务器的调度者
+</code></pre>
+<h4 id="follower-角色">Follower 角色</h4>
+<p>Follower 角色的主要职责是</p>
+<pre><code>1. 处理客户端非事务请求、转发事物请求给leader 服务器
+
+2. 参与事物请求 Proposal 的投票（需要半数以上服务器 通过才能通知 leadercommit 数据; Leader 发起的提案，要求 Follower 投票）
+
+3. 参与 Leader 选举的投票
+</code></pre>
+<h4 id="observer-角色">Observer 角色</h4>
+<pre><code>Observer 是zookeeper3.3 开始引入的一个全新的服务器角色，从字面来理解，该角色充当了观察者的角色。观察 zookeeper 集群中的最新状态变化并将这些状态变化同步到 observer 服务器上。
+
+Observer 的工作原理与 follower 角色基本一致，而它和 follower 角色唯一的不同在于 observer 不参与任何形式的投票，包括事物请求 Proposal的投票和leader选举的投票。
+
+注意：observer 服务器只提供非事物请求服务，通常在于不影响集群事物处理能力的前提下提升集群非事物处理的能力
+</code></pre>
+<h3 id="44-集群组成">4.4、集群组成</h3>
+<p>通常 zookeeper 是由 2n+1 台 server 组成，每个 server 都知道彼此的存在。</p>
+<p>对于 2n+1 台 server，只要有 n+1 台（大多数）server 可用，整个系统保持可用。</p>
+<p>我们已经了解到，一个 zookeeper 集群如果要对外提供可用的服务，那么集群中必须要有过半的机器正常工作并且彼此之间能够正常通信，基于这个特性，如果向搭建一个能够允许 F 台机器 down 掉的集群，那么就要部署 2*F+1 台服务器构成的 zookeeper 集群。因此 3 台机器构成的 zookeeper 集群，能够在挂掉一台机器后依然正常工作。</p>
+<p>​    一个 5 台机器集群的服务，能够对 2 台机器怪调的情况下进行容灾。如果一台由 6 台服务构成的集群，同样只能挂掉 2 台机器。因此， 5 台和 6 台在容灾能力上并没有明显优势，反而增加了网络通信负担。系统启动时，集群中的 server 会选举出一台 server 为 Leader，其它的就作为 follower（这里先不考虑 observer 角色）。之所以要满足这样一个等式，是因为一个节点要成为集群中的 leader，需要有超过及群众过半数的节点支持，这个涉及到 leader 选举算法。同时也涉及到事务请求的提交投票</p>
+<h2 id="zab协议原子消息广播协议">ZAB协议（原子消息广播协议）</h2>
+<p>ZAB协议是为分布式协调服务 ZooKeeper 专门设计的一种支持崩溃恢复的原子广播协议。在 ZooKeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性，</p>
+<h3 id="zab-协议的核心定义">ZAB 协议的核心定义</h3>
+<p>当整个集群在启动时，或者当 leader 节点出现网络中断、崩溃等情况时，ZAB 协议就会进入恢复模式并选举产生新的 Leader，当 leader 服务器选举出来后，并且集群中有过半的机器和该 leader 节点完成数据同步后（同步指的是数据同步，用来保证集群中过半的机器能够和 leader 服务器的数据状态保持一致），ZAB 协议就会退出恢复模式。当集群中已经有过半的 Follower 节点完成了和 Leader 状态同步以后，那么整个集群就进入了消息广播模式。这个时候，在 Leader 节点正常工作时，启动一台新的服务器加入到集群，那这个服务器会直接进入数据恢复模式，和 leader 节点进行数据同步。同步完成后即可正常对外提供非事务请求的处理。</p>
+<h3 id="zab协议4阶段">ZAB协议4阶段</h3>
+<ol>
+<li>Leader election（选举阶段）：节点在一开始都处于选举阶段，只要有一个节点得到超半数节点的票数，它就可以当选准 leader。只有到达 广播阶段（broadcast） 准 leader 才会成为真正的 leader。这一阶段的目的是就是为了选出一个准 leader，然后进入下一个阶段。</li>
+<li>Discovery（发现阶段）：在这个阶段，followers 跟准 leader 进行通信，同步 followers 最近接收的事务提议。这个一阶段的主要目的是发现当前大多数节点接收的最新提议，并且准 leader 生成新的 epoch，让 followers 接受，更新它们的 accepted Epoch<br>
+一个 follower 只会连接一个 leader，如果有一个节点 f 认为另一个 follower p 是 leader，f 在尝试连接 p 时会被拒绝，f 被拒绝之后，就会进入重新选举阶段。</li>
+<li>Synchronization（同步阶段）：同步阶段主要是利用 leader 前一阶段获得的最新提议历史，同步集群中所有的副本。只有当 大多数节点都同步完成，准 leader 才会成为真正的 leader。follower 只会接收 <code>zxid</code> 比自己的 <code>lastZxid</code> 大的提议。</li>
+<li>Broadcast（广播阶段）：到了这个阶段，Zookeeper 集群才能正式对外提供事务服务，并且 leader 可以进行消息广播。同时如果有新的节点加入，还需要对新节点进行同步。<br>
+ZAB 提交事务并不像 2PC 一样需要全部 follower 都 ACK，只需要得到超过半数的节点的 ACK 就可以了。<br>
+ZAB协议JAVA实现（FLE-发现阶段和同步合并为 Recovery Phase（恢复阶段））</li>
+</ol>
+<h3 id="zab协议两种模式">ZAB协议两种模式</h3>
+<p>由定义可知ZAB协议主要有两种模式</p>
+<p>​        1.消息广播模式</p>
+<p>​        2.数据恢复模式</p>
+<h4 id="消息广播的实现原理">消息广播的实现原理</h4>
+<p>消息广播存在事务处理过程中（改良版本的2pc）：</p>
+<pre><code>1. Leader 接收到消息请求后，将消息赋予一个全局唯一的64 位自增 id，叫：zxid，通过 zxid 的大小比较既可以实现因果有序这个特征；
+2. Leader 为每个 follower 准备了一个 FIFO 队列（通过 TCP协议来实现，以实现了全局有序这一个特点）将带有 zxid的消息作为一个提案（proposal）分发给所有的 follower；
+3. 当 follower 接收到 proposal，先把 proposal 写到磁盘，写入成功以后再向 leader 回复一个 ack
+4. 当 leader 接收到合法数量（超过半数节点）的 ACK 后，leader 就会向这些 follower 发送 commit 命令，同时会在本地执行该消息
+5. 当 follower 收到消息的 commit 命令以后，会提交该消息
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607220648571.png" alt="img" loading="lazy"></figure>
+<h4 id="崩溃恢复数据恢复">崩溃恢复(数据恢复)</h4>
+<p>ZAB 协议的这个基于原子广播协议的消息广播过程，在正 常情况下是没有任何问题的，但是一旦 Leader 节点崩溃，或者新机器加入，或者由于网络问题导致 Leader 服务器失去了过半的 Follower 节点的联系（leader 失去与过半 follower 节点联系，可能是 leader 节点和 follower 节点之间产生了网络分区，那么此时的 leader 不再是合法的 leader 了），那么就 会进入到崩溃恢复模式。</p>
+<h5 id="已经被处理的消息不能丢失">已经被处理的消息不能丢失</h5>
+<p>当 leader 收到合法数量 follower 的 ACKs 后，就向各个 follower 广播 COMMIT 命令，同时也会在本地执行 COMMIT 并向连接的客户端返回「成功」。</p>
+<p><strong>如果在各个 follower 在收到 COMMIT 命令前Leader 就挂了，导致剩下的服务器并没有执行都这条消息。</strong></p>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607220958652.png" alt="img" loading="lazy"></figure>
+<p>Leader 对事务消息发起 commit 操作，该消息在follower1 上执行了，但是 follower2 还没有收到 commit，Leader就已经挂了，而实际上客户端已经收到该事务消息处理成功的回执了。所以在 zab 协议下需要保证所有机器都要执行这个事务消息</p>
+<h5 id="被丢弃的消息不能再次出现">被丢弃的消息不能再次出现</h5>
+<p>当 leader 接收到消息请求生成 proposal 后就挂了，其他 follower 并没有收到此 proposal，因此经过恢复模式重新选了 leader 后，这条消息是被跳过的。此时，之前 挂了的 leader 重新启动并注册成了follower，他保留了被跳过消息的 proposal 状态，与整个系统的状态是不一致的，需要将其删除。</p>
+<p>如图：在集群正常运行过程中的某一个时刻,Leader节点先后广播P1,P2,C1,C2；其中当Leader服务器将消息P2提交后，就立即崩溃推出。这种情况下当崩溃的服务器再起链接的时候C1和C2事务将会被抛弃删除。</p>
+<h2 id="zookeeper节点宕机如何处理">Zookeeper节点宕机如何处理？</h2>
+<p>Zookeeper本身也是集群，推荐配置不少于3个服务器。Zookeeper自身也要保证当一个节点宕机时，其他节点会继续提供服务。</p>
+<p>如果是一个Follower宕机，还有2台服务器提供访问，因为Zookeeper上的数据是有多个副本的，数据并不会丢失；</p>
+<p>如果是一个Leader宕机，Zookeeper会选举出新的Leader。</p>
+<p>ZK集群的机制是只要超过半数的节点正常，集群就能正常提供服务。只有在ZK节点挂得太多，只剩一半或不到一半节点能工作，集群才失效。</p>
+<p>所以</p>
+<ul>
+<li>3个节点的cluster可以挂掉1个节点(leader可以得到2票&gt;1.5)</li>
+<li>2个节点的cluster就不能挂掉任何1个节点了(leader可以得到1票&lt;=1)</li>
+</ul>
+<h3 id="zookeeper选取主leader"><strong>Zookeeper选取主leader</strong></h3>
+<p><code>Zab</code>就进入了恢复模式，恢复模式需要重新选举出一个新的leader，让所有的Server都恢复到一个正确的状态。</p>
+<figure data-type="image" tabindex="7"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20190419232751273.png" alt="img" loading="lazy"></figure>
+<p>假如有以下5台机器server1、server2、server3、server4、server5，每个server 自身都有一票，在初始化或者server崩溃数过半的时候，每个server都有一个自身的<code>myid</code>(zookeeper配置文件)，这里按1、2、3、4、5算，在选举过程中主要是依据<code>zxid</code>和<code>myid</code>来进行轮训server然后比较统计投票。<code>zxid</code>(ZooKeeper Transaction Id，每次请求对应一个唯一的<code>zxid</code>，如果<code>zxid</code>a &lt; <code>zxid</code>b ，则可以保证a一定发生在b之前)。</p>
+<p>选举分为两种情况，初始化和leader挂掉的时候，要进行leader选举，至少需要2台机器，集群机器台数基本是奇数。</p>
+<h5 id="初始化">初始化</h5>
+<p>当启动初始化集群的时候，server1的<code>myid</code>为1，<code>zxid</code>为0   server2的<code>myid</code>为2，<code>zxid</code>同样是0，以此类推。此种情况下<code>zxid</code>都是为0。<strong>先比较<code>zxid</code>，再比较<code>myid</code></strong></p>
+<ul>
+<li>服务器1启动，给自己投票，然后发投票信息，由于其它机器还没有启动所以它收不到反馈信息，服务器1的状态一直属于Looking(选举状态)。</li>
+<li>服务器2启动，给自己投票，同时与之前启动的服务器1交换结果，由于服务器2的<code>myid</code>大所以服务器2胜出，但此时投票数没有大于半数，所以两个服务器的状态依然是LOOKING。</li>
+<li>服务器3启动，给自己投票，同时与之前启动的服务器1,2交换信息，由于服务器3的<code>myid</code>最大所以服务器3胜出，此时投票数正好大于半数，所以服务器3成为领导者，服务器1,2成为小弟。</li>
+<li>服务器4启动，给自己投票，同时与之前启动的服务器1,2,3交换信息，尽管服务器4的<code>myid</code>大，但之前服务器3已经胜出，所以服务器4只能成为小弟。</li>
+<li>服务器5启动，后面的逻辑同服务器4成为小弟</li>
+</ul>
+<p>当选举机器过半的时候，已经选举出leader后，后面的就跟随已经选出的leader，所以4和5跟随成为leader的server3。所以，在初始化的时候，一般到过半的机器数的时候谁的<code>myid</code>最大一般就是leader</p>
+<h5 id="运行期间">运行期间</h5>
+<p>按照上述初始化的情况，server3成为了leader，在运行期间处于leader的server3挂了，那么非Observer服务器server1、server2、server4、server5会将自己的节点状态变为LOOKING状态</p>
+<p>1、开始进行leader选举。现在选举同样是根据<code>myid</code>和<code>zxid</code>来进行</p>
+<p>2、首先每个server都会给自己投一票竞选leader。假设server1的<code>zxid</code>为123，server2的<code>zxid</code>为124，server4的<code>zxid</code>为169，server5的<code>zxid</code>为188</p>
+<p>3、同样先是比较<code>zxid</code>再比较，server1、server2、server4依次比较，server4根据优先条件选举为leader。然后server5还是跟随server4，即使server5的<code>zxid</code>最大，但是当选举到server4的时候，机器数已经过半。不再进行选举，跟随已经选举的leader</p>
+<p>在leader选举的时候会有30s-120s的过程，在这期间也是无法提供服务的。如果用zookeeper要作为服务发现是个弊端，基本无法忍受，zookeeper本身是一个CP系统，保证数据的一致性，在恢复的时候再提供服务，并没有多好高可用的方案。如果leader发生故障选举时无法提供服务发现对一个大型应用来说可能是致命的。</p>
+<h3 id="zookeeper同步流程">Zookeeper同步流程</h3>
+<p>当领导者被选举出来，<code>zk</code>就进入状态同步过程。</p>
+<p>1、Leader等待Follower连接；</p>
+<p>2、Follower连接leader，将最大的<code>zxid</code>发送给leader；</p>
+<p>3、Leader根据follower的<code>zxid</code>确定同步点；</p>
+<p>4、完成同步后通知follower 已经成为<code>uptodate</code>状态；</p>
+<p>5、Follower收到<code>uptodate</code>消息后，又可以重新接受client的请求进行服务了。</p>
+<figure data-type="image" tabindex="8"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bv8xag.png" alt="img" loading="lazy"></figure>
+<p>leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。</p>
+<h2 id="zoocfg配置文件分析"><strong><code>zoo.cfg</code>配置文件分析</strong></h2>
+<pre><code>tickTime=2000  zookeeper中最小的时间单位长度 （ms）
+initLimit=10  follower节点启动后与leader节点完成数据同步的时间
+syncLimit=5 leader节点和follower节点进行心跳检测的最大延时时间
+dataDir=/tmp/zookeeper  表示zookeeper服务器存储快照文件的目录
+dataLogDir 表示配置 zookeeper事务日志的存储路径，默认指定在dataDir目录下
+clientPort =2181：clientPort这个端口就是客户端（应用程序）连接Zookeeper服务器的端口,Zookeeper会监听这个端口接受客户端的访问请求。
+    server.A=B：C：D
+    server.1=zk_node1:2881:3881
+    server.2=zk_node2:2881:3881
+    server.3=zk_node3:2881:3881
+    A是一个数字,表示这个是第几号服务器；
+    B是这个服务器的IP地址（或者是与IP地址做了映射的主机名）；
+    C第一个端口用来集群成员的信息交换,表示这个服务器与集群中的Leader服务器交换信息的端口；
+    D是在leader挂掉时专门用来进行选举leader所用的端口。
+    注意：如果是伪集群的配置方式，不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。
+</code></pre>
 
             </div>
             
@@ -380,7 +816,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://jboone1989.github.io/post/mybatis/" title="7、mybatis">https://jboone1989.github.io/post/mybatis/</a>
+      <a href="https://jboone1989.github.io/post/zookeeper/" title="Zookeeper笔记">https://jboone1989.github.io/post/zookeeper/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -389,22 +825,20 @@
   </ul>
   <div class="tags">
     
-      <a href="https://jboone1989.github.io/tag/82RsYFj8K/"># Gridea</a>
+      <a href="https://jboone1989.github.io/tag/Ay5ogIeq-/"># 分布式</a>
+    
+      <a href="https://jboone1989.github.io/tag/MUd07q86BU/"># Zookeeper</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="秒杀系统" href="https://jboone1989.github.io/post/miaosha/">秒杀系统</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="秒杀系统" href="https://jboone1989.github.io/post/miaosha/">上一篇</a>
+        <a class="nav-pc-next" title="分布式微服务架构设计原理" href="https://jboone1989.github.io/post/weifuwujiagouyuanli/">分布式微服务架构设计原理</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="分布式微服务架构设计原理" href="https://jboone1989.github.io/post/weifuwujiagouyuanli/">上一篇</a>
       
     </div>
     <div class="nav-next">
-      
-        <a class="nav-pc-next" title="Redis笔记" href="https://jboone1989.github.io/post/redis/">Redis笔记</a>
-        <a class="nav-mobile-next" title="Redis笔记" href="https://jboone1989.github.io/post/redis/">下一篇</a>
-        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>

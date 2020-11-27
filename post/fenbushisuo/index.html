@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="君子终日乾乾，夕惕若，厉，无咎。">
 <meta name="theme-color" content="#000">
-<title>7、mybatis | 异见</title>
+<title>分布式锁 | 异见</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1606471877586">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="7、mybatis" />
-  <meta name="keywords" content="Gridea" />
+  <meta name="description" content="分布式锁" />
+  <meta name="keywords" content="分布式" />
 </head>
 
 <body>
@@ -178,6 +178,245 @@
 
 <div class="sidebar">
   
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+      <div class="sidebar-body pisces" id="sidebar_body">
+        
+          
+            <div style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B%E7%89%B9%E7%82%B9%E5%91%A2"><strong>分布式锁有哪些特点呢？</strong></a></li>
+<li><a href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%B6%E6%97%8F%E5%AE%9E%E7%8E%B0%E8%80%85%E4%BB%8B%E7%BB%8D"><strong>分布式锁家族实现者介绍</strong></a></li>
+<li><a href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E6%88%90%E5%91%98%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90">分布式锁成员实现原理剖析</a>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%82%B2%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0"><strong>数据库悲观锁实现</strong></a>
+<ul>
+<li><a href="#%E6%82%B2%E8%A7%82%E9%94%81%E4%BC%98%E7%BC%BA%E7%82%B9"><strong>悲观锁优缺点</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B9%90%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0"><strong>数据库乐观锁实现</strong></a>
+<ul>
+<li><a href="#%E4%B9%90%E8%A7%82%E9%94%81%E4%BC%98%E7%BC%BA%E7%82%B9"><strong>乐观锁优缺点</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E4%BA%8Eredis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0"><strong>基于Redis分布式锁实现</strong></a><br>
+*
+<ul>
+<li><a href="#%E5%9F%BA%E4%BA%8Esetnx%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><strong>基于<code>SetNX</code>实现分布式锁</strong></a></li>
+</ul>
+</li>
+<li><a href="#spring%E4%BC%81%E4%B8%9A%E9%9B%86%E6%88%90%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><strong>Spring企业集成模式实现分布式锁</strong></a></li>
+<li><a href="#%E7%AB%99%E5%9C%A8redis%E9%9B%86%E7%BE%A4%E8%A7%92%E5%BA%A6%E7%9C%8B%E9%97%AE%E9%A2%98"><strong>站在Redis集群角度看问题</strong></a><br>
+*
+<ul>
+<li><a href="#%E5%B0%8F%E7%BB%93"><strong>小结：</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E4%BA%8Eredisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><strong>基于<code>Redisson</code>实现分布式锁</strong></a>
+<ul>
+<li><a href="#lock%E5%8A%A0%E9%94%81%E6%B5%81%E7%A8%8B"><strong>lock()加锁流程：</strong></a></li>
+<li><a href="#%E4%B8%8A%E8%BF%B0redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E7%BC%BA%E7%82%B9">上述Redis分布式锁的缺点</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E4%BA%8Ezookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><strong>基于Zookeeper实现分布式锁</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%9C%80%E5%90%8E%E7%9A%84%E6%80%BB%E7%BB%93">最后的总结</a><br>
+*
+<ul>
+<li><a href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E9%AB%98%E5%B9%B6%E5%8F%91%E4%BC%98%E5%8C%96">分布式锁高并发优化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
+          
+        
+      </div>
+    </div>
+  
 </div>
 <script>
   const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
@@ -260,8 +499,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://jboone1989.github.io/post/mybatis/">
-      7、mybatis
+    <a class="post-title-link" href="https://jboone1989.github.io/post/fenbushisuo/">
+      分布式锁
     </a>
   </h1>
   <div class="post-meta">
@@ -278,8 +517,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://jboone1989.github.io/tag/82RsYFj8K/">
-        <span>Gridea</span>
+      <a href="https://jboone1989.github.io/tag/Ay5ogIeq-/">
+        <span>分布式</span>
       </a>
       
       
@@ -288,82 +527,600 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>12<span class="language" data-lan="minute">分钟</span></span>
+      <span>31<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>3043<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>7768<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p><strong>1、#{}和${}的区别是什么？</strong></p>
-<p>答：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow></mrow><mi mathvariant="normal">是</mi><mi>P</mi><mi>r</mi><mi>o</mi><mi>p</mi><mi>e</mi><mi>r</mi><mi>t</mi><mi>i</mi><mi>e</mi><mi>s</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">件</mi><mi mathvariant="normal">中</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">占</mi><mi mathvariant="normal">位</mi><mi mathvariant="normal">符</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">它</mi><mi mathvariant="normal">可</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">用</mi><mi mathvariant="normal">于</mi><mi mathvariant="normal">标</mi><mi mathvariant="normal">签</mi><mi mathvariant="normal">属</mi><mi mathvariant="normal">性</mi><mi mathvariant="normal">值</mi><mi mathvariant="normal">和</mi><mi>s</mi><mi>q</mi><mi>l</mi><mi mathvariant="normal">内</mi><mi mathvariant="normal">部</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">属</mi><mi mathvariant="normal">于</mi><mi mathvariant="normal">静</mi><mi mathvariant="normal">态</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">本</mi><mi mathvariant="normal">替</mi><mi mathvariant="normal">换</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">比</mi><mi mathvariant="normal">如</mi></mrow><annotation encoding="application/x-tex">{}是Properties文件中的变量占位符，它可以用于标签属性值和sql内部，属于静态文本替换，比如</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"></span><span class="mord cjk_fallback">是</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord cjk_fallback">文</span><span class="mord cjk_fallback">件</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">占</span><span class="mord cjk_fallback">位</span><span class="mord cjk_fallback">符</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">它</span><span class="mord cjk_fallback">可</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">用</span><span class="mord cjk_fallback">于</span><span class="mord cjk_fallback">标</span><span class="mord cjk_fallback">签</span><span class="mord cjk_fallback">属</span><span class="mord cjk_fallback">性</span><span class="mord cjk_fallback">值</span><span class="mord cjk_fallback">和</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord cjk_fallback">内</span><span class="mord cjk_fallback">部</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">属</span><span class="mord cjk_fallback">于</span><span class="mord cjk_fallback">静</span><span class="mord cjk_fallback">态</span><span class="mord cjk_fallback">文</span><span class="mord cjk_fallback">本</span><span class="mord cjk_fallback">替</span><span class="mord cjk_fallback">换</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">比</span><span class="mord cjk_fallback">如</span></span></span></span>{driver}会被静态替换为com.mysql.jdbc.Driver。#{}是sql的参数占位符，Mybatis会将sql中的#{}替换为?号，在sql执行前会使用PreparedStatement的参数设置方法，按序给sql的?号占位符设置参数值，比如ps.setInt(0, parameterValue)，#{item.name}的取值方式为使用反射从参数对象中获取item对象的name属性值，相当于param.getItem().getName()。</p>
-<p><strong>2、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？</strong></p>
-<p>答：还有很多其他的标签，<resultMap>、<parameterMap>、<sql>、<include>、<selectKey>，加上动态sql的9个标签，trim|where|set|foreach|if|choose|when|otherwise|bind等，其中<strong>为sql片段标签，通过标签引入sql片段</strong>，<selectKey>为不支持自增的主键生成策略标签。</p>
-<p><strong>3、最佳实践中，通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？</strong></p>
-<p>答：Dao接口，就是人们常说的Mapper接口，接口的全限名，就是映射文件中的namespace的值，接口的方法名，就是映射文件中<strong>MappedStatement</strong>的id值，接口方法内的参数，就是传递给sql的参数。Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MappedStatement，举例：com.mybatis3.mappers.StudentDao.findStudentById，可以唯一找到namespace为com.mybatis3.mappers.StudentDao下面id = findStudentById的MappedStatement。在Mybatis中，每一个<select>、<insert>、<update>、<delete>标签，都会被解析为一个MappedStatement对象。</p>
-<p><strong>Dao接口里的方法，是不能重载的，因为是全限名+方法名的保存和寻找策略。</strong></p>
-<p>Dao接口的工作原理是<strong>JDK动态代理</strong>，Mybatis运行时会使用JDK动态代理为Dao接口生成代理proxy对象，代理对象proxy会拦截接口方法，转而执行MappedStatement所代表的sql，然后将sql执行结果返回。</p>
-<p><strong>4、Mybatis是如何进行分页的？分页插件的原理是什么？</strong></p>
-<p>答：Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。</p>
-<p>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。</p>
-<p>举例：select * from student，拦截sql后重写为：select t.* from （select * from student）t limit 0，10</p>
-<p><strong>5、简述Mybatis的插件运行原理，以及如何编写一个插件。</strong></p>
-<p>答：Mybatis仅可以编写针对<strong>ParameterHandler、ResultSetHandler、StatementHandler、Executor</strong>这4种接口的插件，Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。</p>
-<p>实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，别忘了在配置文件中配置你编写的插件。</p>
-<p><strong>6、Mybatis执行批量插入，能返回数据库主键列表吗？</strong></p>
-<p>答：能，JDBC都能，Mybatis当然也能。</p>
-<p><strong>7、Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？</strong></p>
-<p>答：Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写动态sql，完成逻辑判断和动态拼接sql的功能，Mybatis提供了9种动态sql标签trim|where|set|foreach|if|choose|when|otherwise|bind。</p>
-<p>其执行原理为，使<strong>用OGNL从sql参数对象中计算表达式的值，根据表达式的值动态拼接sql</strong>，以此来完成动态sql的功能。</p>
-<p><strong>8、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？</strong></p>
-<p>答：第一种是使用****标签，逐一定义列名和对象属性名之间的映射关系。第二种是使用sql列的别名功能，将列别名书写为对象属性名，比如T_NAME AS NAME，对象属性名一般是name，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成T_NAME AS NaMe，Mybatis一样可以正常工作。</p>
-<p>有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。</p>
-<p><strong>9、Mybatis能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别。</strong></p>
-<p>答：能，Mybatis不仅可以执行一对一、一对多的关联查询，还可以执行多对一，多对多的关联查询，多对一查询，其实就是一对一查询，只需要把selectOne()修改为selectList()即可；多对多查询，其实就是一对多查询，只需要把selectOne()修改为selectList()即可。</p>
-<p>关联对象查询，有两种实现方式，一种是单独发送一个sql去查询关联对象，赋给主对象，然后返回主对象。另一种是使用嵌套查询，嵌套查询的含义为使用join查询，一部分列是A对象的属性值，另外一部分列是关联对象B的属性值，好处是只发一个sql查询，就可以把主对象和其关联对象查出来。</p>
-<p>那么问题来了，join查询出来100条记录，如何确定主对象是5个，而不是100个？其去重复的原理是<resultMap>标签内的<id>子标签，指定了唯一确定一条记录的id列，Mybatis根据<id>列值来完成100条记录的去重复功能，<id>可以有多个，代表了联合主键的语意。</p>
-<p>同样主对象的关联对象，也是根据这个原理去重复的，尽管一般情况下，只有主对象会有重复记录，关联对象一般不会重复。</p>
-<p>举例：下面join查询出来6条记录，一、二列是Teacher对象列，第三列为Student对象列，Mybatis去重复处理后，结果为1个老师6个学生，而不是6个老师6个学生。</p>
-<p>​    t_id   t_name      s_id</p>
-<p>|      1 | teacher    |    38 |</p>
-<p>|      1 | teacher    |    39 |</p>
-<p>|      1 | teacher    |    40 |</p>
-<p>|      1 | teacher    |    41 |</p>
-<p>|      1 | teacher    |    42 |</p>
-<p>|      1 | teacher    |    43 |</p>
-<p><strong>10、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？</strong></p>
-<p>答：Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。</p>
-<p>它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。</p>
-<p>当然了，不光是Mybatis，几乎所有的包括Hibernate，支持延迟加载的原理都是一样的。</p>
-<p><strong>11、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？</strong></p>
-<p>答：不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；毕竟namespace不是必须的，只是最佳实践而已。</p>
-<p>原因就是namespace+id是作为Map&lt;String, MappedStatement&gt;的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。</p>
-<p><strong>12、Mybatis中如何执行批处理？</strong></p>
-<p>答：使用BatchExecutor完成批处理。</p>
-<p><strong>13、Mybatis都有哪些Executor执行器？它们之间的区别是什么？</strong></p>
-<p>答：Mybatis有三种基本的Executor执行器，<strong>SimpleExecutor、ReuseExecutor、BatchExecutor。</strong></p>
-<p>**SimpleExecutor：**每执行一次update或select，就开启一个Statement对象，用完立刻关闭Statement对象。</p>
-<p>**ReuseExecutor：**执行update或select，以sql作为key查找Statement对象，存在就使用，不存在就创建，用完后，不关闭Statement对象，而是放置于Map&lt;String, Statement&gt;内，供下一次使用。简言之，就是重复使用Statement对象。</p>
-<p>**BatchExecutor：**执行update（没有select，JDBC批处理不支持select），将所有sql都添加到批处理中（addBatch()），等待统一执行（executeBatch()），它缓存了多个Statement对象，每个Statement对象都是addBatch()完毕后，等待逐一执行executeBatch()批处理。与JDBC批处理相同。</p>
-<p>作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。</p>
-<p><strong>14、Mybatis中如何指定使用哪一种Executor执行器？</strong></p>
-<p>答：在Mybatis配置文件中，可以指定默认的ExecutorType执行器类型，也可以手动给DefaultSqlSessionFactory的创建SqlSession的方法传递ExecutorType类型参数。</p>
-<p><strong>15、Mybatis是否可以映射Enum枚举类？</strong></p>
-<p>答：Mybatis可以映射枚举类，不单可以映射枚举类，Mybatis可以映射任何对象到表的一列上。映射方式为自定义一个TypeHandler，实现TypeHandler的setParameter()和getResult()接口方法。TypeHandler有两个作用，一是完成从javaType至jdbcType的转换，二是完成jdbcType至javaType的转换，体现为setParameter()和getResult()两个方法，分别代表设置sql问号占位符参数和获取列查询结果。</p>
-<p><strong>16、Mybatis映射文件中，如果A标签通过include引用了B标签的内容，请问，B标签能否定义在A标签的后面，还是说必须定义在A标签的前面？</strong></p>
-<p>答：虽然Mybatis解析Xml映射文件是按照顺序解析的，但是，被引用的B标签依然可以定义在任何地方，Mybatis都可以正确识别。</p>
-<p>原理是，Mybatis解析A标签，发现A标签引用了B标签，但是B标签尚未解析到，尚不存在，此时，Mybatis会将A标签标记为<strong>未解析状态</strong>，然后继续解析余下的标签，包含B标签，待所有标签解析完毕，Mybatis会重新解析那些被标记为未解析的标签，此时再解析A标签时，B标签已经存在，A标签也就可以正常解析完成了。</p>
-<p><strong>17、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？</strong></p>
-<p>答：Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，<parameterMap>标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。<strong>标签会被解析为ResultMap对象</strong>，其每个子元素会被解析为<strong>ResultMapping对象</strong>。每一个<select>、<insert>、<update>、<delete>标签均会被解析为<strong>MappedStatement</strong>对象，标签内的sql会被解析为BoundSql对象。</p>
-<p><strong>18、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</strong></p>
-<p>答：Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
-<p>19、Mapper原理</p>
-<figure data-type="image" tabindex="1"><img src="../$%7Bimages%7D/cl11%E6%97%A5ipboard.png" alt="img" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="../$%7Bimages%7D/clipboa131231rd.png" alt="img" loading="lazy"></figure>
+              <h2 id="分布式锁有哪些特点呢"><strong>分布式锁有哪些特点呢？</strong></h2>
+<p><strong>互斥性：</strong> 分布式锁要保证在多个客户端之间的互斥。</p>
+<p>**可重入性：**同一客户端的相同线程，允许重复多次加锁。</p>
+<p>**锁超时：**和本地锁一样支持锁超时，防止死锁。</p>
+<p><strong>非阻塞：</strong> 能与 ReentrantLock 一样支持 <code>trylock</code>() 非阻塞方式获得锁。</p>
+<p>**支持公平锁和非公平锁：**公平锁尴尬，我也不想。是指按照请求加锁的顺序获得锁，非公平锁真好相反请求加锁是无序的。</p>
+<h2 id="分布式锁家族实现者介绍"><strong>分布式锁家族实现者介绍</strong></h2>
+<p><strong>1、数据库</strong></p>
+<p>排它锁（悲观锁）：基于 <code>select * from table where xx=yy for update</code> SQL语句来实现，有很多缺陷。</p>
+<p>乐观锁：表中添加一个时间戳或者版本号的字段来实现，<code>update xx set version = new... where id = y and version = old</code> 当更新不成功，客户端重试，重新读取最新的版本号或时间戳，再次尝试更新，类似 <code>CAS</code> 机制，推荐使用。</p>
+<p><strong>2、Redis</strong></p>
+<p><strong>特点：<strong>CAP模型属于</strong>AP</strong> | 无一致性算法 | <strong>性能好</strong></p>
+<p>开发常用，如果你的项目中正好使用了redis，不想引入额外的分布式锁组件，推荐使用。</p>
+<p>业界也提供了多个现成好用的框架予以支持分布式锁，比如<code>Redisson</code>、<strong>spring-integration-redis</strong>、redis自带的**<code>setnx</code>**命令，推荐直接使用。</p>
+<p>另外，可基于redis命令和redis <code>lua</code>支持的原子特性，自行实现分布式锁。</p>
+<p><strong>3、Zookeeper</strong></p>
+<p><strong>特点：<strong>CAP模型属于</strong>CP</strong> | <strong>ZAB</strong>一致性算法实现 | <strong>稳定性好</strong></p>
+<p>开发常用，如果你的项目中正好使用了<code>zk</code>集群，推荐使用。</p>
+<p>业界有<strong>Apache Curator</strong>框架提供了现成的分布式锁功能，现成的，推荐直接使用。</p>
+<p>另外，可基于Zookeeper自身的特性和原生Zookeeper API自行实现分布式锁。</p>
+<p><strong>4、其他</strong></p>
+<p><strong>Chubby</strong>，Google开发的粗粒度分布锁的服务，但是并没有开源，开放出了论文和一些相关文档可以进一步了解，出门百度一下获取文档，不做过多讨论。</p>
+<p><strong><code>Tair</code></strong>，是阿里开源的一个分布式KV存储方案，没有用过，不做过多讨论。</p>
+<p><strong><code>Etcd</code></strong>，CAP模型中属于<strong>CP</strong>，<strong>Raft</strong>一致性算法实现，没有用过，不做过多讨论。</p>
+<p><strong><code>Hazelcast</code></strong>，是基于内存的数据网格开源项目，提供弹性可扩展的分布式内存计算，并且被公认是提高应用程序性能和扩展性最好的方案，听上去很牛逼，但是没用过，不做过多讨论。</p>
+<p>当然了，上面推荐的常用分布式锁Zookeeper和Redis，使用时还需要根据具体的业务场景，做下权衡，实现功能上都能达到你要的效果，原理上有很大的不同。</p>
+<h2 id="分布式锁成员实现原理剖析">分布式锁成员实现原理剖析</h2>
+<h3 id="数据库悲观锁实现"><strong>数据库悲观锁实现</strong></h3>
+<p><strong>1、有一张资源锁表</strong></p>
+<pre><code class="language-mysql">CREATE TABLE `resource_lock` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `resource_name` varchar(64) NOT NULL DEFAULT '' COMMENT '锁定的资源名',
+  `owner` varchar(64) NOT NULL DEFAULT '' COMMENT '锁拥有者',
+  `desc` varchar(1024) NOT NULL DEFAULT '备注信息',
+  `update_time` timestamp NOT NULL DEFAULT '' COMMENT '保存数据时间，自动生成',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uidx_resource_name` (`resource_name `) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='锁定中的资源';
+</code></pre>
+<p>resource_name 锁资源名称必须有唯一索引。</p>
+<p>必须添加<code>事务</code>，查询和更新操作保证原子性，在一个事务里完成。</p>
+<pre><code class="language-java">@Transaction
+public void lock(String name) {
+   ResourceLock rlock = exeSql(&quot;select * from resource_lock where resource_name = name for update&quot;);
+     if (rlock == null) {
+           exeSql(&quot;insert into resource_lock(reosurce_name,owner,count) values (name, 'ip',0)&quot;);
+     }
+}
+</code></pre>
+<p>使用 <code>for update</code> 锁定的资源。如果执行成功，会立即返回，执行插入数据库，后续再执行一些其他业务逻辑，直到事务提交，执行结束；如果执行失败，就会一直阻塞着。</p>
+<p>虽然也能实现分布式锁的效果，但是会存在性能瓶颈。</p>
+<h4 id="悲观锁优缺点"><strong>悲观锁优缺点</strong></h4>
+<p>**优点：**简单易用，好理解，保障数据强一致性。</p>
+<p><strong>缺点</strong>一大堆，罗列一下：</p>
+<p>1）在 RR 事务级别，select 的 for update 操作是基于<code>间隙锁（gap lock）</code> 实现的，是一种悲观锁的实现方式，所以存在<code>阻塞问题</code>。</p>
+<p>2）高并发情况下，大量请求进来，会导致大部分请求进行排队，影响数据库稳定性，也会<code>耗费</code>服务的CPU等<code>资源</code>。</p>
+<p>当获得锁的客户端等待时间过长时，会提示：</p>
+<pre><code>[40001][1205] Lock wait timeout exceeded; try restarting transaction
+</code></pre>
+<p>高并发情况下，也会造成占用过多的应用线程，导致业务无法正常响应。</p>
+<p>3）如果优先获得锁的线程因为某些原因，一直没有释放掉锁，可能会导致<code>死锁</code>的发生。</p>
+<p>4）锁的长时间不释放，会一直占用数据库连接，可能会将<code>数据库连接池撑爆</code>，影响其他服务。</p>
+<ol start="5">
+<li><code>MySql</code>数据库会做查询优化，即便使用了索引，优化时发现全表扫效率更高，则可能会将行锁升级为表锁，此时可能就更悲剧了。</li>
+</ol>
+<p>6）不支持可重入特性，并且超时等待时间是全局的，不能随便改动。</p>
+<h3 id="数据库乐观锁实现"><strong>数据库乐观锁实现</strong></h3>
+<p>为表添加一个字段，版本号或者时间戳都可以。通过版本号或者时间戳，来保证多线程同时间操作共享资源的有序性和正确性。</p>
+<pre><code class="language-mysql">CREATE TABLE `resource` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `resource_name` varchar(64) NOT NULL DEFAULT '' COMMENT '资源名',
+  `share` varchar(64) NOT NULL DEFAULT '' COMMENT '状态',
+    `version` int(4) NOT NULL DEFAULT '' COMMENT '版本号',
+  `desc` varchar(1024) NOT NULL DEFAULT '备注信息',
+  `update_time` timestamp NOT NULL DEFAULT '' COMMENT '保存数据时间，自动生成',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uidx_resource_name` (`resource_name `) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源';
+</code></pre>
+<pre><code class="language-java">Resrouce resource = exeSql(&quot;select * from resource where resource_name = xxx&quot;);
+boolean succ = exeSql(&quot;update resource set version= 'newVersion' ... where resource_name = xxx and version = 'oldVersion'&quot;);
+
+if (!succ) {
+    // 发起重试
+}
+</code></pre>
+<h4 id="乐观锁优缺点"><strong>乐观锁优缺点</strong></h4>
+<p>优点：简单易用，保障数据一致性。</p>
+<p>缺点：</p>
+<p>1）加行锁的性能上有一定的开销</p>
+<p>2）高并发场景下，线程内的<code>自旋操作</code> 会耗费一定的CPU资源。</p>
+<p>另外，比如在更新数据状态的一些场景下，不考虑幂等性的情况下，可以直接利用 <code>行锁</code> 来保证数据一致性，示例：<code>update table set state = 1 where id = xxx and state = 0;</code></p>
+<figure data-type="image" tabindex="1"><img src="https://mmbiz.qpic.cn/mmbiz_png/Ljib4So7yuWjZkibS3JeicL8Ae4h7A7qxrxlNiaiaZSYMq6ajrlIaQGv2utdtZ0BdDsOiaoibKQ2qndicPu97WU1SlmOGA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<h3 id="基于redis分布式锁实现"><strong>基于Redis分布式锁实现</strong></h3>
+<h5 id="基于setnx实现分布式锁"><strong>基于<code>SetNX</code>实现分布式锁</strong></h5>
+<p>基于Redis实现的分布式锁，性能上是最好的，实现上也是最复杂的。</p>
+<p>Redis 2.6.12 之前的版本中采用 <code>setnx</code>+ expire 方式实现分布式锁，示例代码如下所示：</p>
+<pre><code class="language-java">public static boolean lock(Jedis jedis, String lockKey, String requestId, int expireTime) {
+        Long result = jedis.setnx(lockKey, requestId);
+        //设置锁
+        if (result == 1) {
+            //获取锁成功
+            //若在这里程序突然崩溃，则无法设置过期时间，将发生死锁
+            //通过过期时间删除锁
+            jedis.expire(lockKey, expireTime);
+            return true;
+        }
+        return false;
+    }
+</code></pre>
+<p>如果 <code>lockKey</code>存在，则返回失败，否则返回成功。设置成功之后，为了能在完成同步代码之后成功释放锁，方法中使用 expire() 方法给 <code>lockKey</code>设置一个过期时间，确认 key 值删除，避免出现锁无法释放，导致下一个线程无法获取到锁，即死锁问题。</p>
+<p>但是 <code>setnx</code>+ expire 两个命令放在程序里执行，不是原子操作，容易出事。</p>
+<p>如果程序设置锁之后，此时，在设置过期时间之前，程序崩溃了，如果 <code>lockKey</code>没有设置上过期时间，将会出现<code>死锁问题</code>。</p>
+<p>解决以上问题 ，有两个办法：</p>
+<p><strong>1）方式一：</strong><code>lua</code>脚本</p>
+<p>我们也可以通过 Lua 脚本来实现锁的设置和过期时间的原子性，再通过 <code>jedis</code>.eval() 方法运行该脚本：</p>
+<pre><code class="language-java">// 加锁脚本，KEYS[1] 要加锁的key，ARGV[1]是UUID随机值，ARGV[2]是过期时间
+private static final String SCRIPT_LOCK = &quot;if redis.call('setnx', KEYS[1], ARGV[1]) == 1 then redis.call('pexpire', KEYS[1], ARGV[2]) return 1 else return 0 end&quot;;
+
+// 解锁脚本，KEYS[1]要解锁的key，ARGV[1]是UUID随机值
+private static final String SCRIPT_UNLOCK = &quot;if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end&quot;;
+</code></pre>
+<p>**2）方式二：**set原生命令</p>
+<p>在 Redis 2.6.12 版本后 SETNX 增加了过期时间参数：</p>
+<pre><code>SET lockKey anystring NX PX max-lock-time
+</code></pre>
+<p>程序实现代码如下：</p>
+<pre><code class="language-java">public static boolean lock(Jedis jedis, String lockKey, String requestId, int expireTime) {
+        String result = jedis.set(lockKey, requestId, &quot;NX&quot;, &quot;PX&quot;, expireTime);
+        if (&quot;OK&quot;.equals(result)) {
+            return true;
+        }
+        return false;
+    }
+</code></pre>
+<p>虽然 SETNX 方式能够保证设置锁和过期时间的原子性，但是如果我们设置的过期时间比较短，而执行业务时间比较长，就会存在锁代码块失效的问题，失效后其他客户端也能获取到同样的锁，执行同样的业务，此时可能就会出现一些问题。</p>
+<p>我们需要将过期时间设置得足够长，来保证以上问题不会出现，但是设置多长时间合理，也需要依具体业务来权衡。如果其他客户端必须要阻塞拿到锁，需要设计循环超时等待机制等问题，感觉还挺麻烦的是吧。</p>
+<h3 id="spring企业集成模式实现分布式锁"><strong>Spring企业集成模式实现分布式锁</strong></h3>
+<p>除了使用<code>Jedis</code>客户端之外，完全可以直接用Spring官方提供的<code>企业集成模式</code>框架，里面提供了很多分布式锁的方式，Spring提供了一个统一的分布式锁抽象，具体实现目前支持：</p>
+<ul>
+<li><strong><code>Gemfire</code></strong></li>
+<li><strong><code>Jdbc</code></strong></li>
+<li><strong>Zookeeper</strong></li>
+<li><strong>Redis</strong></li>
+</ul>
+<p>早期，分布式锁的相关代码存在于Spring Cloud的子项目Spring Cloud Cluster中，后来被迁到Spring Integration中。</p>
+<p>Spring Integration 项目地址 ：https://github.com/spring-projects/spring-integration</p>
+<p>Spring强大之处在于此，对<code>Lock</code>分布式锁做了全局抽象。</p>
+<p>抽象结构如下所示：</p>
+<figure data-type="image" tabindex="2"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHhBtdK45Ef3IpwWPg8Cz8iaznrwVHlHgVEQw2zQNCXClsBQ0IzdQWjfw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p><code>LockRegistry</code> 作为顶层抽象接口：</p>
+<pre><code class="language-java">/**
+ * Strategy for maintaining a registry of shared locks
+ *
+ * @author Oleg Zhurakousky
+ * @author Gary Russell
+ * @since 2.1.1
+ */
+@FunctionalInterface
+public interface LockRegistry{
+
+    /**
+     * Obtains the lock associated with the parameter object.
+     * @param lockKey The object with which the lock is associated.
+     * @return The associated lock.
+     */
+    Lock obtain(Object lockKey);
+}
+</code></pre>
+<p>定义的 <code>obtain()</code> 方法获得具体的 <code>Lock</code> 实现类，分别在对应的 <code>XxxLockRegitry</code>实现类来创建。</p>
+<p><code>RedisLockRegistry</code>里obtain()方法实现类为 <code>RedisLock</code>，<code>RedisLock</code>内部，在Springboot2.x（Spring5）版本中是通过SET + PEXIPRE 命令结合<code>lua</code>脚本实现的，在Springboot1.x（Spring4）版本中，是通过SETNX命令实现的。</p>
+<p><code>ZookeeperLockRegistry</code>里obtain()方法实现类为 <code>ZkLock</code>，<code>ZkLock</code>内部基于 Apache Curator 框架实现的。</p>
+<p><code>JdbcLockRegistry</code>里obtain()方法实现类为 <code>JdbcLock</code>，<code>JdbcLock</code>内部基于一张<code>INT_LOCK</code>数据库锁表实现的，通过<code>JdbcTemplate</code>来操作。</p>
+<p><strong>客户端使用方法：</strong></p>
+<pre><code class="language-java">private final String registryKey = &quot;sb2&quot;;
+RedisLockRegistry lockRegistry = new RedisLockRegistry(getConnectionFactory(), this.registryKey);
+Lock lock = lockRegistry.obtain(&quot;foo&quot;);
+lock.lock();
+try {
+    // doSth...
+}
+finally {
+    lock.unlock();
+}
+}
+</code></pre>
+<p>下面以目前最新版本的实现，说明加锁和解锁的具体过程。</p>
+<p><code>RedisLockRegistry</code>$<code>RedisLock</code>类lock()加锁流程：</p>
+<figure data-type="image" tabindex="3"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHrI5qvEaJicxQVQ5jyrLMJwtpdtukeOr1jlDoN6CBqrnETzz5ZlSQ26w/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p><strong>加锁步骤：</strong></p>
+<p>1）<code>lockKey</code>为<code>registryKey:path</code>，本例中为sb2:foo，客户端C1优先申请加锁。</p>
+<p>2）执行<code>lua</code>脚本，get <code>lockKey</code>不存在，则set <code>lockKey</code>成功，值为<code>clientid</code>（UUID），过期时间默认60秒。</p>
+<p>3）客户端C1同一个线程重复加锁，<code>pexpire ``lockKey</code>，重置过期时间为60秒。</p>
+<p>4）客户端C2申请加锁，执行<code>lua</code>脚本，get <code>lockKey</code>已存在，并且跟已加锁的<code>clientid</code>不同，加锁失败</p>
+<p>5）客户端C2挂起，每隔100ms再次尝试加锁。</p>
+<p><strong><code>RedisLock</code>#lock()加锁源码实现：</strong></p>
+<figure data-type="image" tabindex="4"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHrIcVzxrgicjB041TlnNNTK3AxfWOWTvws1akwMlaDzX7oibgsk8LIUOQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p>大家可以对照上面的流程图配合你理解。</p>
+<pre><code>@Override
+public void lock() {
+    this.localLock.lock();
+    while (true) {
+        try {
+            while (!obtainLock()) {
+                Thread.sleep(100); //NOSONAR
+            }
+            break;
+        }
+        catch (InterruptedException e) {
+            /*
+             * This method must be uninterruptible so catch and ignore
+             * interrupts and only break out of the while loop when
+             * we get the lock.
+             */
+        }
+        catch (Exception e) {
+            this.localLock.unlock();
+            rethrowAsLockException(e);
+        }
+    }
+}
+
+// 基于Spring封装的RedisTemplate来操作的
+private boolean obtainLock() {
+    Boolean success =
+            RedisLockRegistry.this.redisTemplate.execute(RedisLockRegistry.this.obtainLockScript,
+                    Collections.singletonList(this.lockKey), RedisLockRegistry.this.clientId,
+                    String.valueOf(RedisLockRegistry.this.expireAfter));
+
+    boolean result = Boolean.TRUE.equals(success);
+
+    if (result) {
+        this.lockedAt = System.currentTimeMillis();
+    }
+    return result;
+}
+</code></pre>
+<p><strong>执行的<code>lua</code>脚本代码：</strong></p>
+<pre><code>private static final String OBTAIN_LOCK_SCRIPT =
+    &quot;local lockClientId = redis.call('GET', KEYS[1])\n&quot; +
+            &quot;if lockClientId == ARGV[1] then\n&quot; +
+            &quot;  redis.call('PEXPIRE', KEYS[1], ARGV[2])\n&quot; +
+            &quot;  return true\n&quot; +
+            &quot;elseif not lockClientId then\n&quot; +
+            &quot;  redis.call('SET', KEYS[1], ARGV[1], 'PX', ARGV[2])\n&quot; +
+            &quot;  return true\n&quot; +
+            &quot;end\n&quot; +
+            &quot;return false&quot;;
+</code></pre>
+<p><code>RedisLockRegistry</code>$<code>RedisLock</code>类<strong>unlock()解锁流程：</strong></p>
+<figure data-type="image" tabindex="5"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHiaCS5BZfnpurITk8EHibV92mAmsyYBic4TsZz8SQwG6N7E4iblicoVztdWg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p><code>**RedisLock</code>#unlock()源码实现：**</p>
+<pre><code>@Override
+public void unlock() {
+    if (!this.localLock.isHeldByCurrentThread()) {
+        throw new IllegalStateException(&quot;You do not own lock at &quot; + this.lockKey);
+    }
+    if (this.localLock.getHoldCount() &gt; 1) {
+        this.localLock.unlock();
+        return;
+    }
+    try {
+        if (!isAcquiredInThisProcess()) {
+            throw new IllegalStateException(&quot;Lock was released in the store due to expiration. &quot; +
+                    &quot;The integrity of data protected by this lock may have been compromised.&quot;);
+        }
+
+        if (Thread.currentThread().isInterrupted()) {
+            RedisLockRegistry.this.executor.execute(this::removeLockKey);
+        }
+        else {
+            removeLockKey();
+        }
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(&quot;Released lock; &quot; + this);
+        }
+    }
+    catch (Exception e) {
+        ReflectionUtils.rethrowRuntimeException(e);
+    }
+    finally {
+        this.localLock.unlock();
+    }
+}
+
+// 删除缓存Key
+private void removeLockKey() {
+    if (this.unlinkAvailable) {
+        try {
+            RedisLockRegistry.this.redisTemplate.unlink(this.lockKey);
+        }
+        catch (Exception ex) {
+            LOGGER.warn(&quot;The UNLINK command has failed (not supported on the Redis server?); &quot; +
+                    &quot;falling back to the regular DELETE command&quot;, ex);
+            this.unlinkAvailable = false;
+            RedisLockRegistry.this.redisTemplate.delete(this.lockKey);
+        }
+    }
+    else {
+        RedisLockRegistry.this.redisTemplate.delete(this.lockKey);
+    }
+}
+</code></pre>
+<p>unlock()解锁方法里发现，并不是直接就调用Redis的DEL命令删除Key，这也是在Springboot2.x版本中做的一个优化，Redis4.0版本以上提供了UNLINK命令。</p>
+<p>换句话说，最新版本分布式锁实现，要求是Redis4.0以上版本才能使用。</p>
+<p>看下Redis官网给出的一段解释：</p>
+<pre><code>This command is very similar to DEL: it removes the specified keys.
+Just like DEL a key is ignored if it does not exist. However the
+command performs the actual memory reclaiming in a different thread,
+so it is not blocking, while DEL is. This is where the command name
+comes from: the command just unlinks the keys from the keyspace. The
+actual removal will happen later asynchronously.
+</code></pre>
+<p>DEL始终在阻止模式下释放值部分。但如果该值太大，如对于大型LIST或HASH的分配太多，它会长时间阻止Redis，为了解决这个问题，Redis实现了UNLINK命令，即「非阻塞」删除。如果值很小，则DEL一般与UNLINK效率上差不多。</p>
+<p>本质上，这种加锁方式还是使用的SETNX实现的，而且Spring只是做了一层薄薄的封装，支持可重入加锁，超时等待，可中断加锁。</p>
+<p>但是有个问题，锁的过期时间不能灵活设置，客户端初始化时，创建<code>RedisLockRegistry</code>时允许设置，但是是全局的。</p>
+<pre><code>/**
+     * Constructs a lock registry with the supplied lock expiration.
+     * @param connectionFactory The connection factory.
+     * @param registryKey The key prefix for locks.
+     * @param expireAfter The expiration in milliseconds.
+     */
+public RedisLockRegistry(RedisConnectionFactory connectionFactory, String registryKey, long expireAfter) {
+    Assert.notNull(connectionFactory, &quot;'connectionFactory' cannot be null&quot;);
+    Assert.notNull(registryKey, &quot;'registryKey' cannot be null&quot;);
+    this.redisTemplate = new StringRedisTemplate(connectionFactory);
+    this.obtainLockScript = new DefaultRedisScript&lt;&gt;(OBTAIN_LOCK_SCRIPT, Boolean.class);
+    this.registryKey = registryKey;
+    this.expireAfter = expireAfter;
+}
+</code></pre>
+<p><code>expireAfter</code>参数是全局的，同样会存在问题，可能是锁过期时间到了，但是业务还没有处理完，这把锁又被另外的客户端获得，进而会导致一些其他问题。</p>
+<p>经过对源码的分析，其实我们也可以借鉴<code>RedisLockRegistry</code>实现的基础上，自行封装实现分布式锁，比如：</p>
+<p>1、允许支持按照不同的Key设置过期时间，而不是全局的？</p>
+<p>2、当业务没有处理完成，当前客户端启动个定时任务探测，自动延长过期时间？</p>
+<p>自己实现？嫌麻烦？别急别急！业界已经有现成的实现方案了，那就是 <code>Redisson</code> 框架，在后文<code>Redisson</code>部分进一步分析。</p>
+<figure data-type="image" tabindex="6"><img src="https://mmbiz.qpic.cn/mmbiz_png/Ljib4So7yuWjZkibS3JeicL8Ae4h7A7qxrxlNiaiaZSYMq6ajrlIaQGv2utdtZ0BdDsOiaoibKQ2qndicPu97WU1SlmOGA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<h3 id="站在redis集群角度看问题"><strong>站在Redis集群角度看问题</strong></h3>
+<p>从Redis<code>主从</code>架构上来考虑，依然存在问题。因为 Redis 集群数据同步到各个节点时是异步的，如果在 Master 节点获取到锁后，在没有同步到其它节点时，Master 节点崩溃了，此时新的 Master 节点依然可以获取锁，所以多个应用服务可以同时获取到锁。</p>
+<p><strong><code>RedLock</code>算法实现过程分析：</strong></p>
+<p>假设Redis部署模式是Redis Cluster，总共有5个master节点，通过以下步骤获取一把锁：</p>
+<p>1）获取当前时间戳，单位是毫秒</p>
+<p>2）轮流尝试在每个master节点上创建锁，过期时间设置较短，一般就几十毫秒</p>
+<p>3）尝试在大多数节点上建立一个锁，比如5个节点就要求是3个节点（n / 2 +1）</p>
+<p>4）客户端计算建立好锁的时间，如果建立锁的时间小于超时时间，就算建立成功了</p>
+<p>5）要是锁建立失败了，那么就依次删除这个锁</p>
+<p>6）只要有客户端创建成功了分布式锁，其他客户端就得不断轮询去尝试获取锁</p>
+<p>以上过程前文也提到了，进一步分析<code>RedLock</code>算法的实现依然可能存在问题，也是<code>Martain</code>和<code>Antirez</code>两位大佬争论的焦点。</p>
+<p><strong>问题1：节点崩溃重启</strong></p>
+<p>节点崩溃重启，会出现多个客户端持有锁。</p>
+<p>假设一共有5个Redis节点：A、B、 C、 D、 E。设想发生了如下的事件序列：</p>
+<p>1）客户端C1成功对Redis集群中A、B、C三个节点加锁成功（但D和E没有锁住）。</p>
+<p>2）节点C <code>Duang</code>的一下，崩溃重启了，但客户端C1在节点C加锁未持久化完，丢了。</p>
+<p>3）节点C重启后，客户端C2成功对Redis集群中C、D、 E尝试加锁成功了。</p>
+<p>这样，悲剧了吧！客户端C1和C2同时获得了同一把分布式锁。</p>
+<p>为了应对节点重启引发的锁失效问题，<code>Antirez</code>提出了<code>延迟重启</code>的概念，即一个节点崩溃后，先不立即重启它，而是等待一段时间再重启，等待的时间大于锁的有效时间。</p>
+<p>采用这种方式，这个节点在重启前所参与的锁都会过期，它在重启后就不会对现有的锁造成影响。</p>
+<p>这其实也是通过人为补偿措施，降低不一致发生的概率。</p>
+<p><strong>问题2：时钟跳跃</strong></p>
+<p>假设一共有5个Redis节点：A、B、 C、 D、 E。设想发生了如下的事件序列：</p>
+<p>1）客户端C1成功对Redis集群中A、B、 C三个节点成功加锁。但因网络问题，与D和E通信失败。</p>
+<p>2）节点C上的时钟发生了向前跳跃，导致它上面维护的锁快速过期。</p>
+<p>3）客户端C2对Redis集群中节点C、 D、 E成功加了同一把锁。</p>
+<p>此时，又悲剧了吧！客户端C1和C2同时都持有着同一把分布式锁。</p>
+<p>为了应对<code>时钟跳跃</code>引发的锁失效问题，<code>Antirez</code>提出了应该禁止人为修改系统时间，使用一个不会进行「跳跃式」调整系统时钟的<code>ntpd</code>程序。这也是通过人为补偿措施，降低不一致发生的概率。</p>
+<p>但是...，<code>RedLock</code>算法并没有解决，操作共享资源超时，导致锁失效的问题。</p>
+<p>存在这么大争议的算法实现，还是不推荐使用的。</p>
+<p>一般情况下，本文锁介绍的框架提供的分布式锁实现已经能满足大部分需求了。</p>
+<h5 id="小结"><strong>小结：</strong></h5>
+<p>上述，我们对spring-integration-redis实现原理进行了深入分析，还对<code>RedLock</code>存在争议的问题做了分析。</p>
+<p>除此以外，我们还提到了spring-integration中集成了 <code>Jdbc</code>、Zookeeper、<code>Gemfire</code>实现的分布式锁，<code>Gemfire</code>和<code>Jdbc</code>大家感兴趣可以自行去看下。</p>
+<p><strong>为啥还要提供个<code>Jdbc</code>分布式锁实现？</strong></p>
+<p>猜测一下，当你的应用并发量也不高，比如是个后台业务，而且还没依赖Zookeeper、Redis等额外的组件，只依赖了数据库。</p>
+<p>但你还想用分布式锁搞点事儿，那好办，直接用spring-integration-<code>jdbc</code>即可，内部也是基于数据库行锁来实现的，需要你提前建好<code>锁表</code>，创建表的SQL长这样：</p>
+<pre><code class="language-mysql">CREATE TABLE INT_LOCK  (
+    LOCK_KEY CHAR(36) NOT NULL,
+    REGION VARCHAR(100) NOT NULL,
+    CLIENT_ID CHAR(36),
+    CREATED_DATE DATETIME(6) NOT NULL,
+    constraint INT_LOCK_PK primary key (LOCK_KEY, REGION)
+) ENGINE=InnoDB;
+</code></pre>
+<p>具体实现逻辑也非常简单，大家自己去看吧。</p>
+<p>集成的Zookeeper实现的分布式锁，因为是基于Curator框架实现的，不在本节展开，后续会有分析。</p>
+<h3 id="基于redisson实现分布式锁"><strong>基于<code>Redisson</code>实现分布式锁</strong></h3>
+<p><code>Redisson</code>是 Redis 的 Java 实现的客户端，其 API 提供了比较全面的 Redis 命令的支持。</p>
+<p><code>Jedis</code>简单使用阻塞的 I/O 和 Redis 交互，<code>Redission</code> 通过 Netty 支持非阻塞 I/O。</p>
+<p><code>Redisson</code> 封装了锁的实现，让我们像操作我们的本地 Lock一样来使用，除此之外还有对集合、对象、常用缓存框架等做了友好的封装，易于使用。</p>
+<p><code>Redisson</code>分布式锁<code>Github</code>：</p>
+<p>https://github.com/redisson/redisson/wiki/8.-Distributed-locks-and-synchronizers</p>
+<p><code>Redisson</code>可以便捷的支持多种Redis部署架构：</p>
+<ol>
+<li>
+<p>Redis 单机</p>
+</li>
+<li>
+<p>Master-Slave + Sentinel 哨兵</p>
+</li>
+<li>
+<p>Redis-Cluster集群</p>
+</li>
+</ol>
+<pre><code class="language-java">// Master-Slave配置
+Config config = new Config();
+MasterSlaveServersConfig serverConfig = config.useMasterSlaveServers()
+            .setMasterAddress(&quot;&quot;)
+            .addSlaveAddress(&quot;&quot;)
+            .setReadMode(ReadMode.SLAVE)
+            .setMasterConnectionPoolSize(maxActiveSize)
+            .setMasterConnectionMinimumIdleSize(maxIdleSize)
+            .setSlaveConnectionPoolSize(maxActiveSize)
+            .setSlaveConnectionMinimumIdleSize(maxIdleSize)
+            .setConnectTimeout(CONNECTION_TIMEOUT_MS) // 默认10秒
+            .setTimeout(socketTimeout)
+            ;
+
+RedissonClient redisson = Redisson.create(config);
+RLock lock = redisson.getLock(&quot;myLock&quot;);
+
+// 获得锁
+lock.lock();
+
+// 等待10秒未获得锁，自动释放
+lock.lock(10, TimeUnit.SECONDS);
+
+// 等待锁定时间不超过100秒
+// 10秒后自动释放锁
+boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS);
+if (res) {
+   try {
+     ...
+   } finally {
+       lock.unlock();
+   }
+}
+</code></pre>
+<p>使用上非常简单，<code>RedissonClient</code>客户端提供了众多的接口实现，支持可重入锁、公平锁、读写锁、锁超时、<code>RedLock</code>等都提供了完整实现。</p>
+<figure data-type="image" tabindex="7"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191222200451065.png" alt="image-20191222200451065" loading="lazy"></figure>
+<h4 id="lock加锁流程"><strong>lock()加锁流程：</strong></h4>
+<p>为了兼容老的版本，<code>Redisson</code>里都是通过<code>lua</code>脚本执行Redis命令的，同时保证了原子性操作。</p>
+<p><strong>加锁执行的<code>lua</code>脚本：</strong></p>
+<figure data-type="image" tabindex="8"><img src="https://mmbiz.qpic.cn/mmbiz_png/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHibfZCzUSZCqJ3qlNNCB4qIkYxMJXGJHiaPiaVVu7SaSZtVicd8MXCRZL7Q/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p>Redis里的Hash散列结构存储的。</p>
+<p><strong>参数解释：</strong></p>
+<p>**KEY[1]：**要加锁的Key名称，比如示例中的<code>myLock</code>。</p>
+<p>**ARGV[1]：**针对加锁的Key设置的过期时间</p>
+<p>**ARGV[2]：**Hash结构中Key名称，<code>lockName</code>为UUID:线程ID</p>
+<pre><code>protected String getLockName(long threadId) {
+        return id + &quot;:&quot; + threadId;
+}
+</code></pre>
+<p>1）客户端C1申请加锁，key为<code>myLock</code>。</p>
+<p>2）如果key不存在，通过<code>hset</code>设置值，通过<code>pexpire</code>设置过期时间。同时开启Watchdog任务，默认每隔10秒中判断一下，如果key还在，重置过期时间到30秒。</p>
+<figure data-type="image" tabindex="9"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640-1583055169793.webp" alt="img" loading="lazy"></figure>
+<p><strong>开启<code>WatchDog</code>源码：</strong></p>
+<figure data-type="image" tabindex="10"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHNaAbIiaU5JkZz7cc2gJibdR8kfORPsSN3D7ypuo2rACVPH4Nq53Y38CA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHj2XPHcxmILnANjEianHvU3UfqDo0HnZn7iagVRbUDH853MsqCppl4ngw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p>3）客户端C1相同线程再次加锁，如果key存在，判断Redis里Hash中的<code>lockName</code>跟当前线程<code>lockName</code>相同，则将Hash中的<code>lockName</code>的值加1，代表<strong>支持可重入加锁</strong>。</p>
+<pre><code>incrby myLock  8743c9c0-0795-4907-87fd-6c71a6b4586:1 1
+</code></pre>
+<figure data-type="image" tabindex="12"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191222201004906.png" alt="image-20191222201004906" loading="lazy"></figure>
+<p>4）客户单C2申请加锁，如果key存在，判断Redis里Hash中的<code>lockName</code>跟当前线程<code>lockName</code>不同，则执行<code>pttl</code>返回剩余过期时间。</p>
+<p>5）客户端C2线程内不断尝试<code>pttl</code>时间，此处是基于Semaphore信号量实现的，有许可立即返回，否则等到<code>pttl</code>时间还是没有得到许可，继续重试。</p>
+<p><strong>重试源码：</strong></p>
+<figure data-type="image" tabindex="13"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHib0lz75huCGMyel4m4RRbWlOVFbq8BqykPdVAP7rcNBUyZnBfjL77Cw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p><code>Redisson</code>这样的实现就解决了，当业务处理时间比过期时间长的问题。</p>
+<p>同时，<code>Redisson</code>还自己扩展 Lock 接口，叫做 <code>RLock</code> 接口，扩展了锁接口，比如给 Key 设定过期时间，非阻塞+超时时间等。</p>
+<pre><code class="language-java">void lock(long leaseTime, TimeUnit unit);
+
+boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException;
+</code></pre>
+<p><code>redisson</code>里的<code>WatchDog</code>（看门狗）逻辑保证了没有死锁发生。</p>
+<p>如果客户端宕机了，<code>WatchDog</code>任务也就跟着停掉了。此时，不会对Key重置过期时间了，等挂掉的客户端持有的Key过期时间到了，锁自动释放，其他客户端尝试获得这把锁。</p>
+<pre><code>If Redisson instance which acquired lock crashes then such lock could hang forever in acquired state. To avoid this Redisson maintains lock watchdog, it prolongs lock expiration while lock holder Redisson instance is alive. By default lock watchdog timeout is 30 seconds and can be changed through Config.lockWatchdogTimeout setting.
+</code></pre>
+<p>unlock()解锁过程也是同样的，通过<code>lua</code>脚本执行一大坨指令的。</p>
+<p><strong>解锁<code>lua</code>脚本：</strong></p>
+<figure data-type="image" tabindex="14"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHGicwKAzXWcNs11eYzyKN7IuZ2ibr8ErFm4lGkxP2MPot810ev9NbeLRw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<h4 id="上述redis分布式锁的缺点">上述Redis分布式锁的缺点</h4>
+<p>其实上面那种方案最大的问题，就是如果你对某个redis master实例，写入了<code>myLock</code>这种锁key的value，此时会<strong>异步</strong>复制给对应的master slave实例。</p>
+<p>但是<strong>这个过程中</strong>一旦发生redis master宕机，主备切换，redis slave变为了redis master。新的master上并没有客户端1的锁记录；</p>
+<p>接着就会导致，客户端2来尝试加锁的时候，在新的redis master上完成了加锁，而客户端1也以为自己成功加了锁。</p>
+<p>此时就会导致多个客户端对一个分布式锁完成了加锁。这时系统在业务语义上一定会出现问题，<strong>导致各种脏数据的产生</strong>。</p>
+<p>所以这个就是redis cluster，或者是redis master-slave架构的<strong>主从异步复制</strong>导致的redis分布式锁的最大缺陷：在redis master实例宕机的时候，可能导致多个客户端同时完成加锁。</p>
+<h3 id="基于zookeeper实现分布式锁"><strong>基于Zookeeper实现分布式锁</strong></h3>
+<p>Zookeeper 是一种提供「分布式服务协调」的中心化服务，是以 <code>Paxos</code>算法为基础实现的。Zookeeper数据节点和文件目录类似，同时具有Watch机制，基于这两个特性，得以实现分布式锁功能。</p>
+<p><strong>数据节点：</strong></p>
+<p>顺序临时节点：Zookeeper 提供一个多层级的节点命名空间（节点称为 <strong><code>Znode</code></strong>），每个节点都用一个以斜杠（/）分隔的路径来表示，而且每个节点都有父节点（根节点除外），非常类似于文件系统。</p>
+<p>节点类型可以分为持久节点（<strong>PERSISTENT</strong> ）、临时节点（<strong>EPHEMERAL</strong>），每个节点还能被标记为有序性（<strong>SEQUENTIAL</strong>），一旦节点被标记为有序性，那么整个节点就具有顺序自增的特点。</p>
+<p>一般我们可以组合这几类节点来创建我们所需要的节点，例如，创建一个持久节点作为父节点，在父节点下面创建临时节点，并标记该临时节点为有序性。</p>
+<p><strong>Watch 机制：</strong></p>
+<p>Zookeeper 还提供了另外一个重要的特性，Watcher（事件监听器）。</p>
+<p>ZooKeeper 允许用户在指定节点上注册一些 Watcher，并且在一些特定事件触发的时候，ZooKeeper 服务端会将事件通知给用户。</p>
+<p><strong>图解Zookeeper实现分布式锁：</strong></p>
+<figure data-type="image" tabindex="15"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHTFOtBQDwxgiaMLWakTzD4fsLDL2TeudVun416Bltib8MCSW7LNdeTuRQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<p>首先，我们需要建立一个父节点，节点类型为持久节点（<strong>PERSISTENT</strong>）如图中的 <code>/locks/lock_name1</code> 节点 ，每当需要访问共享资源时，就会在父节点下建立相应的顺序子节点，节点类型为临时节点（<strong>EPHEMERAL</strong>），且标记为有序性（<strong>SEQUENTIAL</strong>），并且以临时节点名称 + 父节点名称 + 顺序号组成特定的名字，如图中的 <code>/0000000001 /0000000002 /0000000003</code> 作为临时有序节点。</p>
+<p>在建立子节点后，对父节点下面的所有以临时节点名称 name 开头的子节点进行排序，判断刚刚建立的子节点顺序号是否是最小的节点，如果是最小节点，则获得锁。</p>
+<p>如果不是最小节点，则阻塞等待锁，并且获得该节点的上一顺序节点，为其注册监听事件，等待节点对应的操作获得锁。当调用完共享资源后，删除该节点，关闭 <code>zk</code>，进而可以触发监听事件，释放该锁。</p>
+<pre><code class="language-java">// 加锁
+InterProcessMutex lock = new InterProcessMutex(client, lockPath);
+if ( lock.acquire(maxWait, waitUnit) )
+{
+    try 
+    {
+        // do some work inside of the critical section here
+    }
+    finally
+    {
+        lock.release();
+    }
+}
+
+public void acquire() throws Exception
+    {
+            if ( !internalLock(-1, null) )
+            {
+                    throw new IOException(&quot;Lost connection while trying to acquire lock: &quot; + basePath);
+            }
+    }
+
+private boolean internalLock(long time, TimeUnit unit) throws Exception
+    {
+            /*
+                 Note on concurrency: a given lockData instance
+                 can be only acted on by a single thread so locking isn't necessary
+            */
+
+            Thread currentThread = Thread.currentThread();
+
+            LockData lockData = threadData.get(currentThread);
+            if ( lockData != null )
+            {
+                    // re-entering
+                    lockData.lockCount.incrementAndGet();
+                    return true;
+            }
+
+            String lockPath = internals.attemptLock(time, unit, getLockNodeBytes());
+            if ( lockPath != null )
+            {
+                    LockData newLockData = new LockData(currentThread, lockPath);
+                    threadData.put(currentThread, newLockData);
+                    return true;
+            }
+
+            return false;
+    }
+// ... 其他代码略
+</code></pre>
+<p><code>InterProcessMutex</code>是 Curator 实现的可重入锁，可重入锁源码过程分析：</p>
+<p><strong>加锁流程：</strong></p>
+<p>1）可重入锁记录在 <code>ConcurrentMap threadData</code>这个 Map 里面。</p>
+<p>2）如果 <code>threadData</code>.get(<code>currentThread</code>) 是有值的那么就证明是可重入锁，然后记录就会加 1。</p>
+<p>3）资源目录下创建一个节点：比如这里创建一个 /0000000002 这个节点，这个节点需要设置为 EPHEMERAL_SEQUENTIAL 也就是临时节点并且有序。</p>
+<p>4）获取当前目录下所有子节点，判断自己的节点是否是最小的节点。</p>
+<p>5）如果是最小的节点，则获取到锁。如果不是最小的节点，则证明前面已经有人获取到锁了，那么需要获取自己节点的前一个节点。</p>
+<p>6）节点 /0000000002 的前一个节点是 /0000000001，我们获取到这个节点之后，再上面注册 Watcher，Watcher 调用的是 <code>object</code>.notifyAll()，用来解除阻塞。</p>
+<p>7）<code>object</code>.wait(timeout) 或 <code>object</code>.wait() 进行阻塞等待</p>
+<p><strong>解锁流程：</strong></p>
+<p>1）如果可重入锁次数减1后，加锁次数不为 0 直接返回，减1后加锁次数为0，继续。</p>
+<p>2）删除当前节点。</p>
+<p>3）删除 <code>threadDataMap</code>里面的可重入锁的数据。</p>
+<h2 id="最后的总结">最后的总结</h2>
+<p><code>Redisson</code>和Curator都是自己定义的分布式锁接口实现的，易于扩展。</p>
+<p>Curator里自定义了<code>InterProcessLock</code>接口，<code>Redisson</code>里自定义<code>RLock</code>接口，继承了 java.<code>util</code>.<code>concurrent</code>.<code>locks</code>.<code>Lock</code>接口。</p>
+<p><strong>对于Redis实现的分布式锁：</strong></p>
+<p>大部分需求下，不会遇到「极端复杂场景」，基于Redis实现分布式锁很常用，性能也高。</p>
+<p>它获取锁的方式简单粗暴，获取不到锁直接不断尝试获取锁，比较消耗性能。</p>
+<p>另外来说的话，redis的设计定位决定了它的数据并不是强一致性的，没有一致性算法，在某些极端情况下，可能会出现问题，锁的模型不够健壮。</p>
+<p>即便有了<code>Redlock</code>算法的实现，但存在争议，某些复杂场景下，也无法保证其实现完全没有问题，并且也是比较消耗性能的。</p>
+<p><strong>对于Zookeeper实现的分布式锁:</strong></p>
+<p><strong>Zookeeper优点：</strong></p>
+<p>天生设计定位是分布式协调，强一致性。锁的模型健壮、简单易用、适合做分布式锁。</p>
+<p>如果获取不到锁，只需要添加一个监听器就可以了，不用一直轮询，性能消耗较小。</p>
+<p>如果客户端宕机，也没关系，临时节点会自动删除，触发监听器通知下一个节点。</p>
+<p><strong>Zookeeper缺点：</strong></p>
+<p>若有大量的客户端频繁的申请加锁、释放锁，对于ZK集群的压力会比较大。</p>
+<p>另外，本文对Spring-integration集成Redis实现的分布式锁做了详细剖析，可以直接使用，更推荐直接使用 <code>Redisson</code>，实现了非常多的分布式锁各种机制，有单独开放<code>Springboot</code>集成的jar包，使用上也是非常方便的。</p>
+<h4 id="分布式锁高并发优化">分布式锁高并发优化</h4>
+<p>当大量线程对同一个字段进行修改时，会基于分布式锁串行化处理，导致没法高并发</p>
+<p>可以使用<strong>分段加锁</strong>的思路来优化</p>
+<p>把数据分成很多个段，每个段是一个单独的锁，所以多个线程多来并发修改数据的时候，可以并发的修改不同段的数据。不至于说同一时间只能有一个线程独占修改。如果失败则释放锁，自动迁移到下一个分段再次尝试获锁后再处理。</p>
 
             </div>
             
@@ -380,7 +1137,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://jboone1989.github.io/post/mybatis/" title="7、mybatis">https://jboone1989.github.io/post/mybatis/</a>
+      <a href="https://jboone1989.github.io/post/fenbushisuo/" title="分布式锁">https://jboone1989.github.io/post/fenbushisuo/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -389,21 +1146,21 @@
   </ul>
   <div class="tags">
     
-      <a href="https://jboone1989.github.io/tag/82RsYFj8K/"># Gridea</a>
+      <a href="https://jboone1989.github.io/tag/Ay5ogIeq-/"># 分布式</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="秒杀系统" href="https://jboone1989.github.io/post/miaosha/">秒杀系统</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="秒杀系统" href="https://jboone1989.github.io/post/miaosha/">上一篇</a>
+        <a class="nav-pc-next" title="千万流量" href="https://jboone1989.github.io/post/daliuliang/">千万流量</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="千万流量" href="https://jboone1989.github.io/post/daliuliang/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="Redis笔记" href="https://jboone1989.github.io/post/redis/">Redis笔记</a>
-        <a class="nav-mobile-next" title="Redis笔记" href="https://jboone1989.github.io/post/redis/">下一篇</a>
+        <a class="nav-pc-next" title="分布式系统原理" href="https://jboone1989.github.io/post/fenbushixitongyuanli/">分布式系统原理</a>
+        <a class="nav-mobile-next" title="分布式系统原理" href="https://jboone1989.github.io/post/fenbushixitongyuanli/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

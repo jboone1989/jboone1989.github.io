@@ -9,7 +9,7 @@
 <meta name="description" content="君子终日乾乾，夕惕若，厉，无咎。">
 <meta name="theme-color" content="#000">
 <title>秒杀系统 | 异见</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1606469952160">
+<link rel="shortcut icon" href="/favicon.ico?v=1606471877586">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -3011,6 +3011,1229 @@ retries=N，设置一个非常大的值，让生产者发送失败一直重试
 &lt;p&gt;针对各种分布式系统产生的分布式事务一致性或者受到攻击导致的数据异常，非常需要核对平台来做最后的兜底的数据验证。比如下游支付系统和订单系统的金额做核对是否正确，如果收到中间人攻击落库的数据是否保证正确性。&lt;/p&gt;
 &lt;hr&gt;
 ">千万流量</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/fenbushisuo/"" data-c="
+          &lt;h2 id=&#34;分布式锁有哪些特点呢&#34;&gt;&lt;strong&gt;分布式锁有哪些特点呢？&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;互斥性：&lt;/strong&gt; 分布式锁要保证在多个客户端之间的互斥。&lt;/p&gt;
+&lt;p&gt;**可重入性：**同一客户端的相同线程，允许重复多次加锁。&lt;/p&gt;
+&lt;p&gt;**锁超时：**和本地锁一样支持锁超时，防止死锁。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;非阻塞：&lt;/strong&gt; 能与 ReentrantLock 一样支持 &lt;code&gt;trylock&lt;/code&gt;() 非阻塞方式获得锁。&lt;/p&gt;
+&lt;p&gt;**支持公平锁和非公平锁：**公平锁尴尬，我也不想。是指按照请求加锁的顺序获得锁，非公平锁真好相反请求加锁是无序的。&lt;/p&gt;
+&lt;h2 id=&#34;分布式锁家族实现者介绍&#34;&gt;&lt;strong&gt;分布式锁家族实现者介绍&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;1、数据库&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;排它锁（悲观锁）：基于 &lt;code&gt;select * from table where xx=yy for update&lt;/code&gt; SQL语句来实现，有很多缺陷。&lt;/p&gt;
+&lt;p&gt;乐观锁：表中添加一个时间戳或者版本号的字段来实现，&lt;code&gt;update xx set version = new... where id = y and version = old&lt;/code&gt; 当更新不成功，客户端重试，重新读取最新的版本号或时间戳，再次尝试更新，类似 &lt;code&gt;CAS&lt;/code&gt; 机制，推荐使用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2、Redis&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;特点：&lt;strong&gt;CAP模型属于&lt;/strong&gt;AP&lt;/strong&gt; | 无一致性算法 | &lt;strong&gt;性能好&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;开发常用，如果你的项目中正好使用了redis，不想引入额外的分布式锁组件，推荐使用。&lt;/p&gt;
+&lt;p&gt;业界也提供了多个现成好用的框架予以支持分布式锁，比如&lt;code&gt;Redisson&lt;/code&gt;、&lt;strong&gt;spring-integration-redis&lt;/strong&gt;、redis自带的**&lt;code&gt;setnx&lt;/code&gt;**命令，推荐直接使用。&lt;/p&gt;
+&lt;p&gt;另外，可基于redis命令和redis &lt;code&gt;lua&lt;/code&gt;支持的原子特性，自行实现分布式锁。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3、Zookeeper&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;特点：&lt;strong&gt;CAP模型属于&lt;/strong&gt;CP&lt;/strong&gt; | &lt;strong&gt;ZAB&lt;/strong&gt;一致性算法实现 | &lt;strong&gt;稳定性好&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;开发常用，如果你的项目中正好使用了&lt;code&gt;zk&lt;/code&gt;集群，推荐使用。&lt;/p&gt;
+&lt;p&gt;业界有&lt;strong&gt;Apache Curator&lt;/strong&gt;框架提供了现成的分布式锁功能，现成的，推荐直接使用。&lt;/p&gt;
+&lt;p&gt;另外，可基于Zookeeper自身的特性和原生Zookeeper API自行实现分布式锁。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4、其他&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Chubby&lt;/strong&gt;，Google开发的粗粒度分布锁的服务，但是并没有开源，开放出了论文和一些相关文档可以进一步了解，出门百度一下获取文档，不做过多讨论。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Tair&lt;/code&gt;&lt;/strong&gt;，是阿里开源的一个分布式KV存储方案，没有用过，不做过多讨论。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Etcd&lt;/code&gt;&lt;/strong&gt;，CAP模型中属于&lt;strong&gt;CP&lt;/strong&gt;，&lt;strong&gt;Raft&lt;/strong&gt;一致性算法实现，没有用过，不做过多讨论。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Hazelcast&lt;/code&gt;&lt;/strong&gt;，是基于内存的数据网格开源项目，提供弹性可扩展的分布式内存计算，并且被公认是提高应用程序性能和扩展性最好的方案，听上去很牛逼，但是没用过，不做过多讨论。&lt;/p&gt;
+&lt;p&gt;当然了，上面推荐的常用分布式锁Zookeeper和Redis，使用时还需要根据具体的业务场景，做下权衡，实现功能上都能达到你要的效果，原理上有很大的不同。&lt;/p&gt;
+&lt;h2 id=&#34;分布式锁成员实现原理剖析&#34;&gt;分布式锁成员实现原理剖析&lt;/h2&gt;
+&lt;h3 id=&#34;数据库悲观锁实现&#34;&gt;&lt;strong&gt;数据库悲观锁实现&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;1、有一张资源锁表&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mysql&#34;&gt;CREATE TABLE `resource_lock` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT &#39;主键&#39;,
+  `resource_name` varchar(64) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;锁定的资源名&#39;,
+  `owner` varchar(64) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;锁拥有者&#39;,
+  `desc` varchar(1024) NOT NULL DEFAULT &#39;备注信息&#39;,
+  `update_time` timestamp NOT NULL DEFAULT &#39;&#39; COMMENT &#39;保存数据时间，自动生成&#39;,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uidx_resource_name` (`resource_name `) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&#39;锁定中的资源&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;resource_name 锁资源名称必须有唯一索引。&lt;/p&gt;
+&lt;p&gt;必须添加&lt;code&gt;事务&lt;/code&gt;，查询和更新操作保证原子性，在一个事务里完成。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Transaction
+public void lock(String name) {
+   ResourceLock rlock = exeSql(&amp;quot;select * from resource_lock where resource_name = name for update&amp;quot;);
+     if (rlock == null) {
+           exeSql(&amp;quot;insert into resource_lock(reosurce_name,owner,count) values (name, &#39;ip&#39;,0)&amp;quot;);
+     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用 &lt;code&gt;for update&lt;/code&gt; 锁定的资源。如果执行成功，会立即返回，执行插入数据库，后续再执行一些其他业务逻辑，直到事务提交，执行结束；如果执行失败，就会一直阻塞着。&lt;/p&gt;
+&lt;p&gt;虽然也能实现分布式锁的效果，但是会存在性能瓶颈。&lt;/p&gt;
+&lt;h4 id=&#34;悲观锁优缺点&#34;&gt;&lt;strong&gt;悲观锁优缺点&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;**优点：**简单易用，好理解，保障数据强一致性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;一大堆，罗列一下：&lt;/p&gt;
+&lt;p&gt;1）在 RR 事务级别，select 的 for update 操作是基于&lt;code&gt;间隙锁（gap lock）&lt;/code&gt; 实现的，是一种悲观锁的实现方式，所以存在&lt;code&gt;阻塞问题&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;2）高并发情况下，大量请求进来，会导致大部分请求进行排队，影响数据库稳定性，也会&lt;code&gt;耗费&lt;/code&gt;服务的CPU等&lt;code&gt;资源&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;当获得锁的客户端等待时间过长时，会提示：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[40001][1205] Lock wait timeout exceeded; try restarting transaction
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;高并发情况下，也会造成占用过多的应用线程，导致业务无法正常响应。&lt;/p&gt;
+&lt;p&gt;3）如果优先获得锁的线程因为某些原因，一直没有释放掉锁，可能会导致&lt;code&gt;死锁&lt;/code&gt;的发生。&lt;/p&gt;
+&lt;p&gt;4）锁的长时间不释放，会一直占用数据库连接，可能会将&lt;code&gt;数据库连接池撑爆&lt;/code&gt;，影响其他服务。&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;&lt;code&gt;MySql&lt;/code&gt;数据库会做查询优化，即便使用了索引，优化时发现全表扫效率更高，则可能会将行锁升级为表锁，此时可能就更悲剧了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;6）不支持可重入特性，并且超时等待时间是全局的，不能随便改动。&lt;/p&gt;
+&lt;h3 id=&#34;数据库乐观锁实现&#34;&gt;&lt;strong&gt;数据库乐观锁实现&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;为表添加一个字段，版本号或者时间戳都可以。通过版本号或者时间戳，来保证多线程同时间操作共享资源的有序性和正确性。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mysql&#34;&gt;CREATE TABLE `resource` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT &#39;主键&#39;,
+  `resource_name` varchar(64) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;资源名&#39;,
+  `share` varchar(64) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;状态&#39;,
+    `version` int(4) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;版本号&#39;,
+  `desc` varchar(1024) NOT NULL DEFAULT &#39;备注信息&#39;,
+  `update_time` timestamp NOT NULL DEFAULT &#39;&#39; COMMENT &#39;保存数据时间，自动生成&#39;,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uidx_resource_name` (`resource_name `) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=&#39;资源&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Resrouce resource = exeSql(&amp;quot;select * from resource where resource_name = xxx&amp;quot;);
+boolean succ = exeSql(&amp;quot;update resource set version= &#39;newVersion&#39; ... where resource_name = xxx and version = &#39;oldVersion&#39;&amp;quot;);
+
+if (!succ) {
+    // 发起重试
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;乐观锁优缺点&#34;&gt;&lt;strong&gt;乐观锁优缺点&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;优点：简单易用，保障数据一致性。&lt;/p&gt;
+&lt;p&gt;缺点：&lt;/p&gt;
+&lt;p&gt;1）加行锁的性能上有一定的开销&lt;/p&gt;
+&lt;p&gt;2）高并发场景下，线程内的&lt;code&gt;自旋操作&lt;/code&gt; 会耗费一定的CPU资源。&lt;/p&gt;
+&lt;p&gt;另外，比如在更新数据状态的一些场景下，不考虑幂等性的情况下，可以直接利用 &lt;code&gt;行锁&lt;/code&gt; 来保证数据一致性，示例：&lt;code&gt;update table set state = 1 where id = xxx and state = 0;&lt;/code&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_png/Ljib4So7yuWjZkibS3JeicL8Ae4h7A7qxrxlNiaiaZSYMq6ajrlIaQGv2utdtZ0BdDsOiaoibKQ2qndicPu97WU1SlmOGA/640?wx_fmt=png&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;基于redis分布式锁实现&#34;&gt;&lt;strong&gt;基于Redis分布式锁实现&lt;/strong&gt;&lt;/h3&gt;
+&lt;h5 id=&#34;基于setnx实现分布式锁&#34;&gt;&lt;strong&gt;基于&lt;code&gt;SetNX&lt;/code&gt;实现分布式锁&lt;/strong&gt;&lt;/h5&gt;
+&lt;p&gt;基于Redis实现的分布式锁，性能上是最好的，实现上也是最复杂的。&lt;/p&gt;
+&lt;p&gt;Redis 2.6.12 之前的版本中采用 &lt;code&gt;setnx&lt;/code&gt;+ expire 方式实现分布式锁，示例代码如下所示：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static boolean lock(Jedis jedis, String lockKey, String requestId, int expireTime) {
+        Long result = jedis.setnx(lockKey, requestId);
+        //设置锁
+        if (result == 1) {
+            //获取锁成功
+            //若在这里程序突然崩溃，则无法设置过期时间，将发生死锁
+            //通过过期时间删除锁
+            jedis.expire(lockKey, expireTime);
+            return true;
+        }
+        return false;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果 &lt;code&gt;lockKey&lt;/code&gt;存在，则返回失败，否则返回成功。设置成功之后，为了能在完成同步代码之后成功释放锁，方法中使用 expire() 方法给 &lt;code&gt;lockKey&lt;/code&gt;设置一个过期时间，确认 key 值删除，避免出现锁无法释放，导致下一个线程无法获取到锁，即死锁问题。&lt;/p&gt;
+&lt;p&gt;但是 &lt;code&gt;setnx&lt;/code&gt;+ expire 两个命令放在程序里执行，不是原子操作，容易出事。&lt;/p&gt;
+&lt;p&gt;如果程序设置锁之后，此时，在设置过期时间之前，程序崩溃了，如果 &lt;code&gt;lockKey&lt;/code&gt;没有设置上过期时间，将会出现&lt;code&gt;死锁问题&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;解决以上问题 ，有两个办法：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1）方式一：&lt;/strong&gt;&lt;code&gt;lua&lt;/code&gt;脚本&lt;/p&gt;
+&lt;p&gt;我们也可以通过 Lua 脚本来实现锁的设置和过期时间的原子性，再通过 &lt;code&gt;jedis&lt;/code&gt;.eval() 方法运行该脚本：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;// 加锁脚本，KEYS[1] 要加锁的key，ARGV[1]是UUID随机值，ARGV[2]是过期时间
+private static final String SCRIPT_LOCK = &amp;quot;if redis.call(&#39;setnx&#39;, KEYS[1], ARGV[1]) == 1 then redis.call(&#39;pexpire&#39;, KEYS[1], ARGV[2]) return 1 else return 0 end&amp;quot;;
+
+// 解锁脚本，KEYS[1]要解锁的key，ARGV[1]是UUID随机值
+private static final String SCRIPT_UNLOCK = &amp;quot;if redis.call(&#39;get&#39;, KEYS[1]) == ARGV[1] then return redis.call(&#39;del&#39;, KEYS[1]) else return 0 end&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;**2）方式二：**set原生命令&lt;/p&gt;
+&lt;p&gt;在 Redis 2.6.12 版本后 SETNX 增加了过期时间参数：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SET lockKey anystring NX PX max-lock-time
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;程序实现代码如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static boolean lock(Jedis jedis, String lockKey, String requestId, int expireTime) {
+        String result = jedis.set(lockKey, requestId, &amp;quot;NX&amp;quot;, &amp;quot;PX&amp;quot;, expireTime);
+        if (&amp;quot;OK&amp;quot;.equals(result)) {
+            return true;
+        }
+        return false;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;虽然 SETNX 方式能够保证设置锁和过期时间的原子性，但是如果我们设置的过期时间比较短，而执行业务时间比较长，就会存在锁代码块失效的问题，失效后其他客户端也能获取到同样的锁，执行同样的业务，此时可能就会出现一些问题。&lt;/p&gt;
+&lt;p&gt;我们需要将过期时间设置得足够长，来保证以上问题不会出现，但是设置多长时间合理，也需要依具体业务来权衡。如果其他客户端必须要阻塞拿到锁，需要设计循环超时等待机制等问题，感觉还挺麻烦的是吧。&lt;/p&gt;
+&lt;h3 id=&#34;spring企业集成模式实现分布式锁&#34;&gt;&lt;strong&gt;Spring企业集成模式实现分布式锁&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;除了使用&lt;code&gt;Jedis&lt;/code&gt;客户端之外，完全可以直接用Spring官方提供的&lt;code&gt;企业集成模式&lt;/code&gt;框架，里面提供了很多分布式锁的方式，Spring提供了一个统一的分布式锁抽象，具体实现目前支持：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Gemfire&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Jdbc&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zookeeper&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Redis&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;早期，分布式锁的相关代码存在于Spring Cloud的子项目Spring Cloud Cluster中，后来被迁到Spring Integration中。&lt;/p&gt;
+&lt;p&gt;Spring Integration 项目地址 ：https://github.com/spring-projects/spring-integration&lt;/p&gt;
+&lt;p&gt;Spring强大之处在于此，对&lt;code&gt;Lock&lt;/code&gt;分布式锁做了全局抽象。&lt;/p&gt;
+&lt;p&gt;抽象结构如下所示：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHhBtdK45Ef3IpwWPg8Cz8iaznrwVHlHgVEQw2zQNCXClsBQ0IzdQWjfw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;LockRegistry&lt;/code&gt; 作为顶层抽象接口：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Strategy for maintaining a registry of shared locks
+ *
+ * @author Oleg Zhurakousky
+ * @author Gary Russell
+ * @since 2.1.1
+ */
+@FunctionalInterface
+public interface LockRegistry{
+
+    /**
+     * Obtains the lock associated with the parameter object.
+     * @param lockKey The object with which the lock is associated.
+     * @return The associated lock.
+     */
+    Lock obtain(Object lockKey);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;定义的 &lt;code&gt;obtain()&lt;/code&gt; 方法获得具体的 &lt;code&gt;Lock&lt;/code&gt; 实现类，分别在对应的 &lt;code&gt;XxxLockRegitry&lt;/code&gt;实现类来创建。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;RedisLockRegistry&lt;/code&gt;里obtain()方法实现类为 &lt;code&gt;RedisLock&lt;/code&gt;，&lt;code&gt;RedisLock&lt;/code&gt;内部，在Springboot2.x（Spring5）版本中是通过SET + PEXIPRE 命令结合&lt;code&gt;lua&lt;/code&gt;脚本实现的，在Springboot1.x（Spring4）版本中，是通过SETNX命令实现的。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ZookeeperLockRegistry&lt;/code&gt;里obtain()方法实现类为 &lt;code&gt;ZkLock&lt;/code&gt;，&lt;code&gt;ZkLock&lt;/code&gt;内部基于 Apache Curator 框架实现的。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;JdbcLockRegistry&lt;/code&gt;里obtain()方法实现类为 &lt;code&gt;JdbcLock&lt;/code&gt;，&lt;code&gt;JdbcLock&lt;/code&gt;内部基于一张&lt;code&gt;INT_LOCK&lt;/code&gt;数据库锁表实现的，通过&lt;code&gt;JdbcTemplate&lt;/code&gt;来操作。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;客户端使用方法：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private final String registryKey = &amp;quot;sb2&amp;quot;;
+RedisLockRegistry lockRegistry = new RedisLockRegistry(getConnectionFactory(), this.registryKey);
+Lock lock = lockRegistry.obtain(&amp;quot;foo&amp;quot;);
+lock.lock();
+try {
+    // doSth...
+}
+finally {
+    lock.unlock();
+}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;下面以目前最新版本的实现，说明加锁和解锁的具体过程。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;RedisLockRegistry&lt;/code&gt;$&lt;code&gt;RedisLock&lt;/code&gt;类lock()加锁流程：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHrI5qvEaJicxQVQ5jyrLMJwtpdtukeOr1jlDoN6CBqrnETzz5ZlSQ26w/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;加锁步骤：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1）&lt;code&gt;lockKey&lt;/code&gt;为&lt;code&gt;registryKey:path&lt;/code&gt;，本例中为sb2:foo，客户端C1优先申请加锁。&lt;/p&gt;
+&lt;p&gt;2）执行&lt;code&gt;lua&lt;/code&gt;脚本，get &lt;code&gt;lockKey&lt;/code&gt;不存在，则set &lt;code&gt;lockKey&lt;/code&gt;成功，值为&lt;code&gt;clientid&lt;/code&gt;（UUID），过期时间默认60秒。&lt;/p&gt;
+&lt;p&gt;3）客户端C1同一个线程重复加锁，&lt;code&gt;pexpire ``lockKey&lt;/code&gt;，重置过期时间为60秒。&lt;/p&gt;
+&lt;p&gt;4）客户端C2申请加锁，执行&lt;code&gt;lua&lt;/code&gt;脚本，get &lt;code&gt;lockKey&lt;/code&gt;已存在，并且跟已加锁的&lt;code&gt;clientid&lt;/code&gt;不同，加锁失败&lt;/p&gt;
+&lt;p&gt;5）客户端C2挂起，每隔100ms再次尝试加锁。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;RedisLock&lt;/code&gt;#lock()加锁源码实现：&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHrIcVzxrgicjB041TlnNNTK3AxfWOWTvws1akwMlaDzX7oibgsk8LIUOQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;大家可以对照上面的流程图配合你理解。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;@Override
+public void lock() {
+    this.localLock.lock();
+    while (true) {
+        try {
+            while (!obtainLock()) {
+                Thread.sleep(100); //NOSONAR
+            }
+            break;
+        }
+        catch (InterruptedException e) {
+            /*
+             * This method must be uninterruptible so catch and ignore
+             * interrupts and only break out of the while loop when
+             * we get the lock.
+             */
+        }
+        catch (Exception e) {
+            this.localLock.unlock();
+            rethrowAsLockException(e);
+        }
+    }
+}
+
+// 基于Spring封装的RedisTemplate来操作的
+private boolean obtainLock() {
+    Boolean success =
+            RedisLockRegistry.this.redisTemplate.execute(RedisLockRegistry.this.obtainLockScript,
+                    Collections.singletonList(this.lockKey), RedisLockRegistry.this.clientId,
+                    String.valueOf(RedisLockRegistry.this.expireAfter));
+
+    boolean result = Boolean.TRUE.equals(success);
+
+    if (result) {
+        this.lockedAt = System.currentTimeMillis();
+    }
+    return result;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;执行的&lt;code&gt;lua&lt;/code&gt;脚本代码：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;private static final String OBTAIN_LOCK_SCRIPT =
+    &amp;quot;local lockClientId = redis.call(&#39;GET&#39;, KEYS[1])\n&amp;quot; +
+            &amp;quot;if lockClientId == ARGV[1] then\n&amp;quot; +
+            &amp;quot;  redis.call(&#39;PEXPIRE&#39;, KEYS[1], ARGV[2])\n&amp;quot; +
+            &amp;quot;  return true\n&amp;quot; +
+            &amp;quot;elseif not lockClientId then\n&amp;quot; +
+            &amp;quot;  redis.call(&#39;SET&#39;, KEYS[1], ARGV[1], &#39;PX&#39;, ARGV[2])\n&amp;quot; +
+            &amp;quot;  return true\n&amp;quot; +
+            &amp;quot;end\n&amp;quot; +
+            &amp;quot;return false&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;RedisLockRegistry&lt;/code&gt;$&lt;code&gt;RedisLock&lt;/code&gt;类&lt;strong&gt;unlock()解锁流程：&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHiaCS5BZfnpurITk8EHibV92mAmsyYBic4TsZz8SQwG6N7E4iblicoVztdWg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;**RedisLock&lt;/code&gt;#unlock()源码实现：**&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;@Override
+public void unlock() {
+    if (!this.localLock.isHeldByCurrentThread()) {
+        throw new IllegalStateException(&amp;quot;You do not own lock at &amp;quot; + this.lockKey);
+    }
+    if (this.localLock.getHoldCount() &amp;gt; 1) {
+        this.localLock.unlock();
+        return;
+    }
+    try {
+        if (!isAcquiredInThisProcess()) {
+            throw new IllegalStateException(&amp;quot;Lock was released in the store due to expiration. &amp;quot; +
+                    &amp;quot;The integrity of data protected by this lock may have been compromised.&amp;quot;);
+        }
+
+        if (Thread.currentThread().isInterrupted()) {
+            RedisLockRegistry.this.executor.execute(this::removeLockKey);
+        }
+        else {
+            removeLockKey();
+        }
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(&amp;quot;Released lock; &amp;quot; + this);
+        }
+    }
+    catch (Exception e) {
+        ReflectionUtils.rethrowRuntimeException(e);
+    }
+    finally {
+        this.localLock.unlock();
+    }
+}
+
+// 删除缓存Key
+private void removeLockKey() {
+    if (this.unlinkAvailable) {
+        try {
+            RedisLockRegistry.this.redisTemplate.unlink(this.lockKey);
+        }
+        catch (Exception ex) {
+            LOGGER.warn(&amp;quot;The UNLINK command has failed (not supported on the Redis server?); &amp;quot; +
+                    &amp;quot;falling back to the regular DELETE command&amp;quot;, ex);
+            this.unlinkAvailable = false;
+            RedisLockRegistry.this.redisTemplate.delete(this.lockKey);
+        }
+    }
+    else {
+        RedisLockRegistry.this.redisTemplate.delete(this.lockKey);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;unlock()解锁方法里发现，并不是直接就调用Redis的DEL命令删除Key，这也是在Springboot2.x版本中做的一个优化，Redis4.0版本以上提供了UNLINK命令。&lt;/p&gt;
+&lt;p&gt;换句话说，最新版本分布式锁实现，要求是Redis4.0以上版本才能使用。&lt;/p&gt;
+&lt;p&gt;看下Redis官网给出的一段解释：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;This command is very similar to DEL: it removes the specified keys.
+Just like DEL a key is ignored if it does not exist. However the
+command performs the actual memory reclaiming in a different thread,
+so it is not blocking, while DEL is. This is where the command name
+comes from: the command just unlinks the keys from the keyspace. The
+actual removal will happen later asynchronously.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;DEL始终在阻止模式下释放值部分。但如果该值太大，如对于大型LIST或HASH的分配太多，它会长时间阻止Redis，为了解决这个问题，Redis实现了UNLINK命令，即「非阻塞」删除。如果值很小，则DEL一般与UNLINK效率上差不多。&lt;/p&gt;
+&lt;p&gt;本质上，这种加锁方式还是使用的SETNX实现的，而且Spring只是做了一层薄薄的封装，支持可重入加锁，超时等待，可中断加锁。&lt;/p&gt;
+&lt;p&gt;但是有个问题，锁的过期时间不能灵活设置，客户端初始化时，创建&lt;code&gt;RedisLockRegistry&lt;/code&gt;时允许设置，但是是全局的。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/**
+     * Constructs a lock registry with the supplied lock expiration.
+     * @param connectionFactory The connection factory.
+     * @param registryKey The key prefix for locks.
+     * @param expireAfter The expiration in milliseconds.
+     */
+public RedisLockRegistry(RedisConnectionFactory connectionFactory, String registryKey, long expireAfter) {
+    Assert.notNull(connectionFactory, &amp;quot;&#39;connectionFactory&#39; cannot be null&amp;quot;);
+    Assert.notNull(registryKey, &amp;quot;&#39;registryKey&#39; cannot be null&amp;quot;);
+    this.redisTemplate = new StringRedisTemplate(connectionFactory);
+    this.obtainLockScript = new DefaultRedisScript&amp;lt;&amp;gt;(OBTAIN_LOCK_SCRIPT, Boolean.class);
+    this.registryKey = registryKey;
+    this.expireAfter = expireAfter;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;expireAfter&lt;/code&gt;参数是全局的，同样会存在问题，可能是锁过期时间到了，但是业务还没有处理完，这把锁又被另外的客户端获得，进而会导致一些其他问题。&lt;/p&gt;
+&lt;p&gt;经过对源码的分析，其实我们也可以借鉴&lt;code&gt;RedisLockRegistry&lt;/code&gt;实现的基础上，自行封装实现分布式锁，比如：&lt;/p&gt;
+&lt;p&gt;1、允许支持按照不同的Key设置过期时间，而不是全局的？&lt;/p&gt;
+&lt;p&gt;2、当业务没有处理完成，当前客户端启动个定时任务探测，自动延长过期时间？&lt;/p&gt;
+&lt;p&gt;自己实现？嫌麻烦？别急别急！业界已经有现成的实现方案了，那就是 &lt;code&gt;Redisson&lt;/code&gt; 框架，在后文&lt;code&gt;Redisson&lt;/code&gt;部分进一步分析。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_png/Ljib4So7yuWjZkibS3JeicL8Ae4h7A7qxrxlNiaiaZSYMq6ajrlIaQGv2utdtZ0BdDsOiaoibKQ2qndicPu97WU1SlmOGA/640?wx_fmt=png&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;站在redis集群角度看问题&#34;&gt;&lt;strong&gt;站在Redis集群角度看问题&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;从Redis&lt;code&gt;主从&lt;/code&gt;架构上来考虑，依然存在问题。因为 Redis 集群数据同步到各个节点时是异步的，如果在 Master 节点获取到锁后，在没有同步到其它节点时，Master 节点崩溃了，此时新的 Master 节点依然可以获取锁，所以多个应用服务可以同时获取到锁。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;RedLock&lt;/code&gt;算法实现过程分析：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;假设Redis部署模式是Redis Cluster，总共有5个master节点，通过以下步骤获取一把锁：&lt;/p&gt;
+&lt;p&gt;1）获取当前时间戳，单位是毫秒&lt;/p&gt;
+&lt;p&gt;2）轮流尝试在每个master节点上创建锁，过期时间设置较短，一般就几十毫秒&lt;/p&gt;
+&lt;p&gt;3）尝试在大多数节点上建立一个锁，比如5个节点就要求是3个节点（n / 2 +1）&lt;/p&gt;
+&lt;p&gt;4）客户端计算建立好锁的时间，如果建立锁的时间小于超时时间，就算建立成功了&lt;/p&gt;
+&lt;p&gt;5）要是锁建立失败了，那么就依次删除这个锁&lt;/p&gt;
+&lt;p&gt;6）只要有客户端创建成功了分布式锁，其他客户端就得不断轮询去尝试获取锁&lt;/p&gt;
+&lt;p&gt;以上过程前文也提到了，进一步分析&lt;code&gt;RedLock&lt;/code&gt;算法的实现依然可能存在问题，也是&lt;code&gt;Martain&lt;/code&gt;和&lt;code&gt;Antirez&lt;/code&gt;两位大佬争论的焦点。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题1：节点崩溃重启&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;节点崩溃重启，会出现多个客户端持有锁。&lt;/p&gt;
+&lt;p&gt;假设一共有5个Redis节点：A、B、 C、 D、 E。设想发生了如下的事件序列：&lt;/p&gt;
+&lt;p&gt;1）客户端C1成功对Redis集群中A、B、C三个节点加锁成功（但D和E没有锁住）。&lt;/p&gt;
+&lt;p&gt;2）节点C &lt;code&gt;Duang&lt;/code&gt;的一下，崩溃重启了，但客户端C1在节点C加锁未持久化完，丢了。&lt;/p&gt;
+&lt;p&gt;3）节点C重启后，客户端C2成功对Redis集群中C、D、 E尝试加锁成功了。&lt;/p&gt;
+&lt;p&gt;这样，悲剧了吧！客户端C1和C2同时获得了同一把分布式锁。&lt;/p&gt;
+&lt;p&gt;为了应对节点重启引发的锁失效问题，&lt;code&gt;Antirez&lt;/code&gt;提出了&lt;code&gt;延迟重启&lt;/code&gt;的概念，即一个节点崩溃后，先不立即重启它，而是等待一段时间再重启，等待的时间大于锁的有效时间。&lt;/p&gt;
+&lt;p&gt;采用这种方式，这个节点在重启前所参与的锁都会过期，它在重启后就不会对现有的锁造成影响。&lt;/p&gt;
+&lt;p&gt;这其实也是通过人为补偿措施，降低不一致发生的概率。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题2：时钟跳跃&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;假设一共有5个Redis节点：A、B、 C、 D、 E。设想发生了如下的事件序列：&lt;/p&gt;
+&lt;p&gt;1）客户端C1成功对Redis集群中A、B、 C三个节点成功加锁。但因网络问题，与D和E通信失败。&lt;/p&gt;
+&lt;p&gt;2）节点C上的时钟发生了向前跳跃，导致它上面维护的锁快速过期。&lt;/p&gt;
+&lt;p&gt;3）客户端C2对Redis集群中节点C、 D、 E成功加了同一把锁。&lt;/p&gt;
+&lt;p&gt;此时，又悲剧了吧！客户端C1和C2同时都持有着同一把分布式锁。&lt;/p&gt;
+&lt;p&gt;为了应对&lt;code&gt;时钟跳跃&lt;/code&gt;引发的锁失效问题，&lt;code&gt;Antirez&lt;/code&gt;提出了应该禁止人为修改系统时间，使用一个不会进行「跳跃式」调整系统时钟的&lt;code&gt;ntpd&lt;/code&gt;程序。这也是通过人为补偿措施，降低不一致发生的概率。&lt;/p&gt;
+&lt;p&gt;但是...，&lt;code&gt;RedLock&lt;/code&gt;算法并没有解决，操作共享资源超时，导致锁失效的问题。&lt;/p&gt;
+&lt;p&gt;存在这么大争议的算法实现，还是不推荐使用的。&lt;/p&gt;
+&lt;p&gt;一般情况下，本文锁介绍的框架提供的分布式锁实现已经能满足大部分需求了。&lt;/p&gt;
+&lt;h5 id=&#34;小结&#34;&gt;&lt;strong&gt;小结：&lt;/strong&gt;&lt;/h5&gt;
+&lt;p&gt;上述，我们对spring-integration-redis实现原理进行了深入分析，还对&lt;code&gt;RedLock&lt;/code&gt;存在争议的问题做了分析。&lt;/p&gt;
+&lt;p&gt;除此以外，我们还提到了spring-integration中集成了 &lt;code&gt;Jdbc&lt;/code&gt;、Zookeeper、&lt;code&gt;Gemfire&lt;/code&gt;实现的分布式锁，&lt;code&gt;Gemfire&lt;/code&gt;和&lt;code&gt;Jdbc&lt;/code&gt;大家感兴趣可以自行去看下。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为啥还要提供个&lt;code&gt;Jdbc&lt;/code&gt;分布式锁实现？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;猜测一下，当你的应用并发量也不高，比如是个后台业务，而且还没依赖Zookeeper、Redis等额外的组件，只依赖了数据库。&lt;/p&gt;
+&lt;p&gt;但你还想用分布式锁搞点事儿，那好办，直接用spring-integration-&lt;code&gt;jdbc&lt;/code&gt;即可，内部也是基于数据库行锁来实现的，需要你提前建好&lt;code&gt;锁表&lt;/code&gt;，创建表的SQL长这样：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mysql&#34;&gt;CREATE TABLE INT_LOCK  (
+    LOCK_KEY CHAR(36) NOT NULL,
+    REGION VARCHAR(100) NOT NULL,
+    CLIENT_ID CHAR(36),
+    CREATED_DATE DATETIME(6) NOT NULL,
+    constraint INT_LOCK_PK primary key (LOCK_KEY, REGION)
+) ENGINE=InnoDB;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;具体实现逻辑也非常简单，大家自己去看吧。&lt;/p&gt;
+&lt;p&gt;集成的Zookeeper实现的分布式锁，因为是基于Curator框架实现的，不在本节展开，后续会有分析。&lt;/p&gt;
+&lt;h3 id=&#34;基于redisson实现分布式锁&#34;&gt;&lt;strong&gt;基于&lt;code&gt;Redisson&lt;/code&gt;实现分布式锁&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Redisson&lt;/code&gt;是 Redis 的 Java 实现的客户端，其 API 提供了比较全面的 Redis 命令的支持。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Jedis&lt;/code&gt;简单使用阻塞的 I/O 和 Redis 交互，&lt;code&gt;Redission&lt;/code&gt; 通过 Netty 支持非阻塞 I/O。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Redisson&lt;/code&gt; 封装了锁的实现，让我们像操作我们的本地 Lock一样来使用，除此之外还有对集合、对象、常用缓存框架等做了友好的封装，易于使用。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Redisson&lt;/code&gt;分布式锁&lt;code&gt;Github&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;https://github.com/redisson/redisson/wiki/8.-Distributed-locks-and-synchronizers&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Redisson&lt;/code&gt;可以便捷的支持多种Redis部署架构：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Redis 单机&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Master-Slave + Sentinel 哨兵&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Redis-Cluster集群&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;// Master-Slave配置
+Config config = new Config();
+MasterSlaveServersConfig serverConfig = config.useMasterSlaveServers()
+            .setMasterAddress(&amp;quot;&amp;quot;)
+            .addSlaveAddress(&amp;quot;&amp;quot;)
+            .setReadMode(ReadMode.SLAVE)
+            .setMasterConnectionPoolSize(maxActiveSize)
+            .setMasterConnectionMinimumIdleSize(maxIdleSize)
+            .setSlaveConnectionPoolSize(maxActiveSize)
+            .setSlaveConnectionMinimumIdleSize(maxIdleSize)
+            .setConnectTimeout(CONNECTION_TIMEOUT_MS) // 默认10秒
+            .setTimeout(socketTimeout)
+            ;
+
+RedissonClient redisson = Redisson.create(config);
+RLock lock = redisson.getLock(&amp;quot;myLock&amp;quot;);
+
+// 获得锁
+lock.lock();
+
+// 等待10秒未获得锁，自动释放
+lock.lock(10, TimeUnit.SECONDS);
+
+// 等待锁定时间不超过100秒
+// 10秒后自动释放锁
+boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS);
+if (res) {
+   try {
+     ...
+   } finally {
+       lock.unlock();
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用上非常简单，&lt;code&gt;RedissonClient&lt;/code&gt;客户端提供了众多的接口实现，支持可重入锁、公平锁、读写锁、锁超时、&lt;code&gt;RedLock&lt;/code&gt;等都提供了完整实现。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191222200451065.png&#34; alt=&#34;image-20191222200451065&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h4 id=&#34;lock加锁流程&#34;&gt;&lt;strong&gt;lock()加锁流程：&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;为了兼容老的版本，&lt;code&gt;Redisson&lt;/code&gt;里都是通过&lt;code&gt;lua&lt;/code&gt;脚本执行Redis命令的，同时保证了原子性操作。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;加锁执行的&lt;code&gt;lua&lt;/code&gt;脚本：&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_png/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHibfZCzUSZCqJ3qlNNCB4qIkYxMJXGJHiaPiaVVu7SaSZtVicd8MXCRZL7Q/640?wx_fmt=png&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;Redis里的Hash散列结构存储的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;参数解释：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;**KEY[1]：**要加锁的Key名称，比如示例中的&lt;code&gt;myLock&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;**ARGV[1]：**针对加锁的Key设置的过期时间&lt;/p&gt;
+&lt;p&gt;**ARGV[2]：**Hash结构中Key名称，&lt;code&gt;lockName&lt;/code&gt;为UUID:线程ID&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;protected String getLockName(long threadId) {
+        return id + &amp;quot;:&amp;quot; + threadId;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;1）客户端C1申请加锁，key为&lt;code&gt;myLock&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;2）如果key不存在，通过&lt;code&gt;hset&lt;/code&gt;设置值，通过&lt;code&gt;pexpire&lt;/code&gt;设置过期时间。同时开启Watchdog任务，默认每隔10秒中判断一下，如果key还在，重置过期时间到30秒。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640-1583055169793.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;开启&lt;code&gt;WatchDog&lt;/code&gt;源码：&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHNaAbIiaU5JkZz7cc2gJibdR8kfORPsSN3D7ypuo2rACVPH4Nq53Y38CA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHj2XPHcxmILnANjEianHvU3UfqDo0HnZn7iagVRbUDH853MsqCppl4ngw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;3）客户端C1相同线程再次加锁，如果key存在，判断Redis里Hash中的&lt;code&gt;lockName&lt;/code&gt;跟当前线程&lt;code&gt;lockName&lt;/code&gt;相同，则将Hash中的&lt;code&gt;lockName&lt;/code&gt;的值加1，代表&lt;strong&gt;支持可重入加锁&lt;/strong&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;incrby myLock  8743c9c0-0795-4907-87fd-6c71a6b4586:1 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191222201004906.png&#34; alt=&#34;image-20191222201004906&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;4）客户单C2申请加锁，如果key存在，判断Redis里Hash中的&lt;code&gt;lockName&lt;/code&gt;跟当前线程&lt;code&gt;lockName&lt;/code&gt;不同，则执行&lt;code&gt;pttl&lt;/code&gt;返回剩余过期时间。&lt;/p&gt;
+&lt;p&gt;5）客户端C2线程内不断尝试&lt;code&gt;pttl&lt;/code&gt;时间，此处是基于Semaphore信号量实现的，有许可立即返回，否则等到&lt;code&gt;pttl&lt;/code&gt;时间还是没有得到许可，继续重试。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;重试源码：&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHib0lz75huCGMyel4m4RRbWlOVFbq8BqykPdVAP7rcNBUyZnBfjL77Cw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;Redisson&lt;/code&gt;这样的实现就解决了，当业务处理时间比过期时间长的问题。&lt;/p&gt;
+&lt;p&gt;同时，&lt;code&gt;Redisson&lt;/code&gt;还自己扩展 Lock 接口，叫做 &lt;code&gt;RLock&lt;/code&gt; 接口，扩展了锁接口，比如给 Key 设定过期时间，非阻塞+超时时间等。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void lock(long leaseTime, TimeUnit unit);
+
+boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;redisson&lt;/code&gt;里的&lt;code&gt;WatchDog&lt;/code&gt;（看门狗）逻辑保证了没有死锁发生。&lt;/p&gt;
+&lt;p&gt;如果客户端宕机了，&lt;code&gt;WatchDog&lt;/code&gt;任务也就跟着停掉了。此时，不会对Key重置过期时间了，等挂掉的客户端持有的Key过期时间到了，锁自动释放，其他客户端尝试获得这把锁。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;If Redisson instance which acquired lock crashes then such lock could hang forever in acquired state. To avoid this Redisson maintains lock watchdog, it prolongs lock expiration while lock holder Redisson instance is alive. By default lock watchdog timeout is 30 seconds and can be changed through Config.lockWatchdogTimeout setting.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;unlock()解锁过程也是同样的，通过&lt;code&gt;lua&lt;/code&gt;脚本执行一大坨指令的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解锁&lt;code&gt;lua&lt;/code&gt;脚本：&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHGicwKAzXWcNs11eYzyKN7IuZ2ibr8ErFm4lGkxP2MPot810ev9NbeLRw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h4 id=&#34;上述redis分布式锁的缺点&#34;&gt;上述Redis分布式锁的缺点&lt;/h4&gt;
+&lt;p&gt;其实上面那种方案最大的问题，就是如果你对某个redis master实例，写入了&lt;code&gt;myLock&lt;/code&gt;这种锁key的value，此时会&lt;strong&gt;异步&lt;/strong&gt;复制给对应的master slave实例。&lt;/p&gt;
+&lt;p&gt;但是&lt;strong&gt;这个过程中&lt;/strong&gt;一旦发生redis master宕机，主备切换，redis slave变为了redis master。新的master上并没有客户端1的锁记录；&lt;/p&gt;
+&lt;p&gt;接着就会导致，客户端2来尝试加锁的时候，在新的redis master上完成了加锁，而客户端1也以为自己成功加了锁。&lt;/p&gt;
+&lt;p&gt;此时就会导致多个客户端对一个分布式锁完成了加锁。这时系统在业务语义上一定会出现问题，&lt;strong&gt;导致各种脏数据的产生&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;所以这个就是redis cluster，或者是redis master-slave架构的&lt;strong&gt;主从异步复制&lt;/strong&gt;导致的redis分布式锁的最大缺陷：在redis master实例宕机的时候，可能导致多个客户端同时完成加锁。&lt;/p&gt;
+&lt;h3 id=&#34;基于zookeeper实现分布式锁&#34;&gt;&lt;strong&gt;基于Zookeeper实现分布式锁&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Zookeeper 是一种提供「分布式服务协调」的中心化服务，是以 &lt;code&gt;Paxos&lt;/code&gt;算法为基础实现的。Zookeeper数据节点和文件目录类似，同时具有Watch机制，基于这两个特性，得以实现分布式锁功能。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数据节点：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;顺序临时节点：Zookeeper 提供一个多层级的节点命名空间（节点称为 &lt;strong&gt;&lt;code&gt;Znode&lt;/code&gt;&lt;/strong&gt;），每个节点都用一个以斜杠（/）分隔的路径来表示，而且每个节点都有父节点（根节点除外），非常类似于文件系统。&lt;/p&gt;
+&lt;p&gt;节点类型可以分为持久节点（&lt;strong&gt;PERSISTENT&lt;/strong&gt; ）、临时节点（&lt;strong&gt;EPHEMERAL&lt;/strong&gt;），每个节点还能被标记为有序性（&lt;strong&gt;SEQUENTIAL&lt;/strong&gt;），一旦节点被标记为有序性，那么整个节点就具有顺序自增的特点。&lt;/p&gt;
+&lt;p&gt;一般我们可以组合这几类节点来创建我们所需要的节点，例如，创建一个持久节点作为父节点，在父节点下面创建临时节点，并标记该临时节点为有序性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Watch 机制：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Zookeeper 还提供了另外一个重要的特性，Watcher（事件监听器）。&lt;/p&gt;
+&lt;p&gt;ZooKeeper 允许用户在指定节点上注册一些 Watcher，并且在一些特定事件触发的时候，ZooKeeper 服务端会将事件通知给用户。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;图解Zookeeper实现分布式锁：&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/7kMDE5kKm7zHfMD7O5jpa9P8PZGxYAIHTFOtBQDwxgiaMLWakTzD4fsLDL2TeudVun416Bltib8MCSW7LNdeTuRQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;首先，我们需要建立一个父节点，节点类型为持久节点（&lt;strong&gt;PERSISTENT&lt;/strong&gt;）如图中的 &lt;code&gt;/locks/lock_name1&lt;/code&gt; 节点 ，每当需要访问共享资源时，就会在父节点下建立相应的顺序子节点，节点类型为临时节点（&lt;strong&gt;EPHEMERAL&lt;/strong&gt;），且标记为有序性（&lt;strong&gt;SEQUENTIAL&lt;/strong&gt;），并且以临时节点名称 + 父节点名称 + 顺序号组成特定的名字，如图中的 &lt;code&gt;/0000000001 /0000000002 /0000000003&lt;/code&gt; 作为临时有序节点。&lt;/p&gt;
+&lt;p&gt;在建立子节点后，对父节点下面的所有以临时节点名称 name 开头的子节点进行排序，判断刚刚建立的子节点顺序号是否是最小的节点，如果是最小节点，则获得锁。&lt;/p&gt;
+&lt;p&gt;如果不是最小节点，则阻塞等待锁，并且获得该节点的上一顺序节点，为其注册监听事件，等待节点对应的操作获得锁。当调用完共享资源后，删除该节点，关闭 &lt;code&gt;zk&lt;/code&gt;，进而可以触发监听事件，释放该锁。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;// 加锁
+InterProcessMutex lock = new InterProcessMutex(client, lockPath);
+if ( lock.acquire(maxWait, waitUnit) )
+{
+    try 
+    {
+        // do some work inside of the critical section here
+    }
+    finally
+    {
+        lock.release();
+    }
+}
+
+public void acquire() throws Exception
+    {
+            if ( !internalLock(-1, null) )
+            {
+                    throw new IOException(&amp;quot;Lost connection while trying to acquire lock: &amp;quot; + basePath);
+            }
+    }
+
+private boolean internalLock(long time, TimeUnit unit) throws Exception
+    {
+            /*
+                 Note on concurrency: a given lockData instance
+                 can be only acted on by a single thread so locking isn&#39;t necessary
+            */
+
+            Thread currentThread = Thread.currentThread();
+
+            LockData lockData = threadData.get(currentThread);
+            if ( lockData != null )
+            {
+                    // re-entering
+                    lockData.lockCount.incrementAndGet();
+                    return true;
+            }
+
+            String lockPath = internals.attemptLock(time, unit, getLockNodeBytes());
+            if ( lockPath != null )
+            {
+                    LockData newLockData = new LockData(currentThread, lockPath);
+                    threadData.put(currentThread, newLockData);
+                    return true;
+            }
+
+            return false;
+    }
+// ... 其他代码略
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;InterProcessMutex&lt;/code&gt;是 Curator 实现的可重入锁，可重入锁源码过程分析：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;加锁流程：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1）可重入锁记录在 &lt;code&gt;ConcurrentMap threadData&lt;/code&gt;这个 Map 里面。&lt;/p&gt;
+&lt;p&gt;2）如果 &lt;code&gt;threadData&lt;/code&gt;.get(&lt;code&gt;currentThread&lt;/code&gt;) 是有值的那么就证明是可重入锁，然后记录就会加 1。&lt;/p&gt;
+&lt;p&gt;3）资源目录下创建一个节点：比如这里创建一个 /0000000002 这个节点，这个节点需要设置为 EPHEMERAL_SEQUENTIAL 也就是临时节点并且有序。&lt;/p&gt;
+&lt;p&gt;4）获取当前目录下所有子节点，判断自己的节点是否是最小的节点。&lt;/p&gt;
+&lt;p&gt;5）如果是最小的节点，则获取到锁。如果不是最小的节点，则证明前面已经有人获取到锁了，那么需要获取自己节点的前一个节点。&lt;/p&gt;
+&lt;p&gt;6）节点 /0000000002 的前一个节点是 /0000000001，我们获取到这个节点之后，再上面注册 Watcher，Watcher 调用的是 &lt;code&gt;object&lt;/code&gt;.notifyAll()，用来解除阻塞。&lt;/p&gt;
+&lt;p&gt;7）&lt;code&gt;object&lt;/code&gt;.wait(timeout) 或 &lt;code&gt;object&lt;/code&gt;.wait() 进行阻塞等待&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解锁流程：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1）如果可重入锁次数减1后，加锁次数不为 0 直接返回，减1后加锁次数为0，继续。&lt;/p&gt;
+&lt;p&gt;2）删除当前节点。&lt;/p&gt;
+&lt;p&gt;3）删除 &lt;code&gt;threadDataMap&lt;/code&gt;里面的可重入锁的数据。&lt;/p&gt;
+&lt;h2 id=&#34;最后的总结&#34;&gt;最后的总结&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Redisson&lt;/code&gt;和Curator都是自己定义的分布式锁接口实现的，易于扩展。&lt;/p&gt;
+&lt;p&gt;Curator里自定义了&lt;code&gt;InterProcessLock&lt;/code&gt;接口，&lt;code&gt;Redisson&lt;/code&gt;里自定义&lt;code&gt;RLock&lt;/code&gt;接口，继承了 java.&lt;code&gt;util&lt;/code&gt;.&lt;code&gt;concurrent&lt;/code&gt;.&lt;code&gt;locks&lt;/code&gt;.&lt;code&gt;Lock&lt;/code&gt;接口。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;对于Redis实现的分布式锁：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;大部分需求下，不会遇到「极端复杂场景」，基于Redis实现分布式锁很常用，性能也高。&lt;/p&gt;
+&lt;p&gt;它获取锁的方式简单粗暴，获取不到锁直接不断尝试获取锁，比较消耗性能。&lt;/p&gt;
+&lt;p&gt;另外来说的话，redis的设计定位决定了它的数据并不是强一致性的，没有一致性算法，在某些极端情况下，可能会出现问题，锁的模型不够健壮。&lt;/p&gt;
+&lt;p&gt;即便有了&lt;code&gt;Redlock&lt;/code&gt;算法的实现，但存在争议，某些复杂场景下，也无法保证其实现完全没有问题，并且也是比较消耗性能的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;对于Zookeeper实现的分布式锁:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Zookeeper优点：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;天生设计定位是分布式协调，强一致性。锁的模型健壮、简单易用、适合做分布式锁。&lt;/p&gt;
+&lt;p&gt;如果获取不到锁，只需要添加一个监听器就可以了，不用一直轮询，性能消耗较小。&lt;/p&gt;
+&lt;p&gt;如果客户端宕机，也没关系，临时节点会自动删除，触发监听器通知下一个节点。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Zookeeper缺点：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;若有大量的客户端频繁的申请加锁、释放锁，对于ZK集群的压力会比较大。&lt;/p&gt;
+&lt;p&gt;另外，本文对Spring-integration集成Redis实现的分布式锁做了详细剖析，可以直接使用，更推荐直接使用 &lt;code&gt;Redisson&lt;/code&gt;，实现了非常多的分布式锁各种机制，有单独开放&lt;code&gt;Springboot&lt;/code&gt;集成的jar包，使用上也是非常方便的。&lt;/p&gt;
+&lt;h4 id=&#34;分布式锁高并发优化&#34;&gt;分布式锁高并发优化&lt;/h4&gt;
+&lt;p&gt;当大量线程对同一个字段进行修改时，会基于分布式锁串行化处理，导致没法高并发&lt;/p&gt;
+&lt;p&gt;可以使用&lt;strong&gt;分段加锁&lt;/strong&gt;的思路来优化&lt;/p&gt;
+&lt;p&gt;把数据分成很多个段，每个段是一个单独的锁，所以多个线程多来并发修改数据的时候，可以并发的修改不同段的数据。不至于说同一时间只能有一个线程独占修改。如果失败则释放锁，自动迁移到下一个分段再次尝试获锁后再处理。&lt;/p&gt;
+">分布式锁</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/fenbushixitongyuanli/"" data-c="
+          &lt;h1 id=&#34;1-概念&#34;&gt;1 概念&lt;/h1&gt;
+&lt;h2 id=&#34;11-模型&#34;&gt;1.1 模型&lt;/h2&gt;
+&lt;h3 id=&#34;节点&#34;&gt;节点&lt;/h3&gt;
+&lt;p&gt;在具体的工程项目中，一个节点往往是一个操作系统上的进程。在本文的模型中，认为节点是一个完整的、不可分的整体，如果某个程序进程实际上由若干相对独立部分构成，则在模型中可以将一个进程划分为多个节点。&lt;/p&gt;
+&lt;h3 id=&#34;异常&#34;&gt;异常&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;机器宕机&lt;/strong&gt;：机器宕机是最常见的异常之一。在大型集群中每日宕机发生的概率为千分之一左右，在实践中，一台宕机的机器恢复的时间通常认为是24 小时，一般需要人工介入重启机器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;网络异常&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;消息丢失，两片节点之间彼此完全无法通信，即出现了“网络分化”；&lt;/p&gt;
+&lt;p&gt;消息乱序，有一定的概率不是按照发送时的顺序依次到达目的节点，考虑使用序列号等机制处理网络消息的乱序问题，使得无效的、过期的网络消息不影响系统的正确性；&lt;/p&gt;
+&lt;p&gt;数据错误；不可靠的TCP，TCP 协议为应用层提供了可靠的、面向连接的传输服务，但在分布式系统的协议设计中不能认为所有网络通信都基于TCP 协议则通信就是可靠的。TCP协议只能保证同一个TCP 链接内的网络消息不乱序，TCP 链接之间的网络消息顺序则无法保证。&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;分布式三态&lt;/strong&gt;：如果某个节点向另一个节点发起RPC(Remote procedure call)调用，即某个节点A 向另一个节点B 发送一个消息，节点B 根据收到的消息内容完成某些操作，并将操作的结果通过另一个消息返回给节点A，那么这个RPC 执行的结果有三种状态：“成功”、“失败”、“超时（未知）”，称之为分布式系统的三态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;存储数据丢失&lt;/strong&gt;:对于有状态节点来说，数据丢失意味着状态丢失，通常只能从其他节点读取、恢复存储的状态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;异常处理原则&lt;/strong&gt;&lt;/em&gt;：被大量工程实践所检验过的异常处理黄金原则是：任何在设计阶段考虑到的异常情况一定会在系统实际运行中发生，但在系统实际运行遇到的异常却很有可能在设计时未能考虑，所以，除非需求指标允许，在系统设计时不能放过任何异常情况。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;12-副本&#34;&gt;1.2 副本&lt;/h2&gt;
+&lt;p&gt;副本（replica/copy）指在分布式系统中为数据或服务提供的冗余。&lt;/p&gt;
+&lt;p&gt;对于数据副本指在不同的节点上持久化同一份数据，当出现某一个节点的存储的数据丢失时，可以从副本上读到数据。数据副本是分布式系统解决数据丢失异常的唯一手段。&lt;/p&gt;
+&lt;p&gt;另一类副本是服务副本，指数个节点提供某种相同的服务，这种服务一般并不依赖于节点的本地存储，其所需数据一般来自其他节点。&lt;/p&gt;
+&lt;p&gt;副本协议是贯穿整个分布式系统的理论核心。&lt;/p&gt;
+&lt;h3 id=&#34;副本一致性&#34;&gt;副本一致性&lt;/h3&gt;
+&lt;p&gt;分布式系统通过副本控制协议，使得从系统外部读取系统内部各个副本的数据在一定的约束条件下相同，称之为副本一致性(consistency)。副本一致性是针对分布式系统而言的，不是针对某一个副本而言。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;强一致性(strong consistency)&lt;/strong&gt;：任何时刻任何用户或节点都可以读到最近一次成功更新的副本数据。强一致性是程度最高的一致性要求，也是实践中最难以实现的一致性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;单调一致性(monotonic consistency)&lt;/strong&gt;：任何时刻，任何用户一旦读到某个数据在某次更新后的值，这个用户不会再读到比这个值更旧的值。&lt;/p&gt;
+&lt;p&gt;单调一致性是弱于强一致性却非常实用的一种一致性级别。因为通常来说，用户只关心从己方视角观察到的一致性，而不会关注其他用户的一致性情况。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;会话一致性(session consistency)&lt;/strong&gt;：任何用户在某一次会话内一旦读到某个数据在某次更新后的值，这个用户在这次会话过程中不会再读到比这个值更旧的值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;会话一致性通过引入会话的概念，在单调一致性的基础上进一步放松约束，会话一致性只保证单个用户单次会话内数据的单调修改，对于不同用户间的一致性和同一用户不同会话间的一致性没有保障。&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;&lt;strong&gt;最终一致性(eventual consistency)&lt;/strong&gt;：最终一致性要求一旦更新成功，各个副本上的数据最终将达 到完全一致的状态，但达到完全一致状态所需要的时间不能保障。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;对于最终一致性系统而言，一个用户只要始终读取某一个副本的数据，则可以实现类似单调一致性的效果，但一旦用户更换读取的副本，则无法保障任何一致性。&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;&lt;strong&gt;弱一致性(week consistency)&lt;/strong&gt;：一旦某个更新成功，用户无法在一个确定时间内读到这次更新的值，且即使在某个副本上读到了新的值，也不能保证在其他副本上可以读到新的值。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;弱一致性系统一般很难在实际中使用，使用弱一致性系统需要应用方做更多的工作从而使得系统可用。&lt;/p&gt;
+&lt;h2 id=&#34;13-衡量分布式系统的指标&#34;&gt;1.3 衡量分布式系统的指标&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;性能&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;系统的吞吐能力&lt;/strong&gt;，指系统在某一时间可以处理的&lt;strong&gt;数据总量&lt;/strong&gt;，通常可以用系统每秒处理的总的数据量来衡量；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;系统的响应延迟&lt;/strong&gt;，指系统完成某一功能需要使用的时间；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;系统的并发能力&lt;/strong&gt;，指系统可以同时完成某一功能的能力，通常也用QPS(query per second)来衡量。&lt;/p&gt;
+&lt;p&gt;上述三个性能指标往往会相互制约，追求高吞吐的系统，往往很难做到低延迟；系统平均响应时间较长时，也很难提高QPS。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;可用性&lt;/strong&gt;：系统的可用性(availability)指系统在面对各种异常时可以正确提供服务的能力。&lt;/p&gt;
+&lt;p&gt;系统的可用性可以用&lt;strong&gt;系统停服务的时间与正常服务的时间的比例&lt;/strong&gt;来衡量，也可以用某功能的&lt;strong&gt;失败次数与成功次数&lt;/strong&gt;的比例来衡量。可用性是分布式的重要指标，衡量了系统的鲁棒性，是系统容错能力的体现。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;可扩展性&lt;/strong&gt;：系统的可扩展性(scalability)指分布式系统通过扩展集群机器规模提高系统性能（吞吐、延迟、并发）、存储容量、计算能力的特性。好的分布式系统总在追求“线性扩展性”，也就是使得系统的某一指标可以随着集群中的机器数量线性增长。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;一致性&lt;/strong&gt;：分布式系统为了提高可用性，总是不可避免的使用副本的机制，从而引发副本一致性的问题。越是强的一致的性模型，对于用户使用来说使用起来越简单。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;2-分布式系统原理&#34;&gt;2 分布式系统原理&lt;/h1&gt;
+&lt;h2 id=&#34;21-数据分布方式&#34;&gt;2.1 数据分布方式&lt;/h2&gt;
+&lt;p&gt;所谓分布式系统顾名思义就是利用多台计算机协同解决单台计算机所不能解决的计算、存储等问题。单机系统与分布式系统的最大的区别在于问题的规模，即计算、存储的数据量的区别。&lt;/p&gt;
+&lt;p&gt;将一个单机问题使用分布式解决，首先要解决的就是如何将问题拆解为可以使用多机分布式解决，使得分布式系统中的每台机器负责原问题的一个子集。由于无论是计算还是存储，其问题输入对象都是数据，所以如何拆解分布式系统的输入数据成为分布式系统的基本问题。&lt;/p&gt;
+&lt;h3 id=&#34;哈希方式&#34;&gt;哈希方式&lt;/h3&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;哈希分布数据的缺点同样明显，突出表现为&lt;strong&gt;可扩展性不高&lt;/strong&gt;，一旦集群规模需要扩展，则几乎所有的数据需要被迁移并重新分布。工程中，扩展哈希分布数据的系统时，往往使得集群规模成倍扩展，按照数据重新计算哈希，这样原本一台机器上的数据只需迁移一半到另一台对应的机器上即可完成扩展。&lt;/p&gt;
+&lt;p&gt;针对哈希方式扩展性差的问题，一种思路是不再简单的将哈希值与机器做除法取模映射，而是将对应关系作为元数据由专门的元数据服务器管理.同时，哈希值取模个数往往大于机器个数，这样同一台机器上需要负责多个哈希取模的余数。但需要以较复杂的机制维护大量的元数据。&lt;/p&gt;
+&lt;p&gt;哈希分布数据的另一个缺点是，一旦某数据特征值的数据严重不均，容易出现“数据倾斜”（data skew）问题&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640%20(1).webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;按数据范围分布&#34;&gt;按数据范围分布&lt;/h3&gt;
+&lt;p&gt;按数据范围分布是另一个常见的数据分布式，将数据按特征值的值域范围划分为不同的区间，使得集群中每台（组）服务器处理不同区间的数据。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640%20(2).webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;工程中，为了数据迁移等负载均衡操作的方便，往往利用动态划分区间的技术，使得每个区间中服务的数据量尽量的一样多。当某个区间的数据量较大时，通过将区间“分裂”的方式拆分为两个区间，使得每个数据区间中的数据量都尽量维持在一个较为固定的阈值之下。&lt;/p&gt;
+&lt;p&gt;一般的，往往需要使用专门的服务器在内存中维护数据分布信息，称这种数据的分布信息为一种元信息。甚至对于大规模的集群，由于元信息的规模非常庞大，单台计算机无法独立维护，需要使用多台机器作为元信息服务器。&lt;/p&gt;
+&lt;h3 id=&#34;按数据量分布&#34;&gt;按数据量分布&lt;/h3&gt;
+&lt;p&gt;数据量分布数据与具体的数据特征无关，而是将数据视为一个顺序增长的文件，并将这个文件按照某一较为固定的大小划分为若干数据块（chunk），不同的数据块分布到不同的服务器上&lt;/p&gt;
+&lt;p&gt;与按数据范围分布数据的方式类似的是，按数据量分布数据也需要记录数据块的具体分布情况，并将该分布信息作为元数据使用元数据服务器管理。&lt;/p&gt;
+&lt;p&gt;由于与具体的数据内容无关，按数据量分布数据的方式一般没有数据倾斜的问题，数据总是被均匀切分并分布到集群中。&lt;/p&gt;
+&lt;p&gt;当集群需要重新负载均衡时，只需通过迁移数据块即可完成。集群扩容也没有太大的限制，只需将部分数据库迁移到新加入的机器上即可以完成扩容。&lt;/p&gt;
+&lt;p&gt;按数据量划分数据的缺点是需要管理较为复杂的元信息，与按范围分布数据的方式类似，当集群规模较大时，元信息的数据量也变得很大，高效的管理元信息成为新的课题。&lt;/p&gt;
+&lt;h3 id=&#34;一致性哈希&#34;&gt;一致性哈希&lt;/h3&gt;
+&lt;p&gt;一致性哈希（consistent hashing）是另一个种在工程中使用较为广泛的数据分布方式。一致性哈希最初在P2P 网络中作为分布式哈希表（DHT）的常用数据分布算法。&lt;/p&gt;
+&lt;p&gt;一致性哈希的基本方式是使用一个哈希函数计算数据或数据特征的哈希值，令该哈希函数的输出值域为一个封闭的环，即哈希函数输出的最大值是最小值的前序。将节点随机分布到这个环上，每个节点负责处理从自己开始顺时针至下一个节点的全部哈希值域上的数据。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640%20(3).webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;使用一致性哈希的方式需要将节点在一致性哈希环上的位置作为元信息加以管理，这点比直接使用哈希分布数据的方式要复杂。然而，节点的位置信息只于集群中的机器规模相关，其元信息的量通常比按数据范围分布数据和按数据量分布数据的元信息量要小很多。&lt;/p&gt;
+&lt;p&gt;为此一种常见的改进算法是引入虚节点（virtual node）的概念，系统初始时就创建许多虚节点，虚节点的个数一般远大于未来集群中机器的个数，将虚节点均匀分布到一致性哈希值域环上，其功能与基本一致性哈希算法中的节点相同。为每个节点分配若干虚节点。&lt;/p&gt;
+&lt;p&gt;操作数据时，首先通过数据的哈希值在环上找到对应的虚节点，进而查找元数据找到对应的真实节点。使用虚节点改进有多个优点。&lt;/p&gt;
+&lt;p&gt;首先，一旦某个节点不可用，该节点将使得多个虚节点不可用，从而使得多个相邻的真实节点负载失效节点的压里。同理，一旦加入一个新节点，可以分配多个虚节点，从而使得新节点可以 负载多个原有节点的压力，从全局看，较容易实现扩容时的负载均衡。&lt;/p&gt;
+&lt;h3 id=&#34;副本与数据分布&#34;&gt;副本与数据分布&lt;/h3&gt;
+&lt;p&gt;分布式系统容错、提高可用性的基本手段就是使用副本。对于数据副本的分布方式主要影响系统的可扩展性。一种基本的数据副本策略是以机器为单位，若干机器互为副本，副本机器之间的数据完全相同。这种策略适用于上述各种数据分布方式。其优点是非常简单，其缺点是恢复数据的效率不高、可扩展性也不高。&lt;/p&gt;
+&lt;p&gt;更合适的做法不是以机器作为副本单位，而是将数据拆为较合理的数据段，以数据段为单位作为副本。&lt;/p&gt;
+&lt;p&gt;实践中，常常使得每个数据段的大小尽量相等且控制在一定的大小以内。数据段有很多不同的称谓，segment，fragment，chunk，partition 等等。数据段的选择与数据分布方式直接相关。&lt;/p&gt;
+&lt;p&gt;对于哈希分数据的方式，每个哈希分桶后的余数可以作为一个数据段，为了控制数据段的大小，常常使得分桶个数大于集群规模。一旦将数据分为数据段，则可以以数据段为单位管理副本，从而副本与机器不再硬相关，每台机器都可以负责一定数据段的副本。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/6401.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;一旦副本分布与机器无关，数据丢失后的恢复效率将非常高。这是因为，一旦某台机器的数据丢失，其上数据段的副本将分布在整个集群的所有机器中，而不是仅在几个副本机器中，从而可以从整个集群同时拷贝恢复数据，而集群中每台数据源机器都可以以非常低的资源做拷贝。作为恢复数据源的机器即使都限速1MB/s，若有100 台机器参与恢复，恢复速度也能达到100MB/s。&lt;/p&gt;
+&lt;p&gt;再者，副本分布与机器无关也利于集群容错。如果出现机器宕机，由于宕机机器上的副本分散于整个集群，其压力也自然分散到整个集群。&lt;/p&gt;
+&lt;p&gt;最后，副本分布与机器无关也利于集群扩展。理论上，设集群规模 为N 台机器，当加入一台新的机器时，只需从各台机器上迁移1/N – 1/N+1 比例的数据段到新机器即实现了新的负载均衡。由于是从集群中各机器迁移数据，与数据恢复同理，效率也较高。&lt;/p&gt;
+&lt;p&gt;工程中，完全按照数据段建立副本会引起需要管理的元数据的开销增大，副本维护的难度也相应增大。一种折中的做法是将某些数据段组成一个数据段分组，按数据段分组为粒度进行副本管理。这样做可以将副本粒度控制在一个较为合适的范围内。&lt;/p&gt;
+&lt;h3 id=&#34;本地化计算&#34;&gt;本地化计算&lt;/h3&gt;
+&lt;p&gt;在分布式系统中，数据的分布方式也深深影响着计算的分布方式。在分布式系统中计算节点和保存计算数据的存储节点可以在同一台物理机器上，也可以位于不同的物理机器。&lt;/p&gt;
+&lt;p&gt;如果计算节点和存储节点位于不同的物理机器则计算的数据需要通过网络传输，此种方式的开销很大，甚至网络带宽会成为系统的总体瓶颈。&lt;/p&gt;
+&lt;p&gt;另一种思路是，将计算尽量调度到与存储节点在同一台物理机器上的计算节点上进行，这称之为本地化计算。本地化计算是计算调度的一种重要优化，其体现了一种重要的分布式调度思想：“移动数据不如移动计算”。&lt;/p&gt;
+&lt;h3 id=&#34;数据分布方式的选择&#34;&gt;数据分布方式的选择&lt;/h3&gt;
+&lt;p&gt;在实际工程实践中，可以根据需求及实施复杂度合理选择数据分布方式。另外，数据分布方式是可以灵活组合使用的，往往可以兼备各种方式的优点，收到较好的综合效果。&lt;/p&gt;
+&lt;p&gt;例：数据倾斜问题，在按哈希分数据的基础上引入按数据量分布数据的方式，解决该数据倾斜问题。按用户id 的哈希值分数据，当某个用户id 的数据量特别大时，该用户的数据始终落在某一台机器上。此时，引入按数据量分布数据的方式，统计用户的数据量，并按某一阈值将用户的数据切为多个均匀的数据段，将这些数据段分布到集群中去。由于大部分用户的数据量不会超过阈值，所以元数据中仅仅保存超过阈值的用户的数据段分布信息，从而可以控制元数据的规模。这种哈希分布数据方式与按数据量分布数据方式组合使用的方案，在某真实系统中使用，取得了较好的效果。&lt;/p&gt;
+&lt;h2 id=&#34;22-基本副本协议&#34;&gt;2.2 基本副本协议&lt;/h2&gt;
+&lt;p&gt;副本控制协议指按特定的协议流程控制副本数据的读写行为，使得副本满足一定的可用性和一致性要求的分布式协议。副本控制协议要具有一定的对抗异常状态的容错能力，从而使得系统具有一定的可用性，同时副本控制协议要能提供一定一致性级别。由CAP 原理可知，要设计一种满足强一致性，且在出现任何网络异常时都可用的副本协议是不可能的。为此，实际中的副本控制协议总是在可用性、一致性与性能等各要素之间按照具体需求折中。&lt;/p&gt;
+&lt;p&gt;副本控制协议可以分为两大类：“中心化(centralized)副本控制协议”和“去中心化(decentralized)副本控制协议”。&lt;/p&gt;
+&lt;h3 id=&#34;中心化副本控制协议&#34;&gt;中心化副本控制协议&lt;/h3&gt;
+&lt;p&gt;中心化副本控制协议的基本思路是由一个中心节点协调副本数据的更新、维护副本之间的一致性。&lt;/p&gt;
+&lt;p&gt;图给出了中心化副本协议的通用架构。中心化副本控制协议的优点是协议相对较为简单，所有的副本相关的控制交由中心节点完成。并发控制将由中心节点完成，从而使得一个分布式并发控制问题，简化为一个单机并发控制问题。&lt;/p&gt;
+&lt;p&gt;所谓并发控制，即多个节点同时需要修改副本数据时，需要解决“写写”、“读写”等并发冲突。单机系统上常用加锁等方式进行并发控制。对于分布式并发控制，加锁也是一个常用的方法，但如果没有中心节点统一进行锁管理，就需要完全分布式化的锁系统，会使得协议非常复杂。&lt;/p&gt;
+&lt;p&gt;中心化副本控制协议的缺点是系统的可用性依赖于中心化节点，当中心节点异常或与中心节点通信中断时，系统将失去某些服务（通常至少失去更新服务），所以中心化副本控制协议的缺点正是存在一定的停服务时间。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/641110.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;primary-secondary-协议&#34;&gt;primary-secondary 协议&lt;/h3&gt;
+&lt;p&gt;在primary-secondary 类型的协议中，副本被分为两大类，其中有且仅有一个副本作为primary 副本，除primary 以外的副本都作为secondary 副本。维护primary 副本的节点作为中心节点，中心节点负责维护数据的更新、并发控制、协调副本的一致性。&lt;/p&gt;
+&lt;p&gt;Primary-secondary 类型的协议一般要解决四大类问题：数据更新流程、数据读取方式、Primary 副本的确定和切换、数据同步（reconcile）。&lt;/p&gt;
+&lt;h5 id=&#34;数据更新基本流程&#34;&gt;数据更新基本流程&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;数据更新都由primary 节点协调完成。&lt;/li&gt;
+&lt;li&gt;外部节点将更新操作发给primary 节点&lt;/li&gt;
+&lt;li&gt;primary 节点进行并发控制即确定并发更新操作的先后顺序&lt;/li&gt;
+&lt;li&gt;primary 节点将更新操作发送给secondary 节点&lt;/li&gt;
+&lt;li&gt;primary 根据secondary 节点的完成情况决定更新是否成功并将结果返回外部节点&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/641320.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;在工程实践中，如果由primary 直接同时发送给其他N 个副本发送数据，则每个 secondary 的更新吞吐受限于primary 总的出口网络带宽，最大为primary 网络出口带宽的1/N。&lt;/p&gt;
+&lt;p&gt;为了解决这个问题，有些系统（例如，GFS），使用接力的方式同步数据，即primary 将更新发送给第一 个secondary 副本，第一个secondary 副本发送给第二secondary 副本，依次类推。&lt;/p&gt;
+&lt;h4 id=&#34;数据读取方式&#34;&gt;数据读取方式&lt;/h4&gt;
+&lt;p&gt;数据读取方式也与一致性高度相关。如果只需要最终一致性，则读取任何副本都可以满足需求。&lt;/p&gt;
+&lt;p&gt;如果需要会话一致性，则可以为副本设置版本号，每次更新后递增版本号，用户读取副本时验证版本号，从而保证用户读到的数据在会话范围内单调递增。使用primary-secondary 比较困难的是实现强一致性。&lt;/p&gt;
+&lt;p&gt;由于数据的更新流程都是由primary 控制的，primary 副本上的数据一定是最新的，所以 如果始终只读primary 副本的数据，可以实现强一致性。如果只读primary 副本，则secondary 副本将不提供读服务。&lt;/p&gt;
+&lt;p&gt;实践中，如果副本不与机器绑定，而是按照数据段为单位维护副本，仅有primary 副本提供读服务在很多场景下并不会造出机器资源浪费。&lt;/p&gt;
+&lt;p&gt;将副本分散到集群中个，假设primary 也是随机的确定的，那么每台机器上都有一些数据的primary 副本，也有另一些数据段的secondary 副本。从而某台服务器实际都提供读写服务。&lt;/p&gt;
+&lt;p&gt;由primary 控制节点secondary 节点的可用性。当primary 更新某个secondary 副本不成功时，primary 将该secondary 副本标记为不可用，从而用户不再读取该不可用的副本。不可用的 secondary 副本可以继续尝试与primary 同步数据，当与primary 完成数据同步后，primary 可以副本标记为可用。&lt;/p&gt;
+&lt;p&gt;这种方式使得所有的可用的副本，无论是primary 还是secondary 都是可读的，且在一个确定的时间内，某secondary 副本要么更新到与primary 一致的最新状态，要么被标记为不可用，从而符合较高的一致性要求。这种方式依赖于一个中心元数据管理系统，用于记录哪些副本可用，哪些副本不可用。某种意义上，该方式通过降低系统的可用性来提高系统的一致性。&lt;/p&gt;
+&lt;h4 id=&#34;primary-副本的确定与切换&#34;&gt;primary 副本的确定与切换&lt;/h4&gt;
+&lt;p&gt;在primary-secondary 类型的协议中，另一个核心的问题是如何确定primary 副本，尤其是在原primary 副本所在机器出现宕机等异常时，需要有某种机制切换primary 副本，使得某个secondary 副本成为新的primary 副本。&lt;/p&gt;
+&lt;p&gt;通常的，在primary-secondary 类型的分布式系统中，哪个副本是primary 这一信息都属于元信息，由专门的元数据服务器维护。执行更新操作时，首先查询元数据服务器获取副本的primary 信息，从而进一步执行数据更新流程。&lt;/p&gt;
+&lt;p&gt;由于分布式系统中可靠的发现节点异常是需要一定的探测时间的，这样的探测时间通常是10 秒级别，这也意味着一旦primary 异常，最多需要10 秒级别的发现时间，系统才能开始primary 的切换，在这10 秒时间内，由于没有primary，系统不能提供更 新服务，如果系统只能读primary 副本，则这段时间内甚至不能提供读服务。从这里可以看到，primary-backup 类副本协议的最大缺点就是由于primary 切换带来的一定的停服务时间。&lt;/p&gt;
+&lt;h4 id=&#34;数据同步&#34;&gt;数据同步&lt;/h4&gt;
+&lt;p&gt;不一致的secondary 副本需要与primary 进行同步（reconcile）。&lt;/p&gt;
+&lt;p&gt;通常不一致的形式有三种：&lt;/p&gt;
+&lt;p&gt;一、由于网络分化等异常，secondary 上的数据落后于primary 上的数据。&lt;/p&gt;
+&lt;p&gt;二、在某些协议下，secondary 上的数据有可能是脏数据，需要被丢弃。所谓脏数据是由于primary 副本没有进行某一更新操作，而secondary 副本上反而进行的多余的修改操作，从而造成secondary 副本数据错误。&lt;/p&gt;
+&lt;p&gt;三、secondary 是一个新增加的副本，完全没有数据，需要从其他副本上拷贝数据。&lt;/p&gt;
+&lt;p&gt;对于第一种secondary 数据落后的情况，常见的同步方式是回放primary 上的操作日志（通常是redo 日志），从而追上primary 的更新进度。&lt;/p&gt;
+&lt;p&gt;对于脏数据的情况，较好的做法是设计的分布式协议不产生脏数据。如果协议一定有产生脏数据的可能，则也应该使得产生脏数据的概率降到非常低得情况，从而一旦发生脏数据的情况可以简单的直接丢弃有脏数据的副本，这样相当于副本没有数据。&lt;/p&gt;
+&lt;p&gt;另外，也可以设计一些基于undo 日志的方式从而可以删除脏数据。如果secondary 副本完全没有数据，则常见的做法是直接拷贝primary 副本的数据，这种方法往往比回放日志追更新进度的方法快很多。但拷贝数据时primary 副本需要能够继续提供更新服务，这就要求primary 副本支持快照(snapshot)功能。即对某一刻的副本数据形成快照，然后拷贝快照，拷贝完成后使用回放日志的方式追快照形成后的更新操作。&lt;/p&gt;
+&lt;h3 id=&#34;去中心化副本控制协议&#34;&gt;去中心化副本控制协议&lt;/h3&gt;
+&lt;p&gt;去中心化副本控制协议没有中心节点，协议中所有的节点都是完全对等的，节点之间通过平等协商达到一致。从而去中心化协议没有因为中心化节点异常而带来的停服务等问题。&lt;/p&gt;
+&lt;p&gt;去中心化协议的最大的缺点是协议过程通常比较复杂。尤其当去中心化协议需要实现强一致性时，协议流程变得复杂且不容易理解。由于流程的复杂，去中心化协议的效率或者性能一般也较中心化协议低。一个不恰当的比方就是，中心化副本控制协议类似专制制度，系统效率高但高度依赖于中心节点，一旦中心节点异常，系统受到的影响较大；去中心化副本控制协议类似民主制度，节点集体协商，效率低下，但个别节点的异常不会对系统总体造成太大影响。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640323.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;23-lease-机制&#34;&gt;2.3 Lease 机制&lt;/h2&gt;
+&lt;p&gt;Lease 机制是最重要的分布式协议，广泛应用于各种实际的分布式系统中。&lt;/p&gt;
+&lt;h3 id=&#34;基于lease-的分布式cache-系统&#34;&gt;基于lease 的分布式cache 系统&lt;/h3&gt;
+&lt;p&gt;基本的问题背景如下：在一个分布式系统中，有一个中心服务器节点，中心服务器存储、维护着一些数据，这些数据是系统的元数据。系统中其他的节点通过访问中心服务器节点读取、修改其上的元数据。&lt;/p&gt;
+&lt;p&gt;由于系统中各种操作都依赖于元数据，如果每次读取元数据的操作都访问中心服务器 节点，那么中心服务器节点的性能成为系统的瓶颈。为此，设计一种元数据cache，在各个节点上 cache 元数据信息，从而减少对中心服务器节点的访问，提高性能。&lt;/p&gt;
+&lt;p&gt;另一方面，系统的正确运行严格依赖于元数据的正确，这就要求各个节点上cache 的数据始终与中心服务器上的数据一致，cache 中的数据不能是旧的脏数据。最后，设计的cache 系统要能最大可能的处理节点宕机、网络中断等异常，最大程度的提高系统的可用性。&lt;/p&gt;
+&lt;p&gt;为此，利用lease 机制设计一套cache 系统，其基本原理为如下。&lt;/p&gt;
+&lt;p&gt;中心服务器在向各节点发送数据时同时向节点颁发一个lease。每个lease 具有一个有效期，和信用卡上的有效期类似，lease 上的 有效期通常是一个明确的时间点，例如12:00:10，一旦真实时间超过这个时间点，则lease 过期失效。这样lease 的有效期与节点收到lease 的时间无关，节点可能收到lease 时该lease 就已经过期失效。这里首先假设中心服务器与各节点的时钟是同步的，在下节中讨论时钟不同步对lease 的影响。中心服务器发出的lease 的含义为：在lease 的有效期内，&lt;strong&gt;中心服务器保证不会修改对应数据的值&lt;/strong&gt;。因此，节点收到数据和lease 后，将数据加入本地Cache，一旦对应的lease 超时，节点将对应的本地cache 数据删除。中心服务器在修改数据时，首先阻塞所有新的读请求，并等待之前为该数据发出的所有lease 超时过期，然后修改数据的值。&lt;/p&gt;
+&lt;p&gt;基于lease 的cache，客户端节点读取元数据&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-flow&#34;&gt;st=&amp;gt;start: 客户端节点
+op3=&amp;gt;operation: lease缓存
+cond=&amp;gt;condition: lease 处于有效期内
+cond2=&amp;gt;condition: 收到元数据
+sub1=&amp;gt;subroutine: 向中心服务器节点请求读取元数据信息
+op1=&amp;gt;inputoutput: 中心服务器
+op2=&amp;gt;subroutine: 返回元数据
+e=&amp;gt;end: 返回元数据
+e1=&amp;gt;end: 失败退出
+st-&amp;gt;op3-&amp;gt;cond
+cond(yes)-&amp;gt;e
+cond(no)-&amp;gt;sub1(right)-&amp;gt;op1-&amp;gt;cond2
+cond2(no)-&amp;gt;e1
+cond2(yes)-&amp;gt;op3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;判断元数据是否已经处于本地cache 且lease 处于有效期内&lt;/p&gt;
+&lt;p&gt;1.1 是：直接返回cache 中的元数据&lt;/p&gt;
+&lt;p&gt;1.2 否：向中心服务器节点请求读取元数据信息&lt;/p&gt;
+&lt;p&gt;1.2.1 服务器收到读取请求后，返回元数据及一个对应的lease&lt;/p&gt;
+&lt;p&gt;1.2.2 客户端是否成功收到服务器返回的数据&lt;/p&gt;
+&lt;p&gt;1.2.2.1 失败或超时：退出流程，读取失败，可重试&lt;/p&gt;
+&lt;p&gt;1.2.2.2 成功：将元数据与该元数据的lease 记录到内存中，返回元数据&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;基于lease 的cache，客户端节点修改元数据流程&lt;/p&gt;
+&lt;p&gt;2.1 节点向服务器发起修改元数据请求。&lt;/p&gt;
+&lt;p&gt;2.2 服务器收到修改请求后，阻塞所有新的读数据请求，即接收读请求，但不返回数据。&lt;/p&gt;
+&lt;p&gt;2.3 服务器等待所有与该元数据相关的lease 超时。&lt;/p&gt;
+&lt;p&gt;2.4 服务器修改元数据并向客户端节点返回修改成功。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;上述机制可以保证各个节点上的cache 与中心服务器上的中心始终一致。这是因为中心服务器节点在发送数据的同时授予了节点对应的lease，在lease 有效期内，服务器不会修改数据，从而客户端节点可以放心的在lease 有效期内cache 数据。上述lease 机制可以容错的关键是：服务器一旦 发出数据及lease，无论客户端是否收到，也无论后续客户端是否宕机，也无论后续网络是否正常，服务器只要等待lease 超时，就可以保证对应的客户端节点不会再继续cache 数据，从而可以放心的修改数据而不会破坏cache 的一致性。&lt;/p&gt;
+&lt;p&gt;上述基础流程有一些性能和可用性上的问题，但可以很容易就优化改性。&lt;/p&gt;
+&lt;p&gt;优化点一：服务器在修改元数据时首先要阻塞所有新的读请求，造成没有读服务。这是为了防止发出新的lease 从而引起不断有新客户端节点持有lease 并缓存着数据，形成“活锁”。优化的方法很简单，服务器在进入修改数据流程后，一旦收到读请求则只返回数据但不颁发lease。从而造成在修改流程执行的过程中，客户端可以读到元数据，只是不能缓存元数据。进一步的优化是，当进入修改流程，服务器颁发的lease 有效期限选择为已发出的lease 的最大有效期限。这样做，客户端可以继续在服务器进入修改流程后继续缓存元数据，但服务器的等待所有lease 过期的时间也不会因为颁发新的lease 而不断延长。&lt;/p&gt;
+&lt;p&gt;最后，cache 机制与多副本机制的区别。Cache 机制与多副本机制的相似之处都 是将一份数据保存在多个节点上。但Cache 机制却要简单许多，对于cache 的数据，可以随时删除丢弃，并命中cache 的后果仅仅是需要访问数据源读取数据；然而副本机制却不一样，副本是不能随意丢弃的，每失去一个副本，服务质量都在下降，一旦副本数下降到一定程度，则往往服务将不再可用。&lt;/p&gt;
+&lt;h4 id=&#34;lease-机制的分析&#34;&gt;lease 机制的分析&lt;/h4&gt;
+&lt;p&gt;lease 的定义：Lease 是由颁发者授予的在某一有效期内的承诺。颁发者一旦发出lease，则无论接受方是否收到，也无论后续接收方处于何种状态，只要lease 不过期，颁发者一定严守承诺；另一方面，接收方在lease 的有效期内可以使用颁发者的承诺，但一旦lease 过期，接收方一定不能继续使用颁发者的承诺。&lt;/p&gt;
+&lt;p&gt;Lease 机制具有很高的容错能力。首先，通过引入有效期，Lease 机制能否非常好的容错网络异常。Lease 颁发过程只依赖于网络可以单向通信，即使接收方无法向颁发者发送消息，也不影响lease 的颁发。&lt;/p&gt;
+&lt;p&gt;由于lease 的有效期是一个确定的时间点，lease 的语义与发送lease 的具体时间无关，所以 同一个lease 可以被颁发者不断重复向接受方发送。即使颁发者偶尔发送lease 失败，颁发者也可以 简单的通过重发的办法解决。一旦lease 被接收方成功接受，后续lease 机制不再依赖于网络通信，即使网络完全中断lease 机制也不受影响。&lt;/p&gt;
+&lt;p&gt;再者，Lease 机制能较好的容错节点宕机。如果颁发者宕机，则宕机的颁发者通常无法改变之前的承诺，不会影响lease 的正确性。在颁发者机恢复后，如果颁发者恢复出了之前的lease 信息，颁发者可以继续遵守lease 的承诺。如果颁发者无法恢复lease 信息，则只需等待一个最大的lease 超时时间就可以使得所有的lease 都失效，从而不破坏lease机制。&lt;/p&gt;
+&lt;p&gt;例如上节中的cache 系统的例子中，一旦服务器宕机，肯定不会修改元数据，重新恢复后，只需等待一个最大的lease 超时时间，所有节点上的缓存信息都将被清空。&lt;/p&gt;
+&lt;p&gt;对于接受方宕机的情况，颁发者 不需要做更多的容错处理，只需等待lease 过期失效，就可以收回承诺，实践中也就是收回之前赋予的权限、身份等。最后，lease 机制不依赖于存储。颁发者可以持久化颁发过的lease 信息，从而在 宕机恢复后可以使得在有效期的lease 继续有效。但这对于lease 机制只是一个优化，如之前的分析，即使颁发者没有持久化lease 信息，也可以通过等待一个最大的lease 时间的方式使得之前所有颁发 的lease 失效，从而保证机制继续有效。&lt;/p&gt;
+&lt;p&gt;Lease 机制依赖于有效期，这就要求颁发者和接收者的时钟是同步的。一方面，如果颁发者的 时钟比接收者的时钟慢，则当接收者认为lease 已经过期的时候，颁发者依旧认为lease 有效。接收者可以用在lease 到期前申请新的lease 的方式解决这个问题。另一方面，如果颁发者的时钟比接收 者的时钟快，则当颁发者认为lease 已经过期的时候，接收者依旧认为lease 有效，颁发者可能将lease 颁发给其他节点，造成承诺失效，影响系统的正确性。对于这种时钟不同步，实践中的通常做法是将颁发者的有效期设置得比接收者的略大，只需大过时钟误差就可以避免对lease 的有效性的影响。&lt;/p&gt;
+&lt;h4 id=&#34;基于lease-机制确定节点状态&#34;&gt;基于lease 机制确定节点状态&lt;/h4&gt;
+&lt;p&gt;分布式协议依赖于对节点状态认知的全局一致性，即一旦节点Q 认为某个节点 A 异常，则节点A 也必须认为自己异常，从而节点A 停止作为primary，避免“双主”问题的出现。&lt;/p&gt;
+&lt;p&gt;解决这种问题有两种思路，第一、设计的分布式协议可以容忍“双主”错误，即不依赖于对节点状 态的全局一致性认识，或者全局一致性状态是全体协商后的结果；&lt;/p&gt;
+&lt;p&gt;第二、利用lease 机制。对于第一 种思路即放弃使用中心化的设计，而改用去中心化设计，超过本节的讨论范畴。下面着重讨论利用 lease 机制确定节点状态。&lt;/p&gt;
+&lt;p&gt;由中心节点向其他节点发送lease，若某个节点持有有效的lease，则认为该节点正常可以提供服 务。用于例2.3.1 中，节点A、B、C 依然周期性的发送heart beat 报告自身状态，节点Q 收到heart beat 后发送一个lease，表示节点Q 确认了节点A、B、C 的状态，并允许节点在lease 有效期内正常工 作。节点Q 可以给primary 节点一个特殊的lease，表示节点可以作为primary 工作。一旦节点Q 希望切换新的primary，则只需等前一个primary 的lease 过期，则就可以安全的颁发新的lease 给新的 primary 节点，而不会出现“双主”问题。&lt;/p&gt;
+&lt;p&gt;在实际系统中，若用一个中心节点发送lease 也有很大的风险，一旦该中心节点宕机或网络异常，则所有的节点没有lease，从而造成系统高度不可用。为此，实际系统总是使用多个中心节点互为副本，成为一个小的集群，该小集群具有高可用性，对外提供颁发lease 的功能。chubby 和zookeeper 都是基于这样的设计。&lt;/p&gt;
+&lt;h4 id=&#34;lease-的有效期时间选择&#34;&gt;lease 的有效期时间选择&lt;/h4&gt;
+&lt;p&gt;工程中，常选择的lease 时长是10 秒级别，这是一个经过验证的经验值，实践中可以作为参考并综合选择合适的时长。&lt;/p&gt;
+&lt;h2 id=&#34;24-quorum-机制&#34;&gt;2.4 Quorum 机制&lt;/h2&gt;
+&lt;p&gt;先做这样的约定：更新操作（write）是一系列顺序的过程，通过其他机制确定更新操作的顺序（例如primary-secondary 架构中由primary 决定顺序），每个更新操作记为&lt;code&gt;wi&lt;/code&gt;， &lt;code&gt;i&lt;/code&gt;为更新操作单调递增的序号，每个&lt;code&gt;wi&lt;/code&gt;执行成功后副本数据都发生变化，称为不同的数据版本，记作vi。假设每个副本都保存了历史上所有版本的数据。&lt;/p&gt;
+&lt;h3 id=&#34;write-all-read-one&#34;&gt;write-all-read-one&lt;/h3&gt;
+&lt;p&gt;Write-all-read-one（简称WARO）是一种最简单的副本控制规则，顾名思义即在更新时写所有的副本，只有在所有的副本上更新成功，才认为更新成功，从而保证所有的副本一致，这样在读取数据时可以读任一副本上的数据。&lt;/p&gt;
+&lt;p&gt;由于更新操作需要在所有的N 个副本上都成功，更新操作才能成 功，所以一旦有一个副本异常，更新操作失败，更新服务不可用。对于更新服务，虽然有N 个副本， 但系统无法容忍任何一个副本异常。另一方面，N 个副本中只要有一个副本正常，系统就可以提供读服务。对于读服务而言，当有N 个副本时，系统可以容忍N-1 个副本异常。从上述分析可以发现WARO 读服务的可用性较高，但更新服务的可用性不高，甚至虽然使用了副本，但更新服务的可用性等效于没有副本。&lt;/p&gt;
+&lt;h3 id=&#34;quorum-定义&#34;&gt;Quorum 定义&lt;/h3&gt;
+&lt;p&gt;在Quorum 机制下，当某次更新操作&lt;code&gt;wi&lt;/code&gt;一旦在所有N 个副本中的W 个副本上都成功，则就称 该更新操作为“成功提交的更新操作”，称对应的数据为“成功提交的数据”。令R&amp;gt;N-W，由于更新 操作&lt;code&gt;wi&lt;/code&gt;仅在W 个副本上成功，所以在读取数据时，最多需要读取R 个副本则一定能读到wi 更新后 的数据vi 。如果某次更新wi 在W 个副本上成功，由于W+R&amp;gt;N，任意R 个副本组成的集合一定与 成功的W个副本组成的集合有交集，所以读取R 个副本一定能读到wi 更新后的数据vi。&lt;/p&gt;
+&lt;p&gt;如图 2-10， Quorum 机制的原理可以文森图表示。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/6402323.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;某系统有5 个副本，W=3，R=3，最初5 个副本的数据一致，都是v1，某次更新操作 w2 在前3 副本上成功，副本情况变成（v2 v2 v2 v1 v1）。&lt;/p&gt;
+&lt;p&gt;此时，任意3 个副本组成的集合中一定包括 v2。在上述定义中，令W=N，R=1，就得到WARO，即WARO 是Quorum 机制的一种特例。与分析WARO 相似，分析Quorum 机制的可用性。限制Quorum 参数为W+R=N+1。由于更新 操作需要在W 个副本上都成功，更新操作才能成功，所以一旦N-W+1 个副本异常，更新操作始终无法在W 个副本上成功，更新服务不可用。&lt;/p&gt;
+&lt;p&gt;另一方面，一旦N-R+1 个副本异常，则无法保证一定可以读到与W 个副本有交集的副本集合，则读服务的一致性下降。&lt;/p&gt;
+&lt;p&gt;再次强调：仅仅依赖quorum 机制是无法保证强一致性的。因为仅有quorum 机制时无法确定最新已成功提交的版本号，除非将最新已提交的版本号作为元数据由特定的元数据服务器或元数据集群管理，否则很难确定最新成功提交的版本号。在下一节中，将讨论在哪些情况下，可以仅仅 通过quorum 机制来确定最新成功提交的版本号。&lt;/p&gt;
+&lt;p&gt;Quorum 机制的三个系统参数N、W、R 控制了系统的可用性，也是系统对用户的服务承诺：数据最多有N 个副本，但数据更新成功W 个副本即返回用户成功。对于一致性要求较高的Quorum 系统，系统还应该承诺任何时候不读取未成功提交的数据，即读取到的数据都是曾经在W 个副本上成功的数据。&lt;/p&gt;
+&lt;h3 id=&#34;读取最新成功提交的数据&#34;&gt;读取最新成功提交的数据&lt;/h3&gt;
+&lt;p&gt;Quorum 机制只需成功更新N 个副本中的W 个，在读取R 个副本时，一定可以读到最新的成功提交的数据。但由于有不成功的更新情况存在，仅仅读取R 个副本却不一定能确定哪个版本的数据 是最新的已提交的数据。对于一个强一致性Quorum 系统，若存在个数据少于W 个，假设为X 个，则继续读取其他副本，直若成功读取到W 个 该版本的副本，则该数据为最新的成功提交的数据；如果在所有副本中该数据的个数肯定不满 足W 个，则R 中版本号第二大的为最新的成功提交的副本。&lt;/p&gt;
+&lt;p&gt;例：在读取到（v2 v1 v1）时，继续读取剩余的副本，若读到剩余两个副本 为（v2 v2）则v2 是最新的已提交的副本；若读到剩余的两个副本为（v2 v1）或（v1 v1）则v1 是最新成功提交的版本；若读取后续两个副本有任一超时或失败，则无法判断哪个版本是最新的成功提交的版本。&lt;/p&gt;
+&lt;p&gt;可以看出，在单纯使用Quorum 机制时，若要确定最新的成功提交的版本，最多需要读取R+ （W-R-1）=N 个副本，当出现任一副本异常时，读最新的成功提交的版本这一功能都有可能不可用。&lt;/p&gt;
+&lt;p&gt;实际工程中，应该尽量通过其他技术手段，回避通过Quorum 机制读取最新的成功提交的版本。例如，当quorum 机制与primary-secondary 控制协议结合使用时，可以通过读取primary 的方式读取到最新的已提交的数据。&lt;/p&gt;
+&lt;h3 id=&#34;基于quorum-机制选择primary副本&#34;&gt;基于Quorum 机制选择primary副本&lt;/h3&gt;
+&lt;p&gt;读取数据时依照一致性要求的不同可以有不同的做法：如果需要强一致性的立刻读取到最新的成功提交的数据，则可以简单的只读取primary 副本上的数据即可，也可以通过上节的方式读取；&lt;/p&gt;
+&lt;p&gt;如果需要会话一致性，则可以根据之前已经读到的数据版本号在各个副本上进行选择性读取；如果只需要弱一致性，则可以选择任意副本读取。&lt;/p&gt;
+&lt;p&gt;在primary-secondary 协议中，当primary 异常时，需要选择出一个新的primary，之后secondary 副本与primary 同步数据。&lt;/p&gt;
+&lt;p&gt;通常情况下，选择新的primary 的工作是由某一中心节点完成的，在引入 quorum 机制后，常用的primary 选择方式与读取数据的方式类似，即中心节点读取R 个副本，选择 R 个副本中版本号最高的副本作为新的primary。新primary 与至少W 个副本完成数据同步后作为新的primary 提供读写服务。&lt;/p&gt;
+&lt;p&gt;首先，R 个副本中版本号最高的副本一定蕴含了最新的成功提交的数据。再者，虽然不能确定最高版本号的数是一个成功提交的数据，但新的primary 在随后与secondary 同 步数据，使得该版本的副本个数达到W，从而使得该版本的数据成为成功提交的数据。&lt;/p&gt;
+&lt;p&gt;例：在N=5，W=3，R=3 的系统中，某时刻副本最大版本号为（v2 v2 v1 v1 v1），此时v1 是系统的最新的成功提交的数据，v2 是一个处于中间状态的未成功提交的数据。假设此刻原primary 副本异常，中心节点进行primary 切换工作。这类“中间态”数据究竟作为“脏数据”被删除，还是作为新的数据被同步后成为生效的数据，完全取决于这个数据能否参与新primary 的选举。下面分别分析这两种情况。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/64dwe0.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;第一、如图 2-12，若中心节点与其中3 个副本通信成功，读取到的版本号为（v1 v1 v1），则任 选一个副本作为primary，新primary 以v1 作为最新的成功提交的版本并与其他副本同步，当与第1、第2 个副本同步数据时，由于第1、第2 个副本版本号大于primary，属于脏数据，可以按照2.2.2.4 节中介绍的处理脏数据的方式解决。&lt;/p&gt;
+&lt;p&gt;实践中，新primary 也有可能与后两个副本完成同步后就提供数据服务，随后自身版本号也更新到v2，如果系统不能保证之后的v2 与之前的v2 完全一样，则新 primary 在与第1、2 个副本同步数据时不但要比较数据版本号还需要比较更新操作的具体内容是否一样。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/64edwq0.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;第二、若中心节点与其他3 个副本通信成功，读取到的版本号为（v2 v1 v1），则选取版本号为 v2 的副本作为新的primary，之后，一旦新primary 与其他2 个副本完成数据同步，则符合v2 的副 本个数达到W 个，成为最新的成功提交的副本，新primary 可以提供正常的读写服务。&lt;/p&gt;
+&lt;h2 id=&#34;25-日志技术&#34;&gt;2.5 日志技术&lt;/h2&gt;
+&lt;p&gt;日志技术是宕机恢复的主要技术之一。日志技术最初使用在数据库系统中。严格来说日志技术不是一种分布式系统的技术，但在分布式系统的实践中，却广泛使用了日志技术做宕机恢复，甚 至如&lt;code&gt;BigTable&lt;/code&gt;等系统将日志保存到一个分布式系统中进一步增强了系统容错能力。&lt;/p&gt;
+&lt;h3 id=&#34;redo-log-与check-point&#34;&gt;Redo Log 与Check point&lt;/h3&gt;
+&lt;p&gt;设计一个高速的单机查询系统，将数据全部存放在内存中以实现高速的数据查询，每次更新操作更新一小部分数据（例如 key-value 中的某一个key）。现在问题为利用日志技术实现该内存查询系统的宕机恢复。与数据库的事务不同的是，这个问题模型中的每个成功的更新操作都会生效。这也等效为数据库的每个事务只有一个更新操作，且每次更新操作都可以也必须立即提交（Auto commit）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;redo-log&#34;&gt;Redo Log&lt;/h5&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;将更新操作的结果（例如Set K1=1，则记录K1=1）以追加写（append）的方式写入磁盘的 日志文件&lt;/li&gt;
+&lt;li&gt;按更新操作修改内存中的数据&lt;/li&gt;
+&lt;li&gt;返回更新成功&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;从Redo Log 的流程可以看出，Redo 写入日志的是更新操作完成后的结果（虽然本文不讨论Undo Log，这点是与Undo Log 的区别之一），且由于是顺序追加写日志文件，在磁盘等对顺序写有力的存储设备上效率较高。&lt;/p&gt;
+&lt;p&gt;用Redo Log 进行宕机恢复非常简单，只需要“回放”日志即可。&lt;/p&gt;
+&lt;p&gt;流程2.5.2：Redo Log 的宕机恢复&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;从头读取日志文件中的每次更新操作的结果，用这些结果修改内存中的数据。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;从Redo Log 的宕机恢复流程也可以看出，只有写入日志文件的更新结果才能在宕机后恢复。这也是为什么在Redo Log 流程中需要先更新日志文件再更新内存中的数据的原因。&lt;/p&gt;
+&lt;p&gt;假如先更新内存中的数据，那么用户立刻就能读到更新后的数据，一旦在完成内存修改与写入日志之间发生宕机，那么最后一次更新操作无法恢复，但之前用户可能已经读取到了更新后的数据，从而引起不一致的问题。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;check-point&#34;&gt;Check point&lt;/h5&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在简化的模型下，check point 技术的过程即将内存中的数据以某种易于重新加载的数据组织方式完整的dump 到磁盘，从而减少宕机恢复时需要回放的日志数据。&lt;/p&gt;
+&lt;p&gt;流程：check point&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;向日志文件中记录“Begin Check Point”&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将内存中的数据以某种易于重新加载的数据组织方式dump 到磁盘上&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;向日志文件中记录“End Check Point” 在check point 流程中，数据可以继续按照流程2.5.1 被更新，这段过程中新更新的数据可以dump 到磁盘也可以不dump 到磁盘，具体取决于实现。例如，check point 开始时k1=v1，check point 过程 中某次更新为k1 = v2，那么dump 到磁盘上的k1 的值可以是v1 也可以是v2。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;流程：基于check point 的宕机恢复流程&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将dump 到磁盘的数据加载到内存。&lt;/li&gt;
+&lt;li&gt;从后向前扫描日志文件，寻找最后一个“End Check Point”日志。&lt;/li&gt;
+&lt;li&gt;从最后一个“End Check Point”日志向前找到最近的一个“Begin Check Point”日志，并回放该日志之后的所有更新操作日志。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4 id=&#34;no-undono-redo-log&#34;&gt;No Undo/No Redo log&lt;/h4&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;若数据维护在磁盘中，某批更新由若干个更新操作组成，这些更新操作需要原子生效，即要么同时生效，要么都不生效。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/64fw0.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;0/1 目录技术中有两个目录结构，称为目录0(Directory 0)和目录1(Directory 1)。另有一个结构称为主记录（Master record）记录当前正在使用的目录称为活动目录。主记录中要么记录使用目录0，要么记录使用目录1。目录0 或目录1 中记录了各个数据的在日志文件中的位置。0/1 目录的数据更新过程始终在非活动目录上进行，只是在数据生效前，将主记录中的0、1 值反转，从而切换主记录。&lt;/p&gt;
+&lt;p&gt;流程：0/1 目录数据更新流程&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将活动目录完整拷贝到非活动目录。&lt;/li&gt;
+&lt;li&gt;对于每个更新操作，新建一个日志项纪录操作后的值，并在非活动目录中将相应数据的位置修改为新建的日志项的位置。&lt;/li&gt;
+&lt;li&gt;原子性修改主记录：反转主记录中的值，使得非活动目录生效。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;0/1 目录的更新流程非常简单，通过0、1 目录的主记录切换使得一批修改的生效是原子的。0/1 目录将批量事务操作的原子性通过目录手段归结到主记录的原子切换。&lt;/p&gt;
+&lt;p&gt;由于多条记录的原子修改一般较难实现而单条记录的原子修改往往可以实现，从而降低了问题实现的难度。&lt;/p&gt;
+&lt;p&gt;在工程中0/1 目录的思想运用非常广泛，其形式也不局限在上述流程中，可以是内存中的两个数据结构来回切换，也可以是磁盘上的两个文件目录来回生效切换。&lt;/p&gt;
+&lt;h2 id=&#34;26-两阶段提交协议&#34;&gt;2.6 两阶段提交协议&lt;/h2&gt;
+&lt;p&gt;两阶段提交协议是一种经典的强一致性中心化副本控制协议。虽然在工程中该协议有较多的问题，但研究该协议能很好的理解分布式系统的几个典型问题。&lt;/p&gt;
+&lt;h3 id=&#34;流程描述&#34;&gt;流程描述&lt;/h3&gt;
+&lt;p&gt;两阶段提交协议是一种典型的“中心化副本控制”协议。在该协议中，参与的节点分为两类：一个中心化协调者节点（coordinator）和N 个参与者节点（participant）。每个参与者节点即上文背景介绍中的管理数据库副本的节点。&lt;/p&gt;
+&lt;p&gt;两阶段提交的思路比较简单，在第一阶段，协调者询问所有的参与者是否可以提交事务（请参与者投票），所有参与者向协调者投票。&lt;/p&gt;
+&lt;p&gt;在第二阶段，协调者根据所有参与者的投票结果做出是否事务可以全局提交的决定，并通知所有的参与者执行该决定。在一个两阶段提交流程中，参与者不能改变自己的投票结果。&lt;/p&gt;
+&lt;p&gt;两阶段提交协议的可以全局提交的前提是所有的参与者都同意提交事务，只要有一个参与者投票选择放弃(abort)事务，则事务必须被放弃。&lt;/p&gt;
+&lt;p&gt;流程：两阶段提交&lt;strong&gt;协调者流程&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;写本地日志“begin_commit”，并进入WAIT 状态；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;向所有参与者发送“prepare 消息”；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;等待并接收参与者发送的对“prepare 消息”的响应；&lt;/p&gt;
+&lt;p&gt;3.1 若收到任何一个参与者发送的“vote-abort 消息”；&lt;/p&gt;
+&lt;p&gt;3.1.1 写本地“global-abort”日志，进入ABORT；&lt;/p&gt;
+&lt;p&gt;3.1.2 向所有的参与者发送“global-abort 消息”；&lt;/p&gt;
+&lt;p&gt;3.1.3 进入ABORT 状态；&lt;/p&gt;
+&lt;p&gt;3.2 若收到所有参与者发送的“vote-commit”消息；&lt;/p&gt;
+&lt;p&gt;3.2.1 写本地“global-commit”日志，进入COMMIT 状态；&lt;/p&gt;
+&lt;p&gt;3.1.2 向所有的参与者发送“global-commit 消息”；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;等待并接收参与者发送的对“global-abort 消息”或“global-commit 消息”的确认响应消息，一旦收到所有参与者的确认消息，写本地“end_transaction” 日志流程结束。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;流程：两阶段提交协调者流程&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;写本地日志“&lt;code&gt;init&lt;/code&gt;”记录，进入INIT 状态&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;等待并接受协调者发送的“prepare 消息”，收到后&lt;/p&gt;
+&lt;p&gt;2.1 若参与者可以提交本次事务&lt;/p&gt;
+&lt;p&gt;2.1.1 写本地日志“ready”，进入READY 状态&lt;/p&gt;
+&lt;p&gt;2.1.2 向协调者发送“vote-commit”消息&lt;/p&gt;
+&lt;p&gt;2.1.4 等待协调者的消息&lt;/p&gt;
+&lt;p&gt;2.1.4.1 若收到协调者的“global-abort”消息&lt;/p&gt;
+&lt;p&gt;2.1.4.1.1 写本地日志“abort”，进入ABORT 状态&lt;/p&gt;
+&lt;p&gt;2.1.4.1.2 向协调者发送对“global-abort”的确认消息&lt;/p&gt;
+&lt;p&gt;2.1.4.2 若收到协调者的“global-commit”消息&lt;/p&gt;
+&lt;p&gt;2.1.4.1.1 写本地日志“commit”，进入COMMIT 状态&lt;/p&gt;
+&lt;p&gt;2.1.4.1.2 向协调者发送对“global-commit”的确认消息  2.2 若参与者无法提交本次事务 2.2.1 写本地日志“abort”，进入ABORT 状态&lt;/p&gt;
+&lt;p&gt;2.2.2 向协调者发送“vote-abort”消息&lt;/p&gt;
+&lt;p&gt;2.2.3 流程对该参与者结束&lt;/p&gt;
+&lt;p&gt;2.2.4 若后续收到协调者的“global-abort”消息可以响应&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;即使流程结束，但任何时候收到协调者发送的“global-abort”消息或“global-commit”消息也都要发送一个对应的确认消息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;异常处理&#34;&gt;异常处理&lt;/h3&gt;
+&lt;h5 id=&#34;宕机恢复&#34;&gt;宕机恢复&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;协调者宕机恢复&lt;/p&gt;
+&lt;p&gt;协调者宕机恢复后，首先通过日志查找到宕机前的状态。如果日志中最后是“begin_commit”记录，说明宕机前协调者处于WAIT 状态，协调者可能已经发送过“prepare 消息”也可能还没发送，但协调者一定还没有发送过“global-commit 消息”或“global-abort 消息”，即事务的全局状态还没有确定。此时，协调者可以重新发送“prepare 消息” 继续两阶段提交流程，即使参与者已经发送过对“prepare 消息”的响应，也不过是再次重传之前的响应而不会影响协议的一致性。&lt;/p&gt;
+&lt;p&gt;如果日志中最后是“global-commit”或“global-abort”记录，说明宕机前协调者处于COMMIT 或ABORT 状态。此时协调者只需重新向所有的参与者发送“global-commit 消息”或“global-abort 消息”就可以继续两阶段提交流程。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;参与者宕机恢复参与者宕机恢复后，首先通过日志查找宕机前的状态。如果日志中最后是“&lt;code&gt;init&lt;/code&gt;”记录，说明参与者处于INIT 状态，还没有对本次事务做出投票选择，参与者可以继续流程等待协调者发送的“prepare 消息”。&lt;/p&gt;
+&lt;p&gt;如果日志中最后是“ready”记录，说明参与者处于REDAY 状态，此时说明参与者已经就本次 事务做出了投票选择，但宕机前参与者是否已经向协调者发送“vote-commit”消息并不可知。所以此时参与者可以向协调者重发“vote-commit”，并继续协议流程。如果日志中最后是“commit”或“abort”记录，说明参与者已经收到过协调者的“global-commit 消息”（处于COMMIT 状态）或者“global-abort 消息”（处于ABORT 状态）。至于是否向协调者发 送过对“global-commit”或“global-abort”的确认消息则未知。但即使没有发送过确认消息，由于协调者会不断重发“global-commit”或“global-abort”，只需在收到这些消息时发送确认消息既可，不影响协议的全局一致性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;协议分析&#34;&gt;协议分析&lt;/h3&gt;
+&lt;p&gt;两阶段提交协议在工程实践中真正使用的较少，主要原因有以下几点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;两阶段提交协议的容错能力较差。从上文的分析可以看出，两阶段提交协议在某些情况下存在流程无法执行下去的情况，且也无法判断流程状态。在工程中好的分布式协议往往总是可以在即使发生异常的情况下也能执行下去。例如，回忆Lease 机制（2.3 ），一旦lease 发出，无论出现任何异常，Lease 服务器节点总是可以通过时间判定出Lease 是否有效，也可以用等待Lease 超时的方法收回Lease 权限，整个Lease 协议的流程不存在任何流程被阻塞而无法执行下去的情况。与Lease 机制的简单有效相比，两阶段提交的协议显得较为复杂且容错能力差。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;两阶段提交协议的性能较差。一次成功的两阶段提交协议流程中，协调者与每个参与者 之间至少需要两轮交互4 个消息“prepare”、“vote-commit”、“global-commit”、“确认global-commit”。过多的交互次数会降低性能。另一方面，协调者需要等待所有的参与者的投票结果，一旦存在较慢的参与者，会影响全局流程执行速度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;虽然存在一些改进的两阶段提交协议可以提高容错能力和性能，然而这类协议依旧是在工程中使用较少的一类协议，其理论价值大于实践意义。&lt;/p&gt;
+&lt;h2 id=&#34;27-mvcc&#34;&gt;2.7 MVCC&lt;/h2&gt;
+&lt;p&gt;MVCC(Multi-version &lt;code&gt;Cocurrent&lt;/code&gt;Control，多版本并发控制)技术。MVCC 技术最初也是在数据库系统中被提出，但这种思想并不局限于单机系统，在分布式系统中同样有效。&lt;/p&gt;
+&lt;p&gt;MVCC 即多个不同版本的数据实现并发控制的技术，其基本思想是为每次事务生成 一个新版本的数据，在读数据时选择不同版本的数据即可以实现对事务结果的完整性读取。在使用MVCC 时，每个事务都是基于一个已生效的基础版本进行更新，事务可以并行进行，从而可以产生一种图状结构。&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/64ewewe0.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;基础数据的版本为1，同时产生了两个事务：事务A 与事务B。这两个事务都各自对数据进行了一些本地修改（这些修改只有事务自己可见，不影响真正的数据），之后事务A 首先提交，生成数据版本2；基于数据版本2，又发起了事务C，事务C 继续提交，生成了数据版 本3；最后事务B 提交，此时事务B 的结果需要与事务C 的结果合并，如果数据没有冲突，即事务 B 没有修改事务A 与事务C 修改过的变量，那么事务B 可以提交，否则事务B 提交失败。MVCC 的流程过程非常类似于SVN 等版本控制系统的流程，或者说SVN 等版本控制系统就是 使用的MVCC 思想。事务在基于基础数据版本做本地修改时，为了不影响真正的数据，通常有两种做法，&lt;/p&gt;
+&lt;p&gt;一是将基础数据版本中的数据完全拷贝出来再修改，SVN 即使用了这种方法，SVN check out 即是拷贝的过程；二是每个事务中&lt;strong&gt;只记录更新操作&lt;/strong&gt;，而不记录完整的数据，读取数据时再将更新操作应用到用基础版本的数据从而计算出结果，这个过程也类似&lt;strong&gt;SVN 的增量提交&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;28-paxos协议&#34;&gt;2.8 &lt;code&gt;Paxos&lt;/code&gt;协议&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Paxos&lt;/code&gt;协议是少数在工程实践中证实的强一致性、高可用的去中心化分布式协议。&lt;code&gt;Paxos&lt;/code&gt;协议的流程较为复杂，但其基本思想却不难理解，类似于人类社会的投票过程。&lt;code&gt;Paxos&lt;/code&gt;协议中，有一组完全对等的参与节点（称为&lt;code&gt;accpetor&lt;/code&gt;），这组节点各自就某一事件做出决议，如果某个决议获得了超过半数节点的同意则生效。&lt;code&gt;Paxos&lt;/code&gt;协议中只要有超过一半的节点正常，就可以工作，能很好对抗宕机、网络分化等异常情况。&lt;/p&gt;
+&lt;h3 id=&#34;角色&#34;&gt;角色&lt;/h3&gt;
+&lt;p&gt;Proposer：提案者。&lt;/p&gt;
+&lt;p&gt;Proposer 可以有多个，Proposer 提出议案（value）。所谓value，在工程中可以是任何操作，例如“修改某个变量的值为某个值”、“设置当前primary 为某个节点”等等。&lt;code&gt;Paxos&lt;/code&gt;协议中统一将这些操作抽象为value。不同的Proposer 可以提出不同的甚至矛盾的value，例如某个Proposer 提议“将变量X 设置为1”，另一个Proposer 提议“将变量X 设置为2”，但对同一轮&lt;code&gt;Paxos&lt;/code&gt; 过程，最多只有一个value 被批准。&lt;/p&gt;
+&lt;p&gt;Acceptor：批准者。&lt;/p&gt;
+&lt;p&gt;Acceptor 有N 个，Proposer 提出的value 必须获得超过半数(N/2+1)的Acceptor 批准后才能通过。Acceptor 之间完全对等独立。&lt;/p&gt;
+&lt;p&gt;Learner：学习者。&lt;/p&gt;
+&lt;p&gt;Learner 学习被批准的value。所谓学习就是通过读取各个Proposer 对value 的选择结果，如果某个value 被超过半数Proposer 通过，则Learner 学习到了这个value。回忆（2.4 ） 不难理解，这里类似Quorum 机制，某个value 需要获得W=N/2 + 1 的Acceptor 批准，从而学习者需要至少读取N/2+1 个&lt;code&gt;Accpetor&lt;/code&gt;，至多读取N 个Acceptor 的结果后，能学习到一个通过的value。上述三类角色只是逻辑上的划分，实践中一个节点可以同时充当这三类角色。&lt;/p&gt;
+&lt;h3 id=&#34;流程&#34;&gt;流程&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Paxos&lt;/code&gt;协议一轮一轮的进行，每轮都有一个编号。每轮&lt;code&gt;Paxos&lt;/code&gt;协议可能会批准一个value，也可 能无法批准一个value。如果某一轮&lt;code&gt;Paxos&lt;/code&gt;协议批准了某个value，则以后各轮&lt;code&gt;Paxos&lt;/code&gt; 只能批准这个 value。上述各轮协议流程组成了一个&lt;code&gt;Paxos&lt;/code&gt;协议实例，即一次&lt;code&gt;Paxos&lt;/code&gt;协议实例只能批准一个value，这也是&lt;code&gt;Paxos&lt;/code&gt;协议强一致性的重要体现。每轮&lt;code&gt;Paxos&lt;/code&gt;协议分为阶段，准备阶段和批准阶段，在这两个阶段Proposer 和Acceptor 有各自的处理流程。&lt;/p&gt;
+&lt;p&gt;流程：Proposer 的流程 （准备阶段）&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;向所有的Acceptor 发送消息“Prepare(b)”；这里b 是&lt;code&gt;Paxos&lt;/code&gt;的轮数，每轮递增&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果收到任何一个Acceptor 发送的消息“Reject(B)”，则对于这个Proposer 而言本轮&lt;code&gt;Paxos&lt;/code&gt;失败，将轮数b 设置为B+1 后重新步骤1；（批准阶段，根据收到的Acceptor 的消息作出不同选择）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果接收到的Acceptor 的“Promise(b, &lt;code&gt;v_i&lt;/code&gt;)”消息达到N/2+1 个（N 为Acceptor 总数，除法取整， 下同）；&lt;code&gt;v_i&lt;/code&gt;表示Acceptor 最近一次在&lt;code&gt;i&lt;/code&gt;轮批准过value v。&lt;/p&gt;
+&lt;p&gt;3.1 如果收到的“Promise(b, v)”消息中，v 都为空，Proposer 选择一个value v，向所有Acceptor 广播Accept(b, v)；&lt;/p&gt;
+&lt;p&gt;3.2 否则，在所有收到的“Promise(b, &lt;code&gt;v_i&lt;/code&gt;)”消息中，选择&lt;code&gt;i&lt;/code&gt;最大的value v，向所有Acceptor 广播消息Accept(b，v)；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果收到&lt;code&gt;Nack&lt;/code&gt;(B)，将轮数b 设置为B+1 后重新步骤1；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;流程：&lt;code&gt;Accpetor&lt;/code&gt;流程 （准备阶段）&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;接受某个&lt;code&gt;Propeser&lt;/code&gt;的消息Prepare(b)。参数B 是该Acceptor 收到的最大&lt;code&gt;Paxos&lt;/code&gt;轮数编号；V 是Acceptor 批准的value，可以为空&lt;/p&gt;
+&lt;p&gt;1.1 如果b&amp;gt;B，回复Promise(b, V_B)，设置B=b; 表示保证不再接受编号小于b 的提案。\&lt;/p&gt;
+&lt;p&gt;1.2 否则，回复Reject(B) （批准阶段）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;接收Accept(b, v)，&lt;/p&gt;
+&lt;p&gt;2.1 如果b &amp;lt; B, 回复&lt;code&gt;Nack&lt;/code&gt;(B)，暗示proposer 有一个更大编号的提案被这个Acceptor 接收了&lt;/p&gt;
+&lt;p&gt;2.2 否则设置V=v。表示这个Acceptor 批准的Value 是v。广播Accepted 消息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;例子&#34;&gt;例子&lt;/h3&gt;
+&lt;p&gt;基本例子里有5 个Acceptor，1 个Proposer，不存在任何网络、宕机异常。我们着重考察各个&lt;code&gt;Accpetor&lt;/code&gt;上变量B 和变量V 的变化，及Proposer 上变量b 的变化。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;初始状态&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Proposer 向所有&lt;code&gt;Accpetor&lt;/code&gt;发送“Prepare(1)”，所有Acceptor 正确处理，并回复Promise(1, NULL&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640csda.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Proposer 收到5 个Promise(1, NULL)，满足多余半数的Promise 的value 为空，此时发送 Accept(1, v1)，其中v1 是Proposer 选择的Value。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/64wewqeqw0.webp&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;此时，v1 被超过半数的Acceptor 批准，v1 即是本次&lt;code&gt;Paxos&lt;/code&gt; 协议实例批准的Value。如果Learner 学习value，学到的只能是v1&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在同一个&lt;code&gt;Paxos&lt;/code&gt;实例中，批准的Value 是无法改变的，即使后续Proposer 以更高的序号发起&lt;code&gt;Paxos&lt;/code&gt;协议也无法改变value。&lt;code&gt;Paxos&lt;/code&gt;协议的核心就在于“批准的value 无法改变”，这也是整个协议正确性的基础。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Paxos&lt;/code&gt;协议是被人为设计出来，其设计过程也是协议的推导过程。&lt;code&gt;Paxos&lt;/code&gt;协议利用了&lt;code&gt;Quorom&lt;/code&gt;机 制，选择的W=R=N/2+1。&lt;/p&gt;
+&lt;p&gt;简单而言，协议就是Proposer 更新Acceptor 的过程，一旦某个Acceptor 成功更新了超过半数的Acceptor，则更新成功。Learner 按Quorum 去读取Acceptor，一旦某个value 在超过半数的Proposer 上被成功读取，则说明这是一个被批准的value。协议通过引入轮次，使得高轮次的提议抢占低轮次的提议来避免死锁。协议设计关键点是如何满足“在一次&lt;code&gt;Paxos&lt;/code&gt;算法实例过程中只批准一个Value”这一约束条件。&lt;/p&gt;
+&lt;h2 id=&#34;29-cap&#34;&gt;2.9 CAP&lt;/h2&gt;
+&lt;p&gt;CAP 理论的定义很简单，CAP 三个字母分别代表了分布式系统中三个相互矛盾的属性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Consistency (一致性)：CAP 理论中的副本一致性特指强一致性（1.3.4 ）；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Availiablity&lt;/code&gt;(可用性)：指系统在出现异常时已经可以提供服务；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tolerance to the partition of network (分区容忍)：指系统可以对网络分区（1.1.4.2 ）这种异常情 况进行容错处理；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CAP 理论指出：无法设计一种分布式协议，使得同时完全具备CAP 三个属性，即&lt;/p&gt;
+&lt;p&gt;1)该种协议下的副本始终是强一致性，&lt;/p&gt;
+&lt;p&gt;2)服务始终是可用的，&lt;/p&gt;
+&lt;p&gt;3)协议可以容忍任何网络分区异常；&lt;/p&gt;
+&lt;p&gt;分布式系统协议只能在CAP 这三者间所有折中。&lt;/p&gt;
+&lt;p&gt;热力学第二定律说明了永动机是不可能存在的，不要去妄图设计永动机。与之类似，CAP 理论的意义就在于明确提出了不要去妄图设计一种对CAP 三大属性都完全拥有的完美系统，因为这种系统在理论上就已经被证明不存在。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Lease 机制: Lease 机制牺牲了部分异常情况下的A，从而获得了完全的C 与很好的P。&lt;/li&gt;
+&lt;li&gt;Quorum 机制: Quorum 机制，在CAP 三大因素中都各做了折中，有一定的C，有较好的A，也有较好的P，是一种较为平衡的分布式协议。&lt;/li&gt;
+&lt;li&gt;两阶段提交协议: 两阶段提交系统具有完全的C，很糟糕的A，很糟糕的P。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Paxos&lt;/code&gt;协议：同样是强一致性协议，&lt;code&gt;Paxos&lt;/code&gt; 在CAP 三方面较之两阶段提交协议要优秀得多。&lt;code&gt;Paxos&lt;/code&gt;协议具有 完全的C，较好的A，较好的P。&lt;code&gt;Paxos&lt;/code&gt;的A 与P 的属性与Quorum 机制类似，因为&lt;code&gt;Paxos&lt;/code&gt;的协议本 身就具有Quorum 机制的因素。&lt;/li&gt;
+&lt;/ul&gt;
+">分布式系统原理</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/fengbushiwu/"" data-c="
+          &lt;h1 id=&#34;分布式事务&#34;&gt;分布式事务&lt;/h1&gt;
+&lt;p&gt;分布式事务用于在分布式系统中保证&lt;strong&gt;不同节点之间的数据一致性&lt;/strong&gt;。假设没有分布式事务，如果存在库存和订单两个独立的微服务，每个微服务维护了自己的数据库。在交易系统的业务逻辑中，一个商品在下单之前需要先调用库存服务，进行扣除库存，再调用订单服务，创建订单记录。正常情况下，两个数据库各自更新成功，两边数据维持着一致性但是，在非正常情况下，有可能库存的扣减完成了，随后的订单记录却因为某些原因插入失败。这个时候，两边数据就失去了应有的一致性。&lt;/p&gt;
+&lt;h1 id=&#34;xa分布式事务协议&#34;&gt;XA分布式事务协议&lt;/h1&gt;
+&lt;h2 id=&#34;两阶段提交2pc&#34;&gt;两阶段提交（2PC）&lt;/h2&gt;
+&lt;p&gt;XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。在XA协议中包含着两个角色：事务协调者和事务参与者。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboard-1577177523915.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;在XA分布式事务的第一阶段，作为事务协调者的节点会首先向所有的参与者节点发送Prepare请求。&lt;/p&gt;
+&lt;p&gt;在接到Prepare请求之后，&lt;strong&gt;每一个参与者节点会各自执行与事务有关的数据更新&lt;/strong&gt;，&lt;strong&gt;写入Undo Log和Redo Log&lt;/strong&gt;。如果参与者执行成功，暂时不提交事务，而是向事务协调节点返回“完成”消息。&lt;/p&gt;
+&lt;p&gt;当事务协调者接到了所有参与者的返回消息，整个分布式事务将会进入第二阶段。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboard-1577177536302.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;在XA分布式事务的第二阶段，如果事务协调节点在之前所收到都是正向返回，那么它将会向所有事务参与者发出Commit请求。&lt;/p&gt;
+&lt;p&gt;接到Commit请求之后，事务参与者节点会各自进行本地的事务提交，并释放锁资源。当本地事务完成提交后，将会向事务协调者返回“完成”消息。&lt;/p&gt;
+&lt;p&gt;当事务协调者接收到所有事务参与者的“完成”反馈，整个分布式事务完成。&lt;/p&gt;
+&lt;p&gt;失败情况的处理流程：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboard-1577177546219.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboard-1577177556166.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;在XA的第一阶段，如果某个事务参与者反馈失败消息，说明该节点的本地事务执行不成功，必须回滚。&lt;/p&gt;
+&lt;p&gt;于是在第二阶段，事务协调节点向所有的事务参与者发送Abort请求。接收到Abort请求之后，各个事务参与者节点需要在本地进行事务的回滚操作，回滚操作依照Undo Log来进行。&lt;/p&gt;
+&lt;p&gt;XA两阶段提交的不足：&lt;/p&gt;
+&lt;p&gt;1.性能问题&lt;/p&gt;
+&lt;p&gt;XA协议遵循强一致性。在事务执行过程中，&lt;strong&gt;各个节点占用着数据库资源&lt;/strong&gt;，只有当所有节点准备完毕，事务协调者才会通知提交，参与者提交后释放资源。这样的过程有着非常明显的性能问题。&lt;/p&gt;
+&lt;p&gt;2.协调者单点故障问题&lt;/p&gt;
+&lt;p&gt;事务协调者是整个XA模型的核心，一旦事务协调者节点挂掉，参与者收不到提交或是回滚通知，参与者会一直处于中间状态无法完成事务。&lt;/p&gt;
+&lt;p&gt;3.丢失消息导致的不一致问题。&lt;/p&gt;
+&lt;p&gt;在XA协议的第二个阶段，如果发生局部网络问题，一部分事务参与者收到了提交消息，另一部分事务参与者没收到提交消息，那么就导致了节点之间数据的不一致。&lt;/p&gt;
+&lt;h2 id=&#34;xa三阶段提交&#34;&gt;&lt;strong&gt;XA三阶段提交&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;XA三阶段提交在两阶段提交的基础上增加了&lt;code&gt;CanCommit&lt;/code&gt;阶段，并且引入了&lt;strong&gt;超时机制&lt;/strong&gt;。一旦事物参与者迟迟没有接到协调者的commit请求，会自动进行本地commit。这样有效解决了协调者单点故障的问题。但是性能问题和不一致的问题仍然没有根本解决。&lt;/p&gt;
+&lt;p&gt;阶段一：&lt;code&gt;canCommit&lt;/code&gt;：只是询问所有参与者是否可可以执行事务操作，并不在本阶段执行事务操作。&lt;/p&gt;
+&lt;p&gt;阶段二：&lt;code&gt;preCommit&lt;/code&gt;：执行事务操作；&lt;/p&gt;
+&lt;p&gt;阶段三：&lt;code&gt;doCommit&lt;/code&gt;：执行commit或者rollback，如果参与者无法及时接收到来自协调者的&lt;code&gt;doCommit&lt;/code&gt;或者&lt;code&gt;rebort&lt;/code&gt;请求时，会在等待超时之后，会继续进行事务的提交。&lt;/p&gt;
+&lt;p&gt;存在的问题：由于网络原因，协调者发送的&lt;strong&gt;abort响应&lt;/strong&gt;没有及时被参与者接收到，那么参与者在等待超时之后执行了commit操作。这样就和其他接到abort命令并执行回滚的参与者之间存在数据不一致的情况。&lt;/p&gt;
+&lt;h1 id=&#34;mq事务&#34;&gt;&lt;strong&gt;MQ事务&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;利用消息中间件来异步完成事务的后一半更新，实现系统的最终一致性。这个方式避免了像XA协议那样的性能问题。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboard-1577177567628.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;执行步骤如下:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MQ发送方发送远程事务消息到MQ Server;&lt;/li&gt;
+&lt;li&gt;MQ Server给予响应, 表明事务消息已成功到达MQ Server.&lt;/li&gt;
+&lt;li&gt;MQ发送方Commit本地事务
+&lt;ul&gt;
+&lt;li&gt;若本地事务Commit成功, 则通知MQ Server&lt;strong&gt;允许对应事务消息被消费&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;若本地事务失败, 则通知MQ Server对&lt;strong&gt;应事务消息应被丢弃&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;如果消息投递失败，该事务也应该回滚；&lt;/li&gt;
+&lt;li&gt;若MQ发送方超时未对MQ Server作出本地事务执行状态的反馈, 那么需要MQ Server向MQ&lt;strong&gt;发送方主动回查事务状态&lt;/strong&gt;, 以决定事务消息是否能被消费.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;当得知本地事务执行成功时, MQ Server允许MQ订阅方消费本条事务消息.&lt;/li&gt;
+&lt;li&gt;需要额外说明的一点, 就是事务消息投递到MQ订阅方后, 并不一定能够成功执行， 需要MQ订阅方主动给予消费反馈(ack)；
+&lt;ul&gt;
+&lt;li&gt;如果MQ订阅方执行远程事务成功, 则给予消费成功的ack, 那么MQ Server可以安全将事务消息&lt;strong&gt;移除&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;如果消费者宕机或者消费执行失败, MQ Server利用持久化消息的功能需要对消息&lt;strong&gt;重新投递&lt;/strong&gt;, &lt;strong&gt;直至消费成功；&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意事项&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;消息中间件在系统中扮演一个重要的角色, 所有的事务消息都需要通过它来传达, 所以消息中间件也需要支持 HAC 来确保事务消息不丢失.&lt;/p&gt;
+&lt;p&gt;根据业务逻辑的具体实现不同，还可能需要对消息中间件增加消息不重复, 不乱序等其它要求.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ol&gt;
+&lt;li&gt;保证消费者的幂等性；也就是说如果队列中的消息因为网络异常导致发送多次的情况下，仍然需要保证&lt;strong&gt;消息被应用多次与应用一次产生的效果是一样的&lt;/strong&gt;；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;通过消费日志表来记录消费状态；增加一个message_applied（msg_id）表，用来&lt;strong&gt;记录已经被成功应用的消息&lt;/strong&gt;。在&lt;strong&gt;目标系统执行更新操作之前，先检测该消息是否已经被消费过，消费完成后通过本地事务控制来更新这个“消费表状态”，用来避免消息重复消费问题&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;适用场景&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;执行周期较长、实时性要求不高&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;跨行转账/汇款业务(两个服务分别在不同的银行中)&lt;/li&gt;
+&lt;li&gt;退货/退款业务&lt;/li&gt;
+&lt;li&gt;财务, 账单统计业务(先发送到消息中间件, 然后进行批量记账)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;mq事务的高可用方案&#34;&gt;MQ事务的高可用方案&lt;/h2&gt;
+&lt;p&gt;虽然MQ本身时高可用的，但是意外也会发生，一旦MQ完全不可用，就会导致业务系统的各个服务之间无法通过MQ来投递消息，导致业务流程中断。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191224172912171.png&#34; alt=&#34;image-20191224172912171&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h4 id=&#34;1-基于kv存储的队列支持的高可用降级方案&#34;&gt;1、基于KV存储的队列支持的高可用降级方案&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;自行封装MQ客户端组件与故障感知，完成自动降级，比如连续10次尝试投递消息到MQ都发现异常报错，说明MQ故障，此时就可以自动感知以及自动触发降级开关&lt;/li&gt;
+&lt;li&gt;可以利用Redis的List结构来代替MQ
+&lt;ul&gt;
+&lt;li&gt;写入的数据量不要过大，否则会引发严重后果&lt;/li&gt;
+&lt;li&gt;不能忘少数几个key中持续写入数据，那样会导致数据热点，使某台机器访问过高，负载过大。可以设计多个key，然后通过hash算法均匀写入&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2、下游服务消费MQ的降级感知&lt;/p&gt;
+&lt;p&gt;如果下游的MQ从&lt;code&gt;zk&lt;/code&gt;感知到降级开关打开了，首先就会判断自己能否还能继续从MQ消费到数据，如果不能就开启多个线程并发地从&lt;code&gt;kv&lt;/code&gt;存储的各个队列中不断的获取数据，然后执行&lt;/p&gt;
+&lt;p&gt;3、故障的自动恢复&lt;/p&gt;
+&lt;p&gt;每隔一段时间尝试给MQ投递消息，看看是否恢复了，如果MQ已经恢复就可以通过&lt;code&gt;zk&lt;/code&gt;关闭降级开关，在确认Redis没有消息之后，完全切换到MQ&lt;/p&gt;
+&lt;h1 id=&#34;tcc事务&#34;&gt;&lt;strong&gt;TCC事务&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;TCC事务是Try、Commit、Cancel三种指令的缩写，其逻辑模式类似于XA两阶段提交，但是实现方式是在代码层面来人为实现。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboard-1583055043254.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191224170622409.png&#34; alt=&#34;image-20191224170622409&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;TCC分为三个阶段TRY-CONFIRM-CANCEL。每个阶段做不同的处理。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Try&lt;/strong&gt;: 尝试执行业务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​                 • 完成所有业务检查(一致性)&lt;/p&gt;
+&lt;p&gt;​                 • &lt;strong&gt;预留必须业务资源&lt;/strong&gt;(准隔离性)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Confirm&lt;/strong&gt;:确认执行业务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​                 • 真正执行业务&lt;/p&gt;
+&lt;p&gt;​                 • 不作任何业务检查&lt;/p&gt;
+&lt;p&gt;​                 • 只使用Try阶段预留的业务资源&lt;/p&gt;
+&lt;p&gt;​                 • Confirm操作要满足幂等性&lt;/p&gt;
+&lt;p&gt;TRYI阶段执行成功并开始执行CONFIRM阶段时，默认 CONFIRM阶段是不会出错的。即：只要TRY成功，CONFIRM一定成功。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cancel&lt;/strong&gt;: 取消执行业务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​                 • 释放Try阶段预留的业务资源&lt;/p&gt;
+&lt;p&gt;​                 • Cancel操作要满足幂等性&lt;/p&gt;
+&lt;p&gt;以上所有的操作需要满足幂等性，幂等性的定义是：一次和多次请求某一个资源&lt;strong&gt;对于资源本身&lt;/strong&gt;应该具有同样的结果（网络超时等问题除外）。也就是说，&lt;strong&gt;其任意多次执行对资源本身所产生的影响均与一次执行的影响相同&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;幂等性的实现方式可以是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、通过唯一键值做处理，即每次调用的时候传入唯一键值，通过唯一键值判断业务是否被操作，如果已被操作，则不再重复操作&lt;/li&gt;
+&lt;li&gt;2、通过状态机处理，给业务数据设置状态，通过业务状态判断是否需要重复执行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;p&gt;支付系统接收到会员的支付请求后，需要扣减会员账户余额、增加会员积分（暂时假设需要同步实现）增加商户账户余额，会员系统、商户系统、积分系统是独立的三个子系统，无法通过传统的事务方式进行处理。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TRYING阶段：我们需要做的就是会员资金账户的资金预留，即：冻结会员账户的金额（订单金额）&lt;/li&gt;
+&lt;li&gt;CONFIRMING阶段：我们需要做的就是会员积分账户增加积分余额，商户账户增加账户余额&lt;/li&gt;
+&lt;li&gt;CANCELING阶段：该阶段需要执行的就是解冻释放我们扣减的会员余额&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;开源的&lt;code&gt;tcc&lt;/code&gt;框架：&lt;code&gt;tcc&lt;/code&gt;-transaction、&lt;code&gt;bytetcc&lt;/code&gt;&lt;/p&gt;
+">分布式事务</a>
       </div>
       
       <div class="item">
@@ -6231,6 +7454,425 @@ select * from Employee where dsalary&amp;gt;2500.0/12(dsalary是索引列)
 &lt;p&gt;在完成doublewrite页的写入后，再将doublewrite buffer 中的页再分两次，每次1M顺序地写入各个表空间文件中，此时的写入则是离散的。&lt;/p&gt;
 &lt;p&gt;如果操作系统在将页写入磁盘的过程中发生了崩溃，在恢复过程中，innodb可以 从系统表空间中的doublewrite中找到该页的一个副本，将其复制到表空间文件，再应用重做日志。&lt;/p&gt;
 ">9、Mysql调优</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/weifuwujiagouyuanli/"" data-c="
+          &lt;p&gt;&lt;strong&gt;1、从传统单体架构到服务化架构&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.1 JEE架构&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;JEE将企业级软件架构分为三个层级 ： Web 层、业务逻辑层和数据存取层。对应的职能团队，主要包括：用户 交互 UI 团队、后台业务逻辑处理团&lt;/p&gt;
+&lt;p&gt;队、 数据存取 ORM 团队与 DBA 团队等。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/9b6398a0011.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;1.2 SSH架构&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MVC模型：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/c1a8e40f00d.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;SSH架构层次：实现交互 UI 接口的 Web MVC 层、实现业务逻辑的 Spring 层及实现对象关系映射的 Hibernate层。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/102cef46a9c.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;每个层级的实现比JEE对应的层次更简单、更轻量级 ，不需要开启整个应用服务器即可测试和验证，极大提高了开发效率，这得益于 Spring 框架的控制翻转理念。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.3 服务化架构&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;从 JEE 时代到 SSH 时代，服务的特点仍然是单体化，业务逻辑仍然糯合在一个项目中。传统 JEE 和 SSH 无法满足对海量用户发起的高井发请求进行处理的需求，无法突破稿合在一起的模块化组件的性能瓶颈，单一进程己经无法满足需求，并且水平扩展的能力也是很有限的。于是SOA 出现了， &lt;strong&gt;SOA&lt;/strong&gt; 代表&lt;strong&gt;面向服务的架构&lt;/strong&gt;，俗称服务化。&lt;/p&gt;
+&lt;p&gt;SOA特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;良好的对外接口，通过网络协议对外提供服务。服务之间松耦合。&lt;/li&gt;
+&lt;li&gt;单个服务发生改变，不影响整个流程。只要接口不变，对外是透明的。&lt;/li&gt;
+&lt;li&gt;通信格式XML，后来被JSON取代。&lt;/li&gt;
+&lt;li&gt;服务的可重用性。&lt;/li&gt;
+&lt;li&gt;SOA可以最大化使用内部和外部的公共服务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SOA 的两个主流实现方式： &lt;strong&gt;Web Service 和 ESB&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;Web Service技术使每个服务之间是对等的，并且互相是解耦的，通过 WSDL 定义的服务发现接口进行访问 ，并通过 SOAP 协议进行通信 。 &lt;strong&gt;SOAP 协议&lt;/strong&gt;通常是一种在 HTTP 或者 HTTPS通道上传输 X岛伍数据来实现的协议，但是每个服务都要依赖中心化 Web Service 目录来发现现存的服务。&lt;/p&gt;
+&lt;p&gt;ESB 的核心在于企业服务总线的功能和职责。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;监控和控制服务之间的消息路由。&lt;/li&gt;
+&lt;li&gt;控制可插拔的服务化。&lt;/li&gt;
+&lt;li&gt;解析服务之间通信的内容和格式。&lt;/li&gt;
+&lt;li&gt;统一编排信息处理流程。&lt;/li&gt;
+&lt;li&gt;冗余备份。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2、从服务化到微服务&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.1 微服务架构的产生&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Web Service 的问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;依赖中心化的服务发现机制。&lt;/li&gt;
+&lt;li&gt;SOAP使用XML冗余大。&lt;/li&gt;
+&lt;li&gt;服务化管理和治理设施不完善。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ESB 的问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ESB 虽然是 SOA 实现的一种方式，却更多地体现了系统集成的便利性，通过统一的服务总线将服务组合在一起，并提供组合的业务流程服务。&lt;/li&gt;
+&lt;li&gt;组合在 ESB 上的服务本身可能是一个过重的整体服务，或者是传统的 JEE 服务等。&lt;/li&gt;
+&lt;li&gt;ESB 视图通过总线来隐藏系统内部的复杂性，但是系统内部的复杂性仍然存在。&lt;/li&gt;
+&lt;li&gt;对于总线本身的中心化的管理模型，系统变更影响的范围经常会随之扩大。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;微服务架构&lt;/strong&gt;倡导将软件应用设计成多个&lt;strong&gt;可独立开发、可配置、可运行和可维护的子服务&lt;/strong&gt;，子服务之间通过良好的接口定义通信机制，通常使用 &lt;strong&gt;RESTful 风格的 API 形式来通信&lt;/strong&gt; ，因为RESTful 风格的 API 通常是在 HTTP 或者 HTTPS 通道上传输 JSON 格式的数据来实现的， HTTP协议有跨语言、跨异构系统的优点，当然，也可以通过底层的二进制协议、消息队列协议等进行交互。这些服务不需要中心化的统一管理，每个服务的功能可自治，并且可以由不同的语言、系统和平台实现 。&lt;/p&gt;
+&lt;p&gt;微服务架构并不是为了拆分而拆分，真正的目的是通过对微服务进行&lt;strong&gt;水平扩展&lt;/strong&gt;解决传统的单体应用在业务急剧增长时遇到的问题，而且由于拆分的微服务系统中专业的人做专业的事，人员和项目的&lt;strong&gt;职责单一、低藕合、高内聚&lt;/strong&gt;，所以产生问题的概率就会降到最小。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.2 微服务架构与传统单体架构的对比&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;微服务的架构：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20443cbe60c.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;微服务把每一个职责单一的功能放在一个独立的服务中 。&lt;/li&gt;
+&lt;li&gt;每个服务运行在一个单独的进程中。&lt;/li&gt;
+&lt;li&gt;每个服务有多个实例运行。运行在容器化的平台，可以平滑伸缩。&lt;/li&gt;
+&lt;li&gt;每个服务有自己的数据存储。独立的数据，缓存，消息队列等。&lt;/li&gt;
+&lt;li&gt;每个服务有独立的运营平台。每个服务高度自治，内部变化对外透明。&lt;/li&gt;
+&lt;li&gt;每个服务可以根据性能独立地水平伸缩。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;传统单体架构的伸缩架构：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/fa843cb38f0.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;传统单体架构将所有模块化组件混合后运行在同一个服务JVM进程中 。&lt;/li&gt;
+&lt;li&gt;可对包含多个模块化组件的整体JVM进程进行水平扩展，而无法对某个模块化组件进行水平扩展。&lt;/li&gt;
+&lt;li&gt;某个模块化组件发生变化时，需要所有的模块化组件进行编译、打包和上线。&lt;/li&gt;
+&lt;li&gt;模块间的依赖将会不清晰，互相糯合、互相依赖。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2.3 微服务架构与 SOA 服务化的对比&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;微服务架构与 SOA 服务化虽然一脉相承，却略有不同。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;目的不同。SOA强调异构服务之间协作和集成。微服务目的是拆分，实现敏捷开发部署。&lt;/li&gt;
+&lt;li&gt;部署方式不同。拆分成多个小服务，使用敏捷扩容，Docker实现自动化容器管理。SOA服务将多个服务打包在一起，部署在一个服务器上。&lt;/li&gt;
+&lt;li&gt;服务粒度不同。微服务拆分粒度更细，职责单一。通过服务组合实现业务流程。SOA对粒度没有要求，通常是粗粒度的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;3、微服务架构的核心要点和实现原理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3.1 微服务架构中职能团队的划分&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;微服务架构按照业务的功能进行划分，每个单一的业务功能叫作一个服务，每个服务对应一个独立的职能团队，团队里包含用户交互UI设计师、后台服务开发人员、DBA、运营和运维人员。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3.2 微服务的去中心化治理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;微服务架构倡导去中心化的服务管理和治理，尽量不设置中心化的管理服务，最差也需要在中心化的管理服务宕机时有替代方案和设计。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3.3 微服务的交互模式&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;读者容错模式：微服务化中服务提供者和消费者之间如何对接口的改变进行容错。&lt;/li&gt;
+&lt;li&gt;消费者驱动契约模式：用来定义服务化中服务之间交互接口改变的最佳规则。&lt;/li&gt;
+&lt;li&gt;去数据共享模式：不要共享缓存和数据库等资源，也不要使用总线模式，服务之间的通信和交互只能依赖定义良好的接口，通常使用RESTful样式的API或者透明的RPC调用框架。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;共享数据集成的缺点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微服务之间的交互除了接口契约，还存在数据存储契约。&lt;/li&gt;
+&lt;li&gt;上游数据格式变化，可能导致下游的处理逻辑出问题。&lt;/li&gt;
+&lt;li&gt;多个服务共享一个资源服务，资源服务的运维难以划清职责和界限。&lt;/li&gt;
+&lt;li&gt;多机房部署，需要考虑到服务和资源的路由情况，跨机房调用，难以实现服务自治。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;3.4 微服务的分解和组合模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;使用微服务架构划分服务和团队是微服务架构实施的重要一步，良好的&lt;strong&gt;划分和拆分&lt;/strong&gt;使系统达到&lt;strong&gt;松耦合和高内聚&lt;/strong&gt;的效果，然后通过微服务的&lt;strong&gt;灵活组装&lt;/strong&gt;可以满足上层的各种各样的业务处理需求。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;组合微服务方式&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;**服务代理模式：**最简单的服务组合模式，它根据业务的需求选择调用后端的某个服务。在返回给使用端之前，代理可以对后端服务的输出进行加工，也可以直接把后端服务的返回结果返回给使用端。一般会对读请求切换设计一个开关，开关打开时查询新系统，开关关闭时查询老系统。典型的案例：平滑的系统迁移。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/65a0d9da608.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;**服务聚合模式：**最常用的服务组合模式，它根据业务流程处理的需要，以一定的顺序调用依赖的多个微服务，对依赖的微服务返回的数据进行组合、加工和转换，最后以一定的形式返回给使用方。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/df3fe9f7ab8.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;聚合服务可以是前端应用&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/89e1aaf84e2.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;也可以是纯后台服务&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/e246122bee7.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;服务串联模式：&lt;strong&gt;类似于一个工作流，服务直接的调用通常使用&lt;/strong&gt;同步&lt;/strong&gt;的RESTful风格的远程调用实现。优点是在非串联服务的正后面增加节点，串联服务无感知；缺点是不建议服务的层级太多。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/c6cf20dce1d.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;**服务分支模式：**是服务代理模式、服务聚合模式和服务串联模式相结合的产物。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/f11b24f2056.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;以电商平台的支付服务架构为例&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/7f5cee5e425.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;服务异步消息模式：&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/673b6086717.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;以电商平台交易完成后向物流系统发起消息通知为例&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/11ca8e43da7.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;**服务共享数据模式：**其实是反模式，用于单元化架构和遗留的整体服务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/e0d4840629f.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;3.5 微服务的容错模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;网络通信是不稳定、不可靠的，一个服务依赖的服务可能出错、超时或者宕机。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;**舱壁隔离模式：**微服务容器分组和线程池隔离&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;熔断模式&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/db297b3a205.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;**限流模式：**计数器，令牌桶，信号量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/f877330ad12.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;**失效转移模式：**当发生了熔断和限流时，采用快速失败的策略，直接返回使用方错误；若有备份服务，迅速切换；有可能是某台机器出问题，采用重试方式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;3.6 微服务的粒度&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;微服务初衷是按照业务的功能进行拆分，直到服务功能和职责单一，甚至拆到不可再拆。原则是拆分到可以合理排版底层的自服务来获得相应的组合服务，同时考虑团队人员分配。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4、Java平台微服务架构的项目组织形式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4.1 微服务项目的依赖关系&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一方库：本服务在JVM进程内依赖的Jar包。&lt;/li&gt;
+&lt;li&gt;二方库：在服务外通过网络通信或者RPC调用的服务的Jar包。&lt;/li&gt;
+&lt;li&gt;三方库：所依赖的其他公司或者组织提供的服务或者模块。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/64859d365b8.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;4.2 微服务项目的层级结构&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bf372170759.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;4.3 微服务项目的持续发布&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;微服务项目需要实现自动化的持续部署和持续集成的功能，包括：代码管理、自动编译、发布QA、自动化测试、性能测试、准生产部署和测试、生产环境发布等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5、服务化管理和治理框架的技术选型&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5.1 RPC&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;20&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/ea2ea1c2c03.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;21&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/7bc2d0de1a8.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;5.2 服务化&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;SOA服务化时代的服务化框架和平台&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;22&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/733b7f279fd.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;23&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/d4d5abd210f.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;24&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/252a36d635f.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;25&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/c6f77fdf537.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;5.3 微服务&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;26&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/6c9b0a78438.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;27&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/518d7a5273b.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;28&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/07ea01edc67.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;29&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/27e05e02e6e.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;30&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/97d1a90654e.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;31&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/b63c329eebd.jpeg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">分布式微服务架构设计原理</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/zookeeper/"" data-c="
+          &lt;p&gt;Zookeeper是一个&lt;strong&gt;分布式协调服务&lt;/strong&gt;，可用于服务发现，分布式锁，分布式领导选举，配置管理等。Zookeeper提供了一个类似于Linux文件系统的树形结构（可认为是轻量级的内存文件系统，但只适合存少量信息，完全不适合存储大量文件或者大文件），同时提供了对于每个节点的监控与通知机制。&lt;/p&gt;
+&lt;h2 id=&#34;zookeeper中的一些概念&#34;&gt;zookeeper中的一些概念&lt;/h2&gt;
+&lt;h3 id=&#34;1-顺序一致性&#34;&gt;&lt;strong&gt;1、顺序一致性&lt;/strong&gt;&lt;/h3&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180608091516108.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;zookeeper采用了&lt;strong&gt;递增的事务Id&lt;/strong&gt;来标识，所有的proposal（提议）都在被提出的时候加上了&lt;code&gt;zxid&lt;/code&gt;，&lt;code&gt;zxid&lt;/code&gt;实际上是一个64位的数字，高32位是&lt;strong&gt;epoch&lt;/strong&gt;用来标识leader是否发生改变，如果有新的leader产生出来，epoch会自增，&lt;strong&gt;低 32 位是counter消息计数器&lt;/strong&gt;，用来递增计数。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;epoch&lt;/strong&gt;：可以理解为当前集群所处的年代或者周期，每个leader 就像皇帝，都有自己的年号，所以每次改朝换代，leader 变更之后，都会在前一个年代的基础上加 1。这样就算旧的 leader 崩溃恢复之后，也没有人听他的了，因为follower 只听从当前年代的 leader 的命令。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;**counter消息计数器:**每接收到一条事务消息这个值就+1&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当处理事务请求时，会先成一个事务ID（ZXID）如图，同一个Leader的统治下epoch是相同的，counter消息计数器随着事务的增加而递增，会按照请求顺序转发给Leader，并保存在一个FIFO队列中，这样就可以保证事务的顺序一致性。同时当这个Leader挂了，新选举出的Leader的epoch会+1，这样当这个节点在链接上来的时候，未处理的事务由于epoch过期了全部清除过期的事务&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bv8xel.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;2-数据模型&#34;&gt;2、数据模型&lt;/h3&gt;
+&lt;p&gt;zookeeper的数据模型和文件系统类似，每一个节点称为：znode.  是zookeeper中的最小数据单元。每一个znode上都可以保存数据和挂载子节点。 从而构成一个层次化的属性结构节点特性；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;持久化节点&lt;/strong&gt;：节点创建后会一直存在zookeeper服务器上，直到主动删除；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;持久化有序节点&lt;/strong&gt;：每个节点都会为它的一级子节点维护一个顺序；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;临时节点&lt;/strong&gt;： 临时节点的生命周期和客户端的会话保持一致。当客户端会话失效，该节点自动清理；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;临时有序节点&lt;/strong&gt;：在临时节点上多加一个顺序性特性；&lt;/p&gt;
+&lt;h3 id=&#34;3-会话&#34;&gt;3、会话&lt;/h3&gt;
+&lt;p&gt;会话中的请求按FIFO顺序执行。一旦客户端连接到服务器，将建立会话并向客户端分配会话ID 。客户端以特定的时间间 隔发送心跳以保持会话有效。如果&lt;code&gt;ZooKeeper&lt;/code&gt;集合在超过服务器开启时指定的期间（会话超时）都没有从客户端接收到心跳，则它会 判定客户端死机。&lt;/p&gt;
+&lt;p&gt;会话超时通常以毫秒为单位。当会话由于任何原因结束时，在该会话期间创建的临时节点也会被删除。&lt;/p&gt;
+&lt;h3 id=&#34;4-watcher&#34;&gt;4、Watcher&lt;/h3&gt;
+&lt;p&gt;zookeeper提供了分布式数据发布/订阅,zookeeper允许客户端向服务器注册一个watcher监听。当服务器端的节点触发指定事件的 时候会触发watcher。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;一次性触发数据发生改变时，一个watcher event会被发送到client，但是client&lt;strong&gt;只会收到一次这样的信息&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;watcher event异步发送&lt;/p&gt;
+&lt;p&gt;watcher的通知事件从server发送到client是&lt;strong&gt;异步&lt;/strong&gt;的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于&lt;strong&gt;网络延迟或其他因素导致客户端在不同的时刻监听到事件&lt;/strong&gt;，由于Zookeeper本身提供了&lt;strong&gt;ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化&lt;/strong&gt;。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper&lt;strong&gt;只能保证最终的一致性，而无法保证强一致性&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;注册watcher &lt;strong&gt;&lt;code&gt;getData&lt;/code&gt;、exists、&lt;code&gt;getChildren&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;凡是事务类型的操作，都会触发watcher &lt;strong&gt;create、delete、&lt;code&gt;setData&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;事件的实现原理&#34;&gt;事件的实现原理&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180613085557311.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180613085628613.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+&lt;img src=&#34;zookeeper.assets/20180613085645577.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;5-acl&#34;&gt;5、ACL&lt;/h3&gt;
+&lt;p&gt;zookeeper提供控制节点访问权限的功能，用于有效的保证zookeeper中数据的安全性。&lt;/p&gt;
+&lt;p&gt;CREATE /READ/WRITE/DELETE/ADMIN&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;zookeeper的命令操作&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. create [-s] [-e] path data acl
+-s 表示节点是否有序
+-e 表示是否为临时节点
+默认情况下，是持久化节点
+
+2. get path [watch]:获得指定 path的信息
+
+3.set path data [version]:修改节点 path对应的data
+
+4.delete path [version]:删除节点
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;6-stat信息&#34;&gt;&lt;strong&gt;6、stat信息&lt;/strong&gt;&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;cversion = 0       子节点的版本号
+aclVersion = 0     表示acl的版本号，修改节点权限
+dataVersion = 1    表示的是当前节点数据的版本号
+
+czxid    节点被创建时的事务ID
+mzxid   节点最后一次被更新的事务ID
+pzxid    当前节点下的子节点最后一次被修改时的事务ID
+
+ctime = Sat Aug 05 20:48:26 CST 2017:创建时间
+mtime = Sat Aug 05 20:48:50 CST 2017：修改时间
+
+ephemeralOwner = 0x0   创建临时节点的时候，会有一个sessionId 。 该值存储的就是这个sessionid
+dataLength = 3    数据值长度
+numChildren = 0  子节点数
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;7-zookeeper-下-server工作状态&#34;&gt;7、Zookeeper 下 Server工作状态&lt;/h3&gt;
+&lt;p&gt;LEADING：说明此节点已经是leader节点，处于领导者地位的状态，差不多就是一般集群中的master。但在zookeeper中，只有leader才有写权限，其他节点（FOLLOWING）是没有写权限的，可以读&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LOOKING&lt;/strong&gt;：选举中，正在寻找leader，即将进入leader选举流程中&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;FOLLOWING&lt;/strong&gt;：跟随者，表示当前集群中的leader已经选举出来了，主要具备以下几个功能点&lt;/p&gt;
+&lt;p&gt;​            向leader发送请求（PING消息、REQUEST消息、ACK消息、REVALIDATE消息）&lt;/p&gt;
+&lt;p&gt;​            接收leader消息并进行处理；&lt;/p&gt;
+&lt;p&gt;​            接收client发送过来的请求，如果为写请求，会发送给Leader进行投票处理，然后返回client结果。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OBSERVING&lt;/strong&gt;：OBSERVING和FOLLOWING差不多，但不参加投票和选举，接受leader选举后的结果&lt;/p&gt;
+&lt;p&gt;##Zookeeper的应用&lt;/p&gt;
+&lt;h3 id=&#34;1-zk的命名服务&#34;&gt;1、&lt;code&gt;zk&lt;/code&gt;的命名服务&lt;/h3&gt;
+&lt;p&gt;命名服务是指通过指定的名字来获取资源或者服务的地址，利用&lt;code&gt;zk&lt;/code&gt;创建一个全局的路径，即是唯一的路径，这个路径就可以作为一个 名字，指向集群中的集群，提供的服务的地址，或者一个远程的对象等等。&lt;/p&gt;
+&lt;h3 id=&#34;2-zk的配置管理&#34;&gt;2、&lt;code&gt;zk&lt;/code&gt;的配置管理&lt;/h3&gt;
+&lt;p&gt;程序分布式的部署在不同的机器上，将程序的配置信息放在&lt;code&gt;zk&lt;/code&gt;的znode下，当有配置发生改变时，也就是znode发生变化时，可以通 过改变&lt;code&gt;zk&lt;/code&gt;中某个目录节点的内容，利用watcher通知给各个客户端，从而更改配置。&lt;/p&gt;
+&lt;h3 id=&#34;3-zookeeper集群管理&#34;&gt;3、Zookeeper集群管理&lt;/h3&gt;
+&lt;p&gt;所谓集群管理无在乎两点：是否有机器退出和加入、选举master。&lt;/p&gt;
+&lt;p&gt;对于第一点，所有机器约定在父目录下创建临时目录节点，然后监听父目录节点的子节点变化消息。一旦有机器挂掉，该机器与  zookeeper的连接断开，其所创建的临时目录节点被删除，所有其他机器都收到通知：某个兄弟目录被删除。 新机器加入也是类似，所有机器收到通知：&lt;/p&gt;
+&lt;p&gt;对于第二点，我们稍微改变一下，所有机器创建 临时顺序编号目录节点，每次选取编号最小的机器作为master就好。&lt;/p&gt;
+&lt;h3 id=&#34;4-队列管理&#34;&gt;4、队列管理&lt;/h3&gt;
+&lt;p&gt;两种类型的队列：&lt;/p&gt;
+&lt;p&gt;1、同步队列，当一个队列的成员都聚齐时，这个队列才可用，否则一直等待所有成员到达。&lt;/p&gt;
+&lt;p&gt;在约定目录下创建临时目录节点，监听节点数目是否是我们要求的数目。&lt;/p&gt;
+&lt;p&gt;2、队列按照 FIFO 方式进行入队和出队操作。&lt;/p&gt;
+&lt;p&gt;和分布式锁服务中的控制时序场景基本原理一致，入列有编号，出列按编号。在特定的目录下创建PERSISTENT_SEQUENTIA L节点，创建成功时Watcher通知等待的队列，队列删除序列号最小的节点用以消费。此场景下Zookeeper的znode用于消息存储， znode存储的数据就是消息队列中的消息内容，SEQUENTIAL序列号就是消息的编号，按序取出即可。由于创建的节点是持久化的， 所以不必担心队列消息的丢失问题。&lt;/p&gt;
+&lt;h3 id=&#34;5-zookeeper分布式锁&#34;&gt;5、Zookeeper分布式锁&lt;/h3&gt;
+&lt;p&gt;有了zookeeper的一致性文件系统，锁的问题变得容易。锁服务可以分为两类，一个是保持独占，另一个是控制时序。  对于第一类，我们将zookeeper上的一个znode看作是一把锁，通过&lt;code&gt;createznode&lt;/code&gt;的方式来实现。所有客户端都去创建  /distribute_lock 节点，最终成功创建的那个客户端也即拥有了这把锁。用完删除掉自己创建的distribute_lock 节点就释放 出锁。&lt;/p&gt;
+&lt;p&gt;对于第二类， /distribute_lock 已经预先存在，所有客户端在它下面创建临时顺序编号目录节点，和选master一样，编号最小 的获得锁，用完删除，依次方便。&lt;/p&gt;
+&lt;h2 id=&#34;zookeeper集群&#34;&gt;Zookeeper集群&lt;/h2&gt;
+&lt;h3 id=&#34;41处理读请求&#34;&gt;4.1处理读请求：&lt;/h3&gt;
+&lt;p&gt;​    任意节点都可以去处理读请求不需要转发：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607214225328.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;42-写请求事务请求&#34;&gt;4.2、写请求（事务请求）&lt;/h3&gt;
+&lt;p&gt;​    会转发给Leader(改进版2pc，过半同意即可)&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607214358436.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;​    1.事务请求发送到follower服务器节点（若发送给Leader节点少了转发这一步）&lt;/p&gt;
+&lt;p&gt;​    2.首先会把事务请求转发给leader， Leader 接收到消息请求后，将消息赋予一个&lt;code&gt;zxid&lt;/code&gt;，并保存在一个FIFO队列中，这样就可以保证事务的顺序一致性；&lt;/p&gt;
+&lt;p&gt;​    3.leader 服务器把客户端的请求转化成一个事务 Proposal（提议），并把这个 Proposal 分发给集群中的所有 Follower 服务器，&lt;/p&gt;
+&lt;p&gt;​    4.当 follower 接收到 proposal，先把 proposal 写到磁盘，写入成功以后再向 leader 回复一个 ack&lt;/p&gt;
+&lt;p&gt;​    5.Leader 就会再次向所有的Follower 服务器发送 Commit 消息，要求各个 follower 节点对前面的一个 Proposal 进行提交，同时会在本地执行该消息;&lt;/p&gt;
+&lt;p&gt;​    6.把最后的结果同步给Observer节点,&lt;/p&gt;
+&lt;p&gt;​    7.把结果返回给客户端。&lt;/p&gt;
+&lt;h3 id=&#34;43-集群角色&#34;&gt;4.3、集群角色&lt;/h3&gt;
+&lt;h4 id=&#34;leader-角色&#34;&gt;Leader 角色&lt;/h4&gt;
+&lt;p&gt;Leader 服务器是整个 zookeeper 集群的核心，主要的工作 任务有两项&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 事物请求的唯一调度和处理者，保证集群事物处理的顺序性 
+
+2. 集群内部各服务器的调度者
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;follower-角色&#34;&gt;Follower 角色&lt;/h4&gt;
+&lt;p&gt;Follower 角色的主要职责是&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 处理客户端非事务请求、转发事物请求给leader 服务器
+
+2. 参与事物请求 Proposal 的投票（需要半数以上服务器 通过才能通知 leadercommit 数据; Leader 发起的提案，要求 Follower 投票）
+
+3. 参与 Leader 选举的投票
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;observer-角色&#34;&gt;Observer 角色&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;Observer 是zookeeper3.3 开始引入的一个全新的服务器角色，从字面来理解，该角色充当了观察者的角色。观察 zookeeper 集群中的最新状态变化并将这些状态变化同步到 observer 服务器上。
+
+Observer 的工作原理与 follower 角色基本一致，而它和 follower 角色唯一的不同在于 observer 不参与任何形式的投票，包括事物请求 Proposal的投票和leader选举的投票。
+
+注意：observer 服务器只提供非事物请求服务，通常在于不影响集群事物处理能力的前提下提升集群非事物处理的能力
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;44-集群组成&#34;&gt;4.4、集群组成&lt;/h3&gt;
+&lt;p&gt;通常 zookeeper 是由 2n+1 台 server 组成，每个 server 都知道彼此的存在。&lt;/p&gt;
+&lt;p&gt;对于 2n+1 台 server，只要有 n+1 台（大多数）server 可用，整个系统保持可用。&lt;/p&gt;
+&lt;p&gt;我们已经了解到，一个 zookeeper 集群如果要对外提供可用的服务，那么集群中必须要有过半的机器正常工作并且彼此之间能够正常通信，基于这个特性，如果向搭建一个能够允许 F 台机器 down 掉的集群，那么就要部署 2*F+1 台服务器构成的 zookeeper 集群。因此 3 台机器构成的 zookeeper 集群，能够在挂掉一台机器后依然正常工作。&lt;/p&gt;
+&lt;p&gt;​    一个 5 台机器集群的服务，能够对 2 台机器怪调的情况下进行容灾。如果一台由 6 台服务构成的集群，同样只能挂掉 2 台机器。因此， 5 台和 6 台在容灾能力上并没有明显优势，反而增加了网络通信负担。系统启动时，集群中的 server 会选举出一台 server 为 Leader，其它的就作为 follower（这里先不考虑 observer 角色）。之所以要满足这样一个等式，是因为一个节点要成为集群中的 leader，需要有超过及群众过半数的节点支持，这个涉及到 leader 选举算法。同时也涉及到事务请求的提交投票&lt;/p&gt;
+&lt;h2 id=&#34;zab协议原子消息广播协议&#34;&gt;ZAB协议（原子消息广播协议）&lt;/h2&gt;
+&lt;p&gt;ZAB协议是为分布式协调服务 ZooKeeper 专门设计的一种支持崩溃恢复的原子广播协议。在 ZooKeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性，&lt;/p&gt;
+&lt;h3 id=&#34;zab-协议的核心定义&#34;&gt;ZAB 协议的核心定义&lt;/h3&gt;
+&lt;p&gt;当整个集群在启动时，或者当 leader 节点出现网络中断、崩溃等情况时，ZAB 协议就会进入恢复模式并选举产生新的 Leader，当 leader 服务器选举出来后，并且集群中有过半的机器和该 leader 节点完成数据同步后（同步指的是数据同步，用来保证集群中过半的机器能够和 leader 服务器的数据状态保持一致），ZAB 协议就会退出恢复模式。当集群中已经有过半的 Follower 节点完成了和 Leader 状态同步以后，那么整个集群就进入了消息广播模式。这个时候，在 Leader 节点正常工作时，启动一台新的服务器加入到集群，那这个服务器会直接进入数据恢复模式，和 leader 节点进行数据同步。同步完成后即可正常对外提供非事务请求的处理。&lt;/p&gt;
+&lt;h3 id=&#34;zab协议4阶段&#34;&gt;ZAB协议4阶段&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Leader election（选举阶段）：节点在一开始都处于选举阶段，只要有一个节点得到超半数节点的票数，它就可以当选准 leader。只有到达 广播阶段（broadcast） 准 leader 才会成为真正的 leader。这一阶段的目的是就是为了选出一个准 leader，然后进入下一个阶段。&lt;/li&gt;
+&lt;li&gt;Discovery（发现阶段）：在这个阶段，followers 跟准 leader 进行通信，同步 followers 最近接收的事务提议。这个一阶段的主要目的是发现当前大多数节点接收的最新提议，并且准 leader 生成新的 epoch，让 followers 接受，更新它们的 accepted Epoch&lt;br&gt;
+一个 follower 只会连接一个 leader，如果有一个节点 f 认为另一个 follower p 是 leader，f 在尝试连接 p 时会被拒绝，f 被拒绝之后，就会进入重新选举阶段。&lt;/li&gt;
+&lt;li&gt;Synchronization（同步阶段）：同步阶段主要是利用 leader 前一阶段获得的最新提议历史，同步集群中所有的副本。只有当 大多数节点都同步完成，准 leader 才会成为真正的 leader。follower 只会接收 &lt;code&gt;zxid&lt;/code&gt; 比自己的 &lt;code&gt;lastZxid&lt;/code&gt; 大的提议。&lt;/li&gt;
+&lt;li&gt;Broadcast（广播阶段）：到了这个阶段，Zookeeper 集群才能正式对外提供事务服务，并且 leader 可以进行消息广播。同时如果有新的节点加入，还需要对新节点进行同步。&lt;br&gt;
+ZAB 提交事务并不像 2PC 一样需要全部 follower 都 ACK，只需要得到超过半数的节点的 ACK 就可以了。&lt;br&gt;
+ZAB协议JAVA实现（FLE-发现阶段和同步合并为 Recovery Phase（恢复阶段））&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;zab协议两种模式&#34;&gt;ZAB协议两种模式&lt;/h3&gt;
+&lt;p&gt;由定义可知ZAB协议主要有两种模式&lt;/p&gt;
+&lt;p&gt;​        1.消息广播模式&lt;/p&gt;
+&lt;p&gt;​        2.数据恢复模式&lt;/p&gt;
+&lt;h4 id=&#34;消息广播的实现原理&#34;&gt;消息广播的实现原理&lt;/h4&gt;
+&lt;p&gt;消息广播存在事务处理过程中（改良版本的2pc）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. Leader 接收到消息请求后，将消息赋予一个全局唯一的64 位自增 id，叫：zxid，通过 zxid 的大小比较既可以实现因果有序这个特征；
+2. Leader 为每个 follower 准备了一个 FIFO 队列（通过 TCP协议来实现，以实现了全局有序这一个特点）将带有 zxid的消息作为一个提案（proposal）分发给所有的 follower；
+3. 当 follower 接收到 proposal，先把 proposal 写到磁盘，写入成功以后再向 leader 回复一个 ack
+4. 当 leader 接收到合法数量（超过半数节点）的 ACK 后，leader 就会向这些 follower 发送 commit 命令，同时会在本地执行该消息
+5. 当 follower 收到消息的 commit 命令以后，会提交该消息
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607220648571.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h4 id=&#34;崩溃恢复数据恢复&#34;&gt;崩溃恢复(数据恢复)&lt;/h4&gt;
+&lt;p&gt;ZAB 协议的这个基于原子广播协议的消息广播过程，在正 常情况下是没有任何问题的，但是一旦 Leader 节点崩溃，或者新机器加入，或者由于网络问题导致 Leader 服务器失去了过半的 Follower 节点的联系（leader 失去与过半 follower 节点联系，可能是 leader 节点和 follower 节点之间产生了网络分区，那么此时的 leader 不再是合法的 leader 了），那么就 会进入到崩溃恢复模式。&lt;/p&gt;
+&lt;h5 id=&#34;已经被处理的消息不能丢失&#34;&gt;已经被处理的消息不能丢失&lt;/h5&gt;
+&lt;p&gt;当 leader 收到合法数量 follower 的 ACKs 后，就向各个 follower 广播 COMMIT 命令，同时也会在本地执行 COMMIT 并向连接的客户端返回「成功」。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果在各个 follower 在收到 COMMIT 命令前Leader 就挂了，导致剩下的服务器并没有执行都这条消息。&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20180607220958652.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;Leader 对事务消息发起 commit 操作，该消息在follower1 上执行了，但是 follower2 还没有收到 commit，Leader就已经挂了，而实际上客户端已经收到该事务消息处理成功的回执了。所以在 zab 协议下需要保证所有机器都要执行这个事务消息&lt;/p&gt;
+&lt;h5 id=&#34;被丢弃的消息不能再次出现&#34;&gt;被丢弃的消息不能再次出现&lt;/h5&gt;
+&lt;p&gt;当 leader 接收到消息请求生成 proposal 后就挂了，其他 follower 并没有收到此 proposal，因此经过恢复模式重新选了 leader 后，这条消息是被跳过的。此时，之前 挂了的 leader 重新启动并注册成了follower，他保留了被跳过消息的 proposal 状态，与整个系统的状态是不一致的，需要将其删除。&lt;/p&gt;
+&lt;p&gt;如图：在集群正常运行过程中的某一个时刻,Leader节点先后广播P1,P2,C1,C2；其中当Leader服务器将消息P2提交后，就立即崩溃推出。这种情况下当崩溃的服务器再起链接的时候C1和C2事务将会被抛弃删除。&lt;/p&gt;
+&lt;h2 id=&#34;zookeeper节点宕机如何处理&#34;&gt;Zookeeper节点宕机如何处理？&lt;/h2&gt;
+&lt;p&gt;Zookeeper本身也是集群，推荐配置不少于3个服务器。Zookeeper自身也要保证当一个节点宕机时，其他节点会继续提供服务。&lt;/p&gt;
+&lt;p&gt;如果是一个Follower宕机，还有2台服务器提供访问，因为Zookeeper上的数据是有多个副本的，数据并不会丢失；&lt;/p&gt;
+&lt;p&gt;如果是一个Leader宕机，Zookeeper会选举出新的Leader。&lt;/p&gt;
+&lt;p&gt;ZK集群的机制是只要超过半数的节点正常，集群就能正常提供服务。只有在ZK节点挂得太多，只剩一半或不到一半节点能工作，集群才失效。&lt;/p&gt;
+&lt;p&gt;所以&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;3个节点的cluster可以挂掉1个节点(leader可以得到2票&amp;gt;1.5)&lt;/li&gt;
+&lt;li&gt;2个节点的cluster就不能挂掉任何1个节点了(leader可以得到1票&amp;lt;=1)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;zookeeper选取主leader&#34;&gt;&lt;strong&gt;Zookeeper选取主leader&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Zab&lt;/code&gt;就进入了恢复模式，恢复模式需要重新选举出一个新的leader，让所有的Server都恢复到一个正确的状态。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/20190419232751273.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;假如有以下5台机器server1、server2、server3、server4、server5，每个server 自身都有一票，在初始化或者server崩溃数过半的时候，每个server都有一个自身的&lt;code&gt;myid&lt;/code&gt;(zookeeper配置文件)，这里按1、2、3、4、5算，在选举过程中主要是依据&lt;code&gt;zxid&lt;/code&gt;和&lt;code&gt;myid&lt;/code&gt;来进行轮训server然后比较统计投票。&lt;code&gt;zxid&lt;/code&gt;(ZooKeeper Transaction Id，每次请求对应一个唯一的&lt;code&gt;zxid&lt;/code&gt;，如果&lt;code&gt;zxid&lt;/code&gt;a &amp;lt; &lt;code&gt;zxid&lt;/code&gt;b ，则可以保证a一定发生在b之前)。&lt;/p&gt;
+&lt;p&gt;选举分为两种情况，初始化和leader挂掉的时候，要进行leader选举，至少需要2台机器，集群机器台数基本是奇数。&lt;/p&gt;
+&lt;h5 id=&#34;初始化&#34;&gt;初始化&lt;/h5&gt;
+&lt;p&gt;当启动初始化集群的时候，server1的&lt;code&gt;myid&lt;/code&gt;为1，&lt;code&gt;zxid&lt;/code&gt;为0   server2的&lt;code&gt;myid&lt;/code&gt;为2，&lt;code&gt;zxid&lt;/code&gt;同样是0，以此类推。此种情况下&lt;code&gt;zxid&lt;/code&gt;都是为0。&lt;strong&gt;先比较&lt;code&gt;zxid&lt;/code&gt;，再比较&lt;code&gt;myid&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;服务器1启动，给自己投票，然后发投票信息，由于其它机器还没有启动所以它收不到反馈信息，服务器1的状态一直属于Looking(选举状态)。&lt;/li&gt;
+&lt;li&gt;服务器2启动，给自己投票，同时与之前启动的服务器1交换结果，由于服务器2的&lt;code&gt;myid&lt;/code&gt;大所以服务器2胜出，但此时投票数没有大于半数，所以两个服务器的状态依然是LOOKING。&lt;/li&gt;
+&lt;li&gt;服务器3启动，给自己投票，同时与之前启动的服务器1,2交换信息，由于服务器3的&lt;code&gt;myid&lt;/code&gt;最大所以服务器3胜出，此时投票数正好大于半数，所以服务器3成为领导者，服务器1,2成为小弟。&lt;/li&gt;
+&lt;li&gt;服务器4启动，给自己投票，同时与之前启动的服务器1,2,3交换信息，尽管服务器4的&lt;code&gt;myid&lt;/code&gt;大，但之前服务器3已经胜出，所以服务器4只能成为小弟。&lt;/li&gt;
+&lt;li&gt;服务器5启动，后面的逻辑同服务器4成为小弟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当选举机器过半的时候，已经选举出leader后，后面的就跟随已经选出的leader，所以4和5跟随成为leader的server3。所以，在初始化的时候，一般到过半的机器数的时候谁的&lt;code&gt;myid&lt;/code&gt;最大一般就是leader&lt;/p&gt;
+&lt;h5 id=&#34;运行期间&#34;&gt;运行期间&lt;/h5&gt;
+&lt;p&gt;按照上述初始化的情况，server3成为了leader，在运行期间处于leader的server3挂了，那么非Observer服务器server1、server2、server4、server5会将自己的节点状态变为LOOKING状态&lt;/p&gt;
+&lt;p&gt;1、开始进行leader选举。现在选举同样是根据&lt;code&gt;myid&lt;/code&gt;和&lt;code&gt;zxid&lt;/code&gt;来进行&lt;/p&gt;
+&lt;p&gt;2、首先每个server都会给自己投一票竞选leader。假设server1的&lt;code&gt;zxid&lt;/code&gt;为123，server2的&lt;code&gt;zxid&lt;/code&gt;为124，server4的&lt;code&gt;zxid&lt;/code&gt;为169，server5的&lt;code&gt;zxid&lt;/code&gt;为188&lt;/p&gt;
+&lt;p&gt;3、同样先是比较&lt;code&gt;zxid&lt;/code&gt;再比较，server1、server2、server4依次比较，server4根据优先条件选举为leader。然后server5还是跟随server4，即使server5的&lt;code&gt;zxid&lt;/code&gt;最大，但是当选举到server4的时候，机器数已经过半。不再进行选举，跟随已经选举的leader&lt;/p&gt;
+&lt;p&gt;在leader选举的时候会有30s-120s的过程，在这期间也是无法提供服务的。如果用zookeeper要作为服务发现是个弊端，基本无法忍受，zookeeper本身是一个CP系统，保证数据的一致性，在恢复的时候再提供服务，并没有多好高可用的方案。如果leader发生故障选举时无法提供服务发现对一个大型应用来说可能是致命的。&lt;/p&gt;
+&lt;h3 id=&#34;zookeeper同步流程&#34;&gt;Zookeeper同步流程&lt;/h3&gt;
+&lt;p&gt;当领导者被选举出来，&lt;code&gt;zk&lt;/code&gt;就进入状态同步过程。&lt;/p&gt;
+&lt;p&gt;1、Leader等待Follower连接；&lt;/p&gt;
+&lt;p&gt;2、Follower连接leader，将最大的&lt;code&gt;zxid&lt;/code&gt;发送给leader；&lt;/p&gt;
+&lt;p&gt;3、Leader根据follower的&lt;code&gt;zxid&lt;/code&gt;确定同步点；&lt;/p&gt;
+&lt;p&gt;4、完成同步后通知follower 已经成为&lt;code&gt;uptodate&lt;/code&gt;状态；&lt;/p&gt;
+&lt;p&gt;5、Follower收到&lt;code&gt;uptodate&lt;/code&gt;消息后，又可以重新接受client的请求进行服务了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bv8xag.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。&lt;/p&gt;
+&lt;h2 id=&#34;zoocfg配置文件分析&#34;&gt;&lt;strong&gt;&lt;code&gt;zoo.cfg&lt;/code&gt;配置文件分析&lt;/strong&gt;&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;tickTime=2000  zookeeper中最小的时间单位长度 （ms）
+initLimit=10  follower节点启动后与leader节点完成数据同步的时间
+syncLimit=5 leader节点和follower节点进行心跳检测的最大延时时间
+dataDir=/tmp/zookeeper  表示zookeeper服务器存储快照文件的目录
+dataLogDir 表示配置 zookeeper事务日志的存储路径，默认指定在dataDir目录下
+clientPort =2181：clientPort这个端口就是客户端（应用程序）连接Zookeeper服务器的端口,Zookeeper会监听这个端口接受客户端的访问请求。
+    server.A=B：C：D
+    server.1=zk_node1:2881:3881
+    server.2=zk_node2:2881:3881
+    server.3=zk_node3:2881:3881
+    A是一个数字,表示这个是第几号服务器；
+    B是这个服务器的IP地址（或者是与IP地址做了映射的主机名）；
+    C第一个端口用来集群成员的信息交换,表示这个服务器与集群中的Leader服务器交换信息的端口；
+    D是在leader挂掉时专门用来进行选举leader所用的端口。
+    注意：如果是伪集群的配置方式，不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。
+&lt;/code&gt;&lt;/pre&gt;
+">Zookeeper笔记</a>
       </div>
       
     </div>
