@@ -9,7 +9,7 @@
 <meta name="description" content="君子终日乾乾，夕惕若，厉，无咎。">
 <meta name="theme-color" content="#000">
 <title>JVM | 异见</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1606469301178">
+<link rel="shortcut icon" href="/favicon.ico?v=1606469952160">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -4347,7 +4347,7 @@ if(exec(HGET stock:1001 state) == &amp;quot;in stock&amp;quot;) {
 &lt;p&gt;redis主要有2种过期删除策略&lt;/p&gt;
 &lt;h4 id=&#34;惰性删除&#34;&gt;惰性删除&lt;/h4&gt;
 &lt;p&gt;惰性删除指的是当我们查询key的时候才对key进行检测，如果已经达到过期时间，则删除。显然，他有一个缺点就是如果这些过期的key没有被访问，那么他就一直无法被删除，而且一直占用内存。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotTUJJNic94cee1OKFlibBEJpiazwQu2YRicbyicicpYiboFYicnDETibNddYdO7A/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173152.jpg&#34; alt=&#34;微信图片_20201127173152&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h4 id=&#34;定期删除&#34;&gt;定期删除&lt;/h4&gt;
 &lt;p&gt;定期删除指的是redis每隔一段时间对数据库做一次检查，删除里面的过期key。由于不可能对所有key去做轮询来删除，所以redis会每次随机取一些key去做检查和删除。&lt;/p&gt;
 &lt;h4 id=&#34;为什么不用定时删除策略&#34;&gt;为什么不用定时删除策略?&lt;/h4&gt;
@@ -4393,15 +4393,14 @@ LinkedHashMap底层就是用的HashMap加双链表实现的，而且本身已经
 &lt;h1 id=&#34;7-如何应对缓存穿透和缓存雪崩问题&#34;&gt;7、如何应对缓存穿透和缓存雪崩问题&lt;/h1&gt;
 &lt;h2 id=&#34;1-缓存穿透&#34;&gt;1、缓存穿透&lt;/h2&gt;
 &lt;p&gt;缓存穿透是指查询不存在缓存中的数据，每次请求都会打到DB，就像缓存不存在一样。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotfyfg1VfmxRiaxwqyukuox5QNiazUlicn7FJ9Anicbl8bPGf25VMYNYhKuQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173303.jpg&#34; alt=&#34;微信图片_20201127173303&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;解决方案:&lt;br&gt;
 (一)利用互斥锁，缓存失效的时候，先去获得锁，&lt;strong&gt;得到锁了再去请求数据库&lt;/strong&gt;。没得到锁，则休眠一段时间重试；&lt;br&gt;
 (二)采用异步更新策略，无论key是否取到值，都直接返回，不再去读数据库。value值中维护一个缓存失效时间，缓存如果过期，&lt;strong&gt;异步起一个线程去读数据库，更新缓存&lt;/strong&gt;。需要做缓存预热(项目启动前，先加载缓存)操作。&lt;br&gt;
 (三)提供一个能迅速判断请求是否有效的拦截机制，比如，利用&lt;strong&gt;布隆过滤器&lt;/strong&gt;，内部维护一系列合法有效的key。迅速判断出，请求所携带的Key是否合法有效。如果不合法，则直接返回。&lt;/p&gt;
-&lt;p&gt;显然，使用布隆过滤器之后会有一个问题就是误判，因为它本身是一个数组，可能会有多个值落到同一个位置，那么理论上来说只要我们的数组长度够长，误判的概率就会越低，这种问题就根据实际情况来就好了。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotwmfeKnHQeeQqYdkcqnYV61WpN3SKnJCxqpAZ1XauEAz6WyooC542KA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;显然，使用布隆过滤器之后会有一个问题就是误判，因为它本身是一个数组，可能会有多个值落到同一个位置，那么理论上来说只要我们的数组长度够长，误判的概率就会越低，这种问题就根据实际情况来就好了。&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173345.jpg&#34; alt=&#34;微信图片_20201127173345&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;2-缓存雪崩&#34;&gt;2、缓存雪崩&lt;/h2&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot0TVVVSI3kCN5mQIUwIU0jZeaZylKHeFRibbf473TNs9fF1Ut0Gg3rAg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173417.jpg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;即&lt;strong&gt;缓存同一时间大面积的失效&lt;/strong&gt;，新缓存未到期间，这个时候又来了一波请求，结果请求都怼到数据库上，从而导致数据库连接异常而对数据库CPU和内存造成巨大压力，严重的会造成数据库宕机。从而形成一系列连锁反应，造成整个系统崩溃。&lt;br&gt;
 解决方案:&lt;br&gt;
 (一)给缓存的失效时间，加上一个随机值，避免集体失效。&lt;br&gt;
@@ -4414,7 +4413,7 @@ LinkedHashMap底层就是用的HashMap加双链表实现的，而且本身已经
 &lt;/ul&gt;
 &lt;h2 id=&#34;3-缓存击穿&#34;&gt;&lt;strong&gt;3、缓存击穿&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;缓存击穿&lt;/strong&gt;是指一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，就像在一个完好无损的桶上凿开了一个洞。这个和热key的问题比较类似，只是说的点在于&lt;strong&gt;过期导致请求全部打到DB上而已&lt;/strong&gt;。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot15ia9NJVxN1r9QDltntLmqC5MxBBlIOOBDvnvNBiciaYXFcOut4ZD5p1g/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173521.jpg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;解决方案：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;加锁更新，比如请求查询A，发现缓存中没有，对A这个key加锁，同时去数据库查询数据，写入缓存，再返回给用户，这样后面的请求就可以从缓存中拿到数据了。&lt;/li&gt;
@@ -4518,11 +4517,11 @@ auto-aof-rewrite-min-size 64mb
 &lt;li&gt;bgsave执行完毕之后，发送RDB文件到slave，slave执行&lt;/li&gt;
 &lt;li&gt;master发送缓存中的写命令到slave，slave执行&lt;/li&gt;
 &lt;/ol&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotdopLgAB9KKiah8qqA71ZkztXrn885zDVCyFSnricEAPyWdo9w9lxG6icg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173646.jpg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;这里我写的这个命令是sync，但是在redis2.8版本之后已经使用psync来替代sync了，原因是sync命令非常消耗系统资源，而psync的效率更高。&lt;/p&gt;
 &lt;h2 id=&#34;哨兵&#34;&gt;哨兵&lt;/h2&gt;
 &lt;p&gt;基于主从方案的缺点还是很明显的，假设master宕机，那么就不能写入数据，那么slave也就失去了作用，整个架构就不可用了，除非你手动切换，主要原因就是因为没有自动故障转移机制。而哨兵(sentinel)的功能比单纯的主从架构全面的多了，它具备自动故障转移、集群监控、消息通知等功能。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotgVjlOy0uURyKRueXhar16F3ndHj2sQOme4tLbAGwg4Pia5dzcucWhXA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173711.jpg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;哨兵可以同时监视多个主从服务器，并且在被监视的master下线时，自动将某个slave提升为master，然后由新的master继续接收命令。整个过程如下：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;初始化sentinel，将普通的redis代码替换成sentinel专用代码&lt;/li&gt;
@@ -4565,14 +4564,14 @@ auto-aof-rewrite-min-size 64mb
 &lt;li&gt;A知道B收到了meet消息，返回一条ping消息，握手成功&lt;/li&gt;
 &lt;li&gt;最后，节点A将会通过gossip协议把节点B的信息传播给集群中的其他节点，其他节点也将和B进行握手&lt;/li&gt;
 &lt;/ol&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot333fTiaaCA3ibxfwpnZ8VbzLkaM4cxHs23REHZVCibGUF4GdZmLNviaPYQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20201127173742.jpg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h4 id=&#34;redis-cluster分片原理&#34;&gt;Redis Cluster分片原理&lt;/h4&gt;
 &lt;p&gt;Redis Cluster中共有16384个&lt;strong&gt;hash slot&lt;/strong&gt;，Redis会计算每个key的&lt;strong&gt;CRC16，将结果与16384取模&lt;/strong&gt;，来决定该key存储在哪一个hash slot中，同时需要指定Redis Cluster中每个数据分片负责的Slot数，Slot的分配在任何时间点都可以进行重新分配。&lt;/p&gt;
 &lt;p&gt;当数据库16384个slot都有节点在处理时，集群处于上线状态，反之只要有一个slot没有得到处理都会处理下线状态。通过cluster addslots命令可以将slot指派给对应节点处理。&lt;/p&gt;
 &lt;p&gt;slot是一个位数组，数组的长度是16384/8=2048，而数组的每一位用1表示被节点处理，0表示不处理，如图所示的话表示A节点处理0-7的slot。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot9WNKa3CWnMYFY4JK5MKCOdcUZYmsYtpa7RNofu11gamgcRibyU14y0g/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20201127173823568.png&#34; alt=&#34;image-20201127173823568&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;客户端在对key进行读写操作时，可以连接Cluster中的任意一个分片，如果操作的key不在此分片负责的Slot范围内，则会返回一个MOVED命令到客户端指引客户端转向正确的节点。（MOVED过程是自动的）&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotRea7czTYia2kyQric4rkZOdnbfD7U4WHLErfu6BjU4jvTGicGZFLVTaicA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20201127173836578.png&#34; alt=&#34;image-20201127173836578&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;如果增加或者移出节点，对于slot的重新分配也是非常方便的，redis提供了工具帮助实现slot的迁移，整个过程是完全在线的，不需要停止服务。&lt;/p&gt;
 &lt;h4 id=&#34;hash-tags&#34;&gt;hash tags&lt;/h4&gt;
 &lt;p&gt;在基础的分片原则上，Redis还支持hash tags功能，以hash tags要求的格式明明的key，将会确保进入&lt;strong&gt;同一个Slot中&lt;/strong&gt;。&lt;/p&gt;
@@ -4615,9 +4614,9 @@ auto-aof-rewrite-min-size 64mb
 &lt;p&gt;综合上面几点考虑，如果单台主机的可用物理内存完全足以支撑对Redis的容量需求，且Redis面临的并发写压力距离Benchmark值还尚有距离，建议采用主从复制的架构，可以省去很多不必要的麻烦。&lt;/p&gt;
 &lt;p&gt;同时，如果应用中大量使用pipelining和事务，也建议尽可能选择主从复制架构，可以减少设计和开发时的复杂度。&lt;/p&gt;
 &lt;h1 id=&#34;12-热点缓存&#34;&gt;12、&lt;strong&gt;热点缓存&lt;/strong&gt;&lt;/h1&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;20&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226191608229.png&#34; alt=&#34;image-20191226191608229&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226191608229.png&#34; alt=&#34;image-20191226191608229&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;所谓热key问题就是，突然有几十万的请求去访问redis上的某个特定key，那么这样会造成流量过于集中，达到物理网卡上限，导致缓存机器会过度操劳而宕机的，那么如果缓存集群开始出现机器的宕机，读请求发现读不到数据，会从数据库里提取原始数据，然后放入剩余的其他缓存机器里去。但是接踵而来的每秒20万请求，会再次压垮其他的缓存机器。以此类推，最终导致缓存集群全盘崩溃，引发系统整体宕机。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;21&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226191809323.png&#34; alt=&#34;image-20191226191809323&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;20&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226191809323.png&#34; alt=&#34;image-20191226191809323&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;​	针对热key的解决方案：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;提前把热key打散到不同的服务器，降低压力&lt;/li&gt;
@@ -4628,15 +4627,15 @@ auto-aof-rewrite-min-size 64mb
 &lt;h3 id=&#34;如何自动发现热点缓存问题&#34;&gt;如何自动发现热点缓存问题？&lt;/h3&gt;
 &lt;p&gt;此时完全可以基于大数据领域的流式计算技术来进行实时数据访问次数的统计，比如spark streaming，这些技术都是可以的。&lt;/p&gt;
 &lt;p&gt;然后一旦在实时数据访问次数统计的过程中，比如发现一秒之内，某条数据突然访问次数超过了1000，就直接立马把这条数据判定为是热点数据，可以将这个发现出来的热点数据写入比如zookeeper中。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;22&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192117134.png&#34; alt=&#34;image-20191226192117134&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;21&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192117134.png&#34; alt=&#34;image-20191226192117134&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;热点缓存自动加载为jvm本地缓存&#34;&gt;&lt;strong&gt;热点缓存自动加载为JVM本地缓存&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;我们自己的系统可以对&lt;strong&gt;zookeeper&lt;/strong&gt;指定的热点缓存对应的&lt;strong&gt;znode&lt;/strong&gt;进行监听，如果有变化他立马就可以感知到了。&lt;/p&gt;
 &lt;p&gt;此时系统层就可以立马把相关的缓存数据从数据库加载出来，然后直接放在自己系统内部的本地缓存里即可。那么每个机器本地都会有一份热点缓存的副本。&lt;/p&gt;
 &lt;p&gt;然后接下来对热点缓存的读操作，直接系统本地缓存读出来就给返回了，不用再走缓存集群了。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;23&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192254878.png&#34; alt=&#34;image-20191226192254878&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;22&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192254878.png&#34; alt=&#34;image-20191226192254878&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;限流熔断保护&#34;&gt;&lt;strong&gt;限流熔断保护&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;在每个系统内部，其实还应该专门加一个对热点数据访问的限流熔断保护措施。每个系统实例内部，都可以加一个熔断保护机制，假设缓存集群最多每秒承载4万读请求，那么你一共有100个系统实例。你自己就该限制好，每个系统实例每秒最多请求缓存集群读操作不超过400次，一超过就可以熔断掉，不让请求缓存集群，直接返回一个空白信息，然后用户稍后会自行再次重新刷新页面之类的。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;24&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192409935.png&#34; alt=&#34;image-20191226192409935&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;23&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192409935.png&#34; alt=&#34;image-20191226192409935&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h1 id=&#34;13-redis性能调优&#34;&gt;13、Redis性能调优&lt;/h1&gt;
 &lt;p&gt;尽管Redis是一个非常快速的内存数据存储媒介，也并不代表Redis不会产生性能问题。前文中提到过，Redis采用单线程模型，所有的命令都是由一个线程串行执行的。所以当某个命令执行耗时较长时，会拖慢其后的所有命令，这使得Redis对每个任务的执行效率更加敏感。&lt;/p&gt;
 &lt;h3 id=&#34;长耗时命令&#34;&gt;长耗时命令&lt;/h3&gt;
