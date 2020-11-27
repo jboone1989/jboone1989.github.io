@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="君子终日乾乾，夕惕若，厉，无咎。">
 <meta name="theme-color" content="#000">
-<title>9、Mysql调优 | 异见</title>
+<title>秒杀系统 | 异见</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1606469147165">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="9、Mysql调优" />
-  <meta name="keywords" content="Mysql" />
+  <meta name="description" content="秒杀系统" />
+  <meta name="keywords" content="Gridea" />
 </head>
 
 <body>
@@ -190,39 +190,33 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%AD%97%E6%AE%B5">字段</a></li>
-<li><a href="#%E7%B4%A2%E5%BC%95">索引</a></li>
-<li><a href="#%E6%9F%A5%E8%AF%A2sql">查询SQL</a></li>
-<li><a href="#%E5%BC%95%E6%93%8E">引擎</a>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84">系统架构</a>
 <ul>
-<li><a href="#myisam">MyISAM</a></li>
-<li><a href="#innodb">InnoDB</a></li>
+<li><a href="#%E6%B5%81%E9%87%8F%E8%BF%87%E6%BB%A4">流量过滤</a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">性能优化</a></li>
 </ul>
 </li>
-<li><a href="#%E5%88%9B%E5%BB%BA%E5%BF%85%E8%A6%81%E7%9A%84%E7%B4%A2%E5%BC%95">创建必要的索引</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E9%A2%84%E7%BC%96%E8%AF%91%E6%9F%A5%E8%AF%A2">使用预编译查询</a></li>
-<li><a href="#%E8%B0%83%E6%95%B4where%E5%AD%97%E5%8F%A5%E4%B8%AD%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%A1%BA%E5%BA%8F">调整Where字句中的连接顺序</a></li>
-<li><a href="#index-condition-pushdownicp%E4%BC%98%E5%8C%96">Index Condition Pushdown（ICP)优化</a></li>
-<li><a href="#%E5%B0%BD%E9%87%8F%E5%B0%86%E5%A4%9A%E6%9D%A1sql%E8%AF%AD%E5%8F%A5%E5%8E%8B%E7%BC%A9%E5%88%B0%E4%B8%80%E5%8F%A5">尽量将多条SQL语句压缩到一句</a></li>
-<li><a href="#%E7%94%A8where%E5%AD%97%E5%8F%A5%E6%9B%BF%E6%8D%A2having%E5%AD%97%E5%8F%A5">用where字句替换HAVING字句</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E8%A1%A8%E7%9A%84%E5%88%AB%E5%90%8D">使用表的别名</a></li>
-<li><a href="#%E5%9C%A8in%E5%92%8Cexists%E4%B8%AD%E9%80%9A%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8B%E4%BD%BF%E7%94%A8exists%E5%9B%A0%E4%B8%BAin%E4%B8%8D%E8%B5%B0%E7%B4%A2%E5%BC%95">在in和exists中通常情况下使用EXISTS，因为in不走索引。</a></li>
-<li><a href="#%E9%81%BF%E5%85%8D%E5%9C%A8%E7%B4%A2%E5%BC%95%E4%B8%8A%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97">避免在索引上使用计算</a></li>
-<li><a href="#%E7%94%A8union-all%E6%9B%BF%E6%8D%A2union">用union all替换union</a></li>
-<li><a href="#%E9%81%BF%E5%85%8Dsql%E4%B8%AD%E5%87%BA%E7%8E%B0%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">避免SQL中出现隐式类型转换</a></li>
-<li><a href="#%E9%98%B2%E6%AD%A2%E6%A3%80%E7%B4%A2%E8%8C%83%E5%9B%B4%E8%BF%87%E5%AE%BD">防止检索范围过宽</a></li>
-<li><a href="#%E7%94%A8%E5%B0%8F%E8%A1%A8%E9%A9%B1%E5%8A%A8%E5%A4%A7%E8%A1%A8in%E5%92%8Cexist"><strong>用小表驱动大表IN和EXIST</strong></a></li>
-<li><a href="#orderby%E4%BC%98%E5%8C%96"><strong>ORDERBY优化</strong></a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%E6%9D%A5%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5">使用主键索引来优化数据分页</a><br>
-*
+<li><a href="#%E8%B6%85%E5%8D%96">超卖</a>
 <ul>
-<li><a href="#%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8">有什么用？</a></li>
-<li><a href="#%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8">怎么使用？</a></li>
+<li><a href="#%E6%96%B9%E6%A1%88">方案</a></li>
 </ul>
 </li>
-<li><a href="#change-buffer"><strong>change buffer</strong></a></li>
-<li><a href="#%E4%BC%98%E5%8C%96%E5%99%A8%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E7%B4%A2%E5%BC%95"><strong>优化器如何选择索引</strong></a></li>
-<li><a href="#%E4%BA%8C%E6%AC%A1%E5%86%99double-write">二次写(double write)</a></li>
+<li><a href="#%E8%B4%A8%E9%87%8F%E4%BF%9D%E9%9A%9C">质量保障</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1">数据统计</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a>
+<ul>
+<li><a href="#%E5%90%9E%E5%90%90%E9%87%8F">吞吐量</a></li>
+<li><a href="#qps">QPS</a></li>
+<li><a href="#tps">TPS</a></li>
+<li><a href="#rt">RT</a></li>
+<li><a href="#%E5%B9%B6%E5%8F%91%E6%95%B0">并发数</a></li>
+<li><a href="#%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F">计算方式</a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E6%80%9D%E8%80%83">性能思考</a></li>
+<li><a href="#%E6%9C%80%E4%BD%B3%E7%BA%BF%E7%A8%8B%E6%95%B0%E8%AE%A1%E7%AE%97">最佳线程数计算</a></li>
+<li><a href="#%E9%98%BF%E5%A7%86%E8%BE%BE%E5%B0%94%E5%AE%9A%E5%BE%8Bamdahl">阿姆达尔定律Amdahl</a></li>
+<li><a href="#%E5%8F%A4%E6%96%AF%E5%A1%94%E5%A4%AB%E6%A3%AE%E5%AE%9A%E5%BE%8Bgustafson">古斯塔夫森定律Gustafson</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -490,8 +484,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://jboone1989.github.io/post/tiaoyou/">
-      9、Mysql调优
+    <a class="post-title-link" href="https://jboone1989.github.io/post/miaosha/">
+      秒杀系统
     </a>
   </h1>
   <div class="post-meta">
@@ -508,8 +502,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://jboone1989.github.io/tag/NP2MmsTrY/">
-        <span>Mysql</span>
+      <a href="https://jboone1989.github.io/tag/82RsYFj8K/">
+        <span>Gridea</span>
       </a>
       
       
@@ -518,284 +512,108 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>22<span class="language" data-lan="minute">分钟</span></span>
+      <span>12<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>6069<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>3359<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>除非单表数据未来会一直不断上涨，否则不要一开始就考虑拆分，拆分会带来逻辑、部署、运维的各种复杂度，一般以整型值为主的表在<code>千万级</code>以下，字符串为主的表在<code>五百万</code>以下是没有太大问题的。而事实上很多时候MySQL单表的性能依然有不少优化空间，甚至能正常支撑千万级以上的数据量：</p>
-<h2 id="字段">字段</h2>
-<ul>
-<li>尽量使用<code>TINYINT</code>、<code>SMALLINT</code>、<code>MEDIUM_INT</code>作为整数类型而非<code>INT</code>，如果非负则加上<code>UNSIGNED</code></li>
-<li><code>VARCHAR</code>的长度只分配真正需要的空间</li>
-<li>使用枚举或整数代替字符串类型</li>
-<li>尽量使用<code>TIMESTAMP</code>而非<code>DATETIME</code>，</li>
-<li>单表不要有太多字段，建议在20以内</li>
-<li>避免使用NULL字段，很难查询优化且占用额外索引空间</li>
-<li>用整型来存IP</li>
-</ul>
-<h2 id="索引">索引</h2>
-<ul>
-<li>索引并不是越多越好，要根据查询有针对性的创建，考虑在<code>WHERE</code>和<code>ORDER BY</code>命令上涉及的列建立索引，可根据<code>EXPLAIN</code>来查看是否用了索引还是全表扫描</li>
-<li>应尽量避免在<code>WHERE</code>子句中对字段进行<code>NULL</code>值判断，否则将导致引擎放弃使用索引而进行全表扫描</li>
-<li>值分布很稀少的字段不适合建索引，例如”性别”这种只有两三个值的字段</li>
-<li>字符字段只建前缀索引</li>
-<li>字符字段最好不要做主键</li>
-<li>不用外键，由程序保证约束</li>
-<li>尽量不用<code>UNIQUE</code>，由程序保证约束</li>
-<li>使用多列索引时主意顺序和查询条件保持一致，同时删除不必要的单列索引</li>
-</ul>
-<h2 id="查询sql">查询SQL</h2>
-<ul>
-<li>可通过开启<strong>慢查询日志</strong>来找出较慢的SQL</li>
-<li>不做列运算：<code>SELECT id WHERE age + 1 = 10</code>，任何对列的操作都将导致表扫描，它包括数据库教程函数、计算表达式等等，查询时要尽可能将操作移至等号右边</li>
-<li>sql语句尽可能简单：一条sql只能在一个cpu运算；大语句拆小语句，减少锁时间；一条大sql可以堵死整个库</li>
-<li>不用<code>SELECT *</code></li>
-<li><code>OR</code>改写成<code>IN</code>：<code>OR</code>的效率是n级别，<code>IN</code>的效率是log(n)级别，in的个数建议控制在200以内</li>
-<li>不用函数和触发器，在应用程序实现</li>
-<li>避免<code>%xxx</code>式查询</li>
-<li>少用<code>JOIN</code></li>
-<li>使用同类型进行比较，比如用<code>'123'</code>和<code>'123'</code>比，<code>123</code>和<code>123</code>比</li>
-<li>尽量避免在<code>WHERE</code>子句中使用!=或&lt;&gt;操作符，否则将引擎放弃使用索引而进行全表扫描</li>
-<li>对于连续数值，使用<code>BETWEEN</code>不用<code>IN</code>：<code>SELECT id FROM t WHERE num BETWEEN 1 AND 5</code></li>
-<li>列表数据不要拿全表，要使用<code>LIMIT</code>来分页，每页数量也不要太大</li>
-</ul>
-<h2 id="引擎">引擎</h2>
-<p>目前广泛使用的是MyISAM和InnoDB两种引擎：</p>
-<h3 id="myisam">MyISAM</h3>
-<p>MyISAM引擎是MySQL 5.1及之前版本的默认引擎，它的特点是：</p>
-<ul>
-<li>不支持行锁，读取时对需要读到的所有表加锁，写入时则对表加排它锁</li>
-<li>不支持事务</li>
-<li>不支持外键</li>
-<li>不支持崩溃后的安全恢复</li>
-<li>在表有读取查询的同时，支持往表中插入新纪录</li>
-<li>支持<code>BLOB</code>和<code>TEXT</code>的前500个字符索引，支持全文索引</li>
-<li>支持延迟更新索引，极大提升写入性能</li>
-<li>对于不会进行修改的表，支持压缩表，极大减少磁盘空间占用</li>
-</ul>
-<h3 id="innodb">InnoDB</h3>
-<p>InnoDB在MySQL 5.5后成为默认索引，它的特点是：</p>
-<ul>
-<li>支持行锁，采用MVCC来支持高并发</li>
-<li>支持事务</li>
-<li>支持外键</li>
-<li>支持崩溃后的安全恢复</li>
-<li>不支持全文索引</li>
-</ul>
-<p>总体来讲，MyISAM适合<code>SELECT</code>密集型的表，而InnoDB适合<code>INSERT</code>和<code>UPDATE</code>密集型的表</p>
-<h2 id="创建必要的索引">创建必要的索引</h2>
-<p>在经常需要进行检索的字段上创建索引，比如要按照姓名进行检索，那么就应该在姓名字段上创建索引，如果经常要按照员工部门和员工岗位级别 进行检索，那么就应该在员工部门和员工岗位级别这两个字段上创建索引。创建索引给检索带来的性能提升往往是巨大的，因此在发现检索速度过 慢的时候应该首先想到的就是创建索引。</p>
-<h2 id="使用预编译查询">使用预编译查询</h2>
-<p>程序中通常是根据用户的输入来动态执行SQL，这时应该尽量使用参数化SQL,这样不仅可以避免SQL注入漏洞攻击，最重要数据库会对这些参数化 SQL进行预编译，这样第一次执行的时候DBMS会为这个SQL语句进行查询优化并且执行预编译，这样以后再执行这个SQL的时候就直接使用预编译的 结果，这样可以大大提高执行的速度。</p>
-<h2 id="调整where字句中的连接顺序">调整Where字句中的连接顺序</h2>
-<p>DBMS一般采用自下而上的顺序解析where字句，根据这个原理表连接最好写在其他where条件之前，那些可以过滤掉最大数量记录。</p>
-<h2 id="index-condition-pushdownicp优化">Index Condition Pushdown（ICP)优化</h2>
-<p>MySQL在取出<strong>索引的同时判断是否可以进行where条件的过滤</strong>，也就是将where的部分过滤操作放在了存储引擎层，某些查询下可以减少上层SQL层对记录的索取，从而提高性能。当然where可以过滤的条件是要该索引可以覆盖到的范围。<br>
-ICP支持range、ref、eq_ref、ref_or_null类型的查询，支持MyISAM和InnoDB，当优化器选择ICP时，可在执行计划的列Extra看到Using index condition提示。</p>
-<h2 id="尽量将多条sql语句压缩到一句">尽量将多条SQL语句压缩到一句</h2>
-<p>SQL中每次执行SQL的时候都要建立网络连接、进行权限校验、进行SQL语句的查询优化、发送执行结果，这个过程是非常耗时的，因此应该尽量 避免过多的执行SQL语句，能够压缩到一句SQL执行的语句就不要用多条来执行。</p>
-<h2 id="用where字句替换having字句">用where字句替换HAVING字句</h2>
-<p>避免使用HAVING字句，因为<strong>HAVING只会在检索出所有记录之后才对结果集进行过滤</strong>，而<strong>where则是在聚合前刷选记录</strong>，如果能通过where字句限制记录的数目，那就能减少这方面的开销。HAVING中的条件一般用于聚合函数的过滤，除此之外，应该将条件写在where字句中。</p>
-<h2 id="使用表的别名">使用表的别名</h2>
-<p>当在SQL语句中连接多个表时，请使用表的别名并把别名前缀于每个列名上。这样就可以减少解析的时间并减少哪些友列名歧义引起的语法错误。</p>
-<h2 id="在in和exists中通常情况下使用exists因为in不走索引">在in和exists中通常情况下使用EXISTS，因为in不走索引。</h2>
-<h2 id="避免在索引上使用计算">避免在索引上使用计算</h2>
-<p>在where字句中，如果索引列是计算或者函数的一部分，DBMS的优化器将不会使用索引而使用全表查询,函数属于计算的一种 效率低：</p>
-<pre><code class="language-mysql">select * from Employee where dsalary*12&gt;2500.0(dsalary是索引列,索引不起作用) 效率高：
-
-select * from Employee where dsalary&gt;2500.0/12(dsalary是索引列) 
-</code></pre>
-<h2 id="用union-all替换union">用union all替换union</h2>
-<p>当SQL 语句需要UNION 两个查询结果集合时,这两个结果集合会以UNION-ALL 的方式被</p>
-<p>合并, 然后在输出最终结果前进行排序.<strong>如果用UNION ALL 替代UNION, 这样排序就不是必要了</strong>. 效率就会因此得到提高.</p>
-<h2 id="避免sql中出现隐式类型转换">避免SQL中出现隐式类型转换</h2>
-<p>当某一张表中的索引字段在作为where条件的时候，如果<strong>进行了隐式类型转换，则此索引字段将会不被识别，因为隐式类型转换也属于计算</strong>，所以 此时DBMS会使用全表扫面。</p>
-<h2 id="防止检索范围过宽">防止检索范围过宽</h2>
-<p>如果DBMS优化器认为检索范围过宽，那么将放弃索引查找而使用全表扫描。下面几种可能造成检索范围过宽的情况。</p>
-<ul>
-<li>a、使用is not null或者不等于判断，可能造成优化器假设匹配的记录数太多。</li>
-<li>b、使用like运算符的时候，“a%”将会使用索引，而“a%c”和“%a”则会使用全表扫描，因此“a%c”和“%a”不能被有效的评估匹配的数量，</li>
-</ul>
-<h2 id="用小表驱动大表in和exist"><strong>用小表驱动大表IN和EXIST</strong></h2>
-<p>1、驱动表的定义</p>
-<p>当进行多表连接查询时， [驱动表] 的定义为：</p>
-<p>1）<strong>指定了联接条件时</strong>，满足查询条件的记录行数少的表为[驱动表]</p>
-<p>2）未指定联接条件时，<strong>行数少的表为</strong>[驱动表]（Important!）</p>
-<p>忠告：如果你搞不清楚该让谁做驱动表、谁 join 谁，请让 MySQL 运行时自行判断</p>
-<p>2、mysql关联查询的概念:</p>
-<p>MySQL 表关联的算法是 Nest Loop Join，<strong>是通过驱动表的结果集作为循环基础数据</strong>，然后一条一条地通过该结果集中的数据作为过滤条件到 下一个表中查询数据，然后合并结果。</p>
-<p>优化的目标是尽可能减少JOIN中Nested Loop的循环次数。</p>
-<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboa1313rd.png" alt="img" loading="lazy"></figure>
-<pre><code>select * from tbl_name where EXIST (subquery);
-可以理解为将主查询的数据，放到子查询中做条件验证，根据结果（TRUE或FALSE)
-</code></pre>
-<h2 id="orderby优化"><strong>ORDERBY优化</strong></h2>
-<p>在使用order by时，经常出现Using filesort，因此对于此类sql语句需尽力优化，使其尽量使用Using index。</p>
-<p>①MySQL支持两种方式的排序filesort和index，Using index是指MySQL扫描索引本身完成排序。index效率高，filesort效率低。</p>
-<p>②order by满足两种情况会使用Using index。</p>
-<p>1.<strong>order by语句使用索引最左前列</strong>。</p>
-<p>2.使用where子句与order by子句条件列组合满足索引最左前列。</p>
-<p>③尽量在索引列上完成排序，遵循索引建立（索引创建的顺序）时的最佳左前缀法则。</p>
-<p>④如果order by的条件不在索引列上，就会产生Using filesort。</p>
-<p>1.filesort有两种排序算法：双路排序和单路排序。</p>
-<p>​       双路排序：在MySQL4.1之前使用双路排序，就是两次磁盘扫描，得到最终数据。读取行指针和order by列，对他们进行排序，然后扫描已经排好序的列表，按照列表中的值重新从列表中读取对应的数据输出。即从磁盘读取排序字段，在buffer进行排序，再从磁盘取其他字段。<br>
-​    如果使用双路排序，取一批数据要对磁盘进行两次扫描，众所周知，I/O操作是很耗时的，因此在MySQL4.1以后，出现了改进的算法：单路排序。<br>
-​    单路排序：从磁盘中查询所需的列，按照order by列在buffer中对它们进行排序，然后扫描排序后的列表进行输出。它的效率更高一些，避免了第二次读取数据，并且把随机I/O变成了顺序I/O，但是会使用更多的空间，因为它把每一行都保存在内存中了。<br>
-​</p>
-<p>2.单路排序出现的问题。</p>
-<p>​     当读取数据超过sort_buffer的容量时，就会导致多次读取数据，并创建临时表，最后多路合并，产生多次I/O，反而增加其I/O运算。<br>
-​    解决方式：<br>
-​    a.增加sort_buffer_size参数的设置。<br>
-​    b.增大max_length_for_sort_data参数的设置。<br>
-⑤提升order by速度的方式：</p>
-<p>1.在使用order by时，不要用select *，只查询所需的字段。</p>
-<p>​    因为当查询字段过多时，会导致sort_buffer不够，从而使用多路排序或进行多次I/O操作。</p>
-<p>2.尝试提高sort_buffer_size。</p>
-<p>3.尝试提高max_length_for_sort_data。</p>
-<p>⑦group by与order by很类似，其实质是先排序后分组，遵照索引创建顺序的最佳左前缀法则。当无法使用索引列的时候，也要对sort_buffer_size和max_length_for_sort_data参数进行调整。注意where高于having，能写在where中的限定条件就不要去having限定了。</p>
-<h2 id="使用主键索引来优化数据分页">使用主键索引来优化数据分页</h2>
-<pre><code class="language-mysql">select * from user where id&gt;(select id from user where id&gt;=**100000** limit **1**) limit **20**;
-</code></pre>
-<p>##使用explain</p>
-<h4 id="有什么用">有什么用？</h4>
-<p>在MySQL中，当数据量增长的特别大的时候就需要用到索引来优化SQL语句，而如何才能判断我们辛辛苦苦写出的SQL语句是否优良？这时候<strong>explain</strong>就派上了用场。</p>
-<h4 id="怎么使用">怎么使用？</h4>
-<pre><code>explain + SQL语句即可 如：explain select * from table;
-</code></pre>
-<p>如下</p>
-<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640" alt="img" loading="lazy"></figure>
-<p>相信第一次使用explain参数的朋友一定会疑惑这一大堆参数究竟有什么用呢？笔者搜集了一些资料，在这儿做一个总结希望能够帮助大家理解。</p>
-<p>explain（执行计划），使用explain关键字可以模拟优化器执行sql查询语句，从而知道MySQL是如何处理sql语句。 explain主要用于分析查询语句或表结构的性能瓶颈。</p>
-<p><strong>id</strong></p>
-<p>id的值表示select子句或表的执行顺序，id相同，执行顺序从上到下，id不同，值越大的执行优先级越高。</p>
-<p><strong>select_type</strong></p>
-<p>SIMPLE</p>
-<p>简单的select查询，查询中不包含子查询或union查询。</p>
-<p>PRIMARY</p>
-<p>查询中若包含任何复杂的子部分，最外层查询为PRIMARY，也就是最后加载的就是PRIMARY。</p>
-<p>SUBQUERY</p>
-<p>在select或where列表中包含了子查询，就为被标记为SUBQUERY。</p>
-<p>DERIVED</p>
-<p>在from列表中包含的子查询会被标记为DERIVED(衍生)，MySQL会递归执行这些子查询，将结果放在临时表中。    UNION</p>
-<p>若第二个select出现在union后，则被标记为UNION，若union包含在from子句的子查询中，外层select将被标记为DERIVED。</p>
-<p>UNION RESULT</p>
-<p>从union表获取结果的select。</p>
-<p><strong>type</strong></p>
-<p>表示查询所使用的访问类型，该值表示查询的sql语句好坏，从最好到最差依次为：system&gt;const&gt;eq_ref&gt;ref&gt;range&gt;index&gt;ALL。</p>
-<ul>
-<li>
-<p>1.system    表只有一行记录（等于系统表），是const的特例类型，平时不会出现，可以忽略不计。</p>
-</li>
-<li>
-<p>2.const    表示通过一次索引就找到了结果，常出现于primary key或unique索引。因为只匹配一行数据，所以查询非常快。    如将主键置于where条件中，MySQL就能将查询转换为一个常量。</p>
-</li>
-<li>
-<p>3.eq_ref：唯一索引扫描，对于每个索引键，表中只有一条记录与之匹配。常见主键或唯一索引扫描。</p>
-</li>
-<li>
-<p>4.ref：非唯一性索引扫描，返回匹配某个单独值的所有行。本质上也是一种索引访问，返回匹配某值（某条件）的多行值，属于查找和扫描的    混合体。</p>
-</li>
-<li>
-<p>5.range：只检索给定范围的行，使用一个索引来检索行，可以在key列中查看使用的索引，一般出现在where语句的条件中，如使用between、&gt;、&lt;、    in等查询。    这种索引的范围扫描比全索引扫描要好，因为索引的开始点和结束点都固定，范围相对较小。</p>
-</li>
-<li>
-<p>6.index：全索引扫描，index和ALL的区别：index只遍历索引树，通常比ALL快，因为索引文件通常比数据文件小。虽说index和ALL都是全表扫描，    但是index是从索引中读取，ALL是从磁盘中读取。</p>
-</li>
-<li>
-<p>7.ALL：全表扫描。</p>
-<ul>
-<li>
-<p>哪些索引可以使用。（对应possible_keys）</p>
-</li>
-<li>
-<p>哪些索引被实际使用。（对应key）</p>
-</li>
-<li>
-<p>表直接的引用。（对应ref）显示关联的字段。如果使用常数等值查询，则显示const，如果是连接查询，则会显示关联的字段。</p>
-</li>
-<li>
-<p>每张表有多少行被优化器查询。（对应rows）根据表统计信息及索引选用情况大致估算出找到所需记录所要读取的行数。当然该值越小越好。</p>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>Extra</strong><br>
-1.Using filesort</p>
-<p>Using filesort表明mysql会对数据使用一个外部的索引排序，而不是按照表内的索引顺序进行读取。    mysql中无法利用索引完成的排序操作称为“文件排序”。    出现Using filesort就非常危险了，在数据量非常大的时候几乎“九死一生”。出现Using filesort尽快优化sql语句。<br>
-2.Using temporary</p>
-<p>使用了临时表保存中间结果，常见于排序order by和分组查询group by。非常危险，“十死无生”，急需优化。</p>
-<p>3.Using index</p>
-<p>表明相应的select操作中使用了覆盖索引，避免访问表的额外数据行，效率不错。</p>
-<p>如果同时出现了Using where，表明索引被用来执行索引键值的查找。（where deptid=1）    如果没有同时出现Using where，表明索引用来读取数据而非执行查找动作。</p>
-<h2 id="change-buffer"><strong>change buffer</strong></h2>
-<p>当需要更新一个数据页时，如果数据页在内存中就直接更新，而如果这个数据页还没有在内存中的话，在不影响数据一致性的前提下，InooDB 会将这些更新操作缓存在 change buffer 中，这样就<strong>不需要从磁盘中读入这个数据页了</strong>。在下次查询需要访问这个数据页的时候，将数据页读入内存，然后执行 change buffer 中与这个页有关的操作。通过这种方式就能保证这个数据逻辑的正确性。<strong>虽然是只更新内存，但是在事务提交的时候，把 change buffer 的操作也记录到 redo log 里了，所以崩溃恢复的时候，change buffer 也能找回来。</strong></p>
-<p>​    将 change buffer 中的操作应用到原数据页，得到最新结果的过程称为 merge。除了**访问这个数据页会触发 merge 外，系统有后台线程会定期 merge。**在数据库正常关闭（shutdown）的过程中，也会执行 merge 操作。</p>
-<p>​    显然，如果能够将更新操作先记录在 change buffer，减少读磁盘，语句的执行速度会得到明显的提升。而且，数据读入内存是需要占用 buffer pool 的，所以这种方式能够避免占用内存，提高内存利用率。</p>
-<p>​    <strong>唯一索引的更新就不能使用 change buffer，实际上也只有普通索引可以使用。</strong></p>
-<p>change buffer 用的是 buffer pool 里的内存，因此不能无限增大。change buffer 的大小，可以通过参数 innodb_change_buffer_max_size 来动态设置。这个参数设置为 50 的时候，表示 change buffer 的大小最多只能占用 buffer pool 的 50%。</p>
-<p>如果要在这张表中插入一个新记录 (4,400) 的话，InnoDB 的处理流程是怎样的。</p>
-<p>第一种情况是，这个记录要<strong>更新的目标页在内存中</strong>。这时，InnoDB 的处理流程如下：</p>
-<ul>
-<li>
-<p>对于唯一索引来说，找到 3 和 5 之间的位置，<strong>判断到没有冲突</strong>，插入这个值，语句执行结束；</p>
-</li>
-<li>
-<p>对于普通索引来说，找到 3 和 5 之间的位置，插入这个值，语句执行结束。</p>
-</li>
-</ul>
-<p>第二种情况是，这个记录要<strong>更新的目标页不在内存中</strong>。这时，InnoDB 的处理流程如下：</p>
-<ul>
-<li><strong>对于唯一索引来说，需要将数据页读入内存，判断到没有冲突，插入这个值，语句执行结束</strong>；</li>
-<li><strong>对于普通索引来说，则是将更新记录在 change buffer，语句执行就结束了。</strong></li>
-</ul>
-<p>​    将数据从磁盘读入内存涉及随机 IO 的访问，是数据库里面成本最高的操作之一。change buffer 因为减少了随机磁盘访问，所以对更新性能的提升是会很明显的。</p>
-<p>​    <strong>change buffer 适用于写多读少的业务，比如账单类、日志类的系统。因为会记录很多change buffer（写的时候） 才会merge（读的时候）</strong></p>
-<p>​    反过来，读多写少的业务，几乎每次把更新记录在change buffer 后，就会<strong>立即出发merge</strong>，这样随机访问 IO 的次数不会减少，反而增加了change buffer 的维护代价。</p>
-<p>所以，对于身份证号这类字段，如果业务已经保证不会写入重复数据，不需要数据库做约束，加普通索引比加主键索引要好，如果所有的更新后面，都马上伴随着对这个记录的查询，那么应该关闭 change buffer。而在其他情况下，change buffer 都能提升更新性能。</p>
-<p>在实际使用中，可以发现，<strong>普通索引和 change buffer 的配合使用，对于数据量大的表的更新优化还是很明显的，特别是在使用机械硬盘时。</strong></p>
-<p><strong>change buffer 和 redo log 对比</strong></p>
-<blockquote>
-<p>insert into t(id,k) values(id1,k1),(id2,k2);</p>
-</blockquote>
-<p>这条更新语句做了如下操作：</p>
+              <h2 id="系统架构">系统架构</h2>
+<p>假设今年的双11预估峰值QPS将会有50万(我随便扯的)，而根据我们平时的经验单机8C8G的机器可以达到1000左右的QPS，那么从理论上来说我们只要500台机器就可以抗住了，就有钱任性不行？这么设计的话只能出门右转不送了。</p>
+<h3 id="流量过滤">流量过滤</h3>
+<p>本质上，参与秒杀的用户很多，但是商品的数量是有限的，真正能抢到的用户并不多，那么第一步就是要过滤掉大部分无效的流量。</p>
 <ol>
-<li>Page 在内存中，直接更新内存；</li>
-<li>Page 没有在内存中，就在内存的 change buffer 区域，记录下“要往 Page 插入一行”这个信。</li>
-<li>将上述两个动作记入 redo log 中。</li>
+<li>活动开始前前端页面的Button置灰，防止活动未开始无效的点击产生流量</li>
+<li>前端添加验证码或者答题，防止瞬间产生超高的流量，可以很好的起到错峰的效果，现在的验证码花样繁多，题库有的还要做个小学题，而且题库更新频繁，想暴力破解怕是很难。当然我知道的还有一种人工打码的方式，不过这个也是需要时间的，不像机器无限刷你的接口。</li>
+<li>活动校验，既然是活动，那么活动的参与用户，参加条件，用户白名单之类的要首先做一层校验拦截，还有其他的比如用户终端、IP地址、参与活动次数、黑名单用户的校验。比如活动主要针对APP端的用户校验，那么根据参数其他端的用户将被拦截，针对IP、mac地址、设备ID和用户ID可以对用户参与活动的次数做校验，黑名单根据平时的活动经验拦截掉一部分羊毛党等异常用户。</li>
+<li>非法请求拦截，做了以上拦截如果还有用户能绕过限制，那不得不说太牛X了。比如双11零点开始还做了答题限制，那么正常人怎么也需要1秒的时间来答题吧，就算单身30年手速我想也不能超过0.5秒了，那么针对刚好0点或者在0.5秒以内的请求就可以完全拦截掉。</li>
+<li>限流，假设秒杀10000件商品，我们有10台服务器，单机的QPS在1000，那么理论上1秒就可以抢完，针对微服务就可以做限流配置，避免后续无效的流量打到数据库造成不必要的压力。针对限流还有另外一种栅栏方式限流，这是一种纯靠运气的限流方式，就是在系统约定的请求开始的时间内随机偏移一段时间，针对每个请求的偏移量不同，如果在偏移时间之内就会被拦截，反之通过。</li>
 </ol>
-<p>后续的更新操作</p>
+<figure data-type="image" tabindex="1"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUliapRxGg2WNiciacicz1h72sfRSo37G91OA0AxKJCCiccGtvaBcfPl0mWYmetaUfxuMHGKdHVBL8W6crg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<h3 id="性能优化">性能优化</h3>
+<p>做完无效流量的过滤，那么可能你的无效请求已经过滤掉了90%，剩下的有效流量会大大的降低系统的压力。之后就是需要针对系统的性能做出优化了。</p>
 <ol>
-<li>Page 在内存中，会直接从内存返回。</li>
-<li>Page 不在内容中，需要把 Page 从磁盘读入内存中，然后应用 change buffer 里面的操作日志，生成一个正确的版本并返回结果。</li>
+<li>页面静态化，参与秒杀活动的商品一般都是已知的，可以针对活动页面做静态化处理，缓存到CDN。假设我们一个页面300K大小，1千万用户的流量是多少？这些请求要请求后端服务器、数据库，压力可想而知，缓存到CDN用户请求不经过服务器，大大减小了服务器的压力。</li>
+<li>活动预热，针对活动的活动库存可以独立出来，不和普通的商品库存共享服务，活动库存活动开始前提前加载到redis，查询全部走缓存，最后扣减库存再视情况而定。</li>
+<li>独立部署，资源充足的情况下可以考虑针对秒杀活动单独部署一套环境，这套环境中可以剥离一些可能无用的逻辑，比如不用考虑使用优惠券、红包、下单后赠送积分的一些场景，或者这些场景可以活动结束后异步的统一发放。这只是一个举例，实际上单独针对秒杀活动的话你肯定有很多无用的业务代码是可以剥离的，这样可以提高不少性能。</li>
 </ol>
-<p>所以，如果要简单地对比这两个机制在提升更新性能上的收益的话，<strong>redo log 主要节省的是随机写磁盘的 IO 消耗（转成顺序写），而 change buffer 主要节省的则是随机读磁盘的 IO 消耗。</strong></p>
-<h2 id="优化器如何选择索引"><strong>优化器如何选择索引</strong></h2>
-<p>优化器结合<strong>是否扫描行数、是否使用临时表、是否排序</strong>等因素进行综合判断。</p>
-<p>MySQL 在真正开始执行语句之前，并不能精确地知道满足条件的记录有多少条，而只能根据统计信息来估算记录数。</p>
-<p>这个统计信息就是索引的“区分度”。显然，一个索引上不同的值越多，这个索引的区分度就越好。而一个索引上不同的值的个数，称之为“基数”（cardinality）。也就是说，这个基数越大，索引的区分度越好。</p>
-<p><strong>可以使用 show index 方法，看到一个索引的基数。</strong><br>
-<img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bVbxvfx" alt="clipboard.png" loading="lazy"></p>
-<p>MySQL 采样统计的方法获得基数，InnoDB 默认会选择 N 个数据页，统计这些页面上的不同值，得到一个平均值，然后乘以这个索引的页面数，就得到了这个索引的基数。当变更的数据行数超过 1/M 的时候，会自动触发重新做一次索引统计。<strong>analyze table t 命令，可以用来重新统计索引信息。</strong></p>
-<p>在 MySQL 中，有两种存储索引统计的方式，可以通过设置参数 innodb_stats_persistent 的值来选择：</p>
-<ul>
-<li>设置为 on 的时候，表示统计信息会持久化存储。这时，默认的 N 是 20，M 是 10。</li>
-<li>设置为 off 的时候，表示统计信息只存储在内存中。这时，默认的 N 是 8，M 是 16。</li>
-</ul>
-<p>其实索引统计只是一个输入，对于一个具体的语句来说，优化器还要判断，执行这个语句本身要扫描多少行。</p>
-<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bVbxvfy" alt="clipboard.png" loading="lazy"></figure>
-<p>rows 这个字段表示的是预计扫描行数。</p>
-<h2 id="二次写double-write">二次写(double write)</h2>
-<p>doublewrite组成： 内存中的doublewrite buffer,大小2M。 物理磁盘上<strong>共享表空间</strong>中连续的128个页，即2个区（extend），大小同样为2M。</p>
-<p>Doublewrite缓存是位于<strong>系统表空间的存储区域</strong>，对缓冲池的脏页进行刷新时，不是直接写磁盘，而是会通过memcpy()函数将脏页先<strong>复制到内存中的doublewrite buffer</strong>，因为doublewrite页是连续的，因此这个过程是顺序写的，开销并不是很大。</p>
-<p>在完成doublewrite页的写入后，再将doublewrite buffer 中的页再分两次，每次1M顺序地写入各个表空间文件中，此时的写入则是离散的。</p>
-<p>如果操作系统在将页写入磁盘的过程中发生了崩溃，在恢复过程中，innodb可以 从系统表空间中的doublewrite中找到该页的一个副本，将其复制到表空间文件，再应用重做日志。</p>
+<p>经过这两步之后，最终我们的流量应该是呈漏斗状。</p>
+<figure data-type="image" tabindex="2"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUliapRxGg2WNiciacicz1h72sfRJA3ib69FS9OvfforpzZtWU2DWmSlGCiaVc3c9eurFBibEMU6fUbSeufpQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<h2 id="超卖">超卖</h2>
+<p>秒杀除开高并发高流量下的服务稳定性之外，剩下的核心大概就是怎么保证库存不超卖了，也可以说要保证的是最终一致性。一般来说，针对下单和库存有两种方式:</p>
+<ol>
+<li>下单即扣库存，这是最常规的大部分的做法。但是可能在活动中会碰到第二点说到的情况。</li>
+<li>支付完成扣库存，这种设计我碰到过就是酒店行业，廉价房放出来之后被黄牛下单抢占库存导致正常用户无法下单，然后黄牛可以用稍高的价格再售卖给用户从中牟利，所以会有在一些活动的时候采取支付成功后才占用库存的做法。<strong>不过这种方式实现起来比较复杂，可能造成大量的无效订单，在秒杀的场景中不太适用</strong>。</li>
+</ol>
+<p>针对秒杀建议选择下单扣库存的方式，实现相对简单而且是常规做法。</p>
+<h3 id="方案">方案</h3>
+<figure data-type="image" tabindex="3"><img src="https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUliapRxGg2WNiciacicz1h72sfRwrwSKwg5bia2tHY45C1UKgRJ2qxUnVEFiaY0rASibNLQwHqLWuoOVObXA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" loading="lazy"></figure>
+<ol>
+<li>首先查询redis缓存库存是否充足</li>
+<li>先扣库存再落订单数据，可以防止订单生成了没有库存的超卖问题</li>
+<li>扣库存的时候先扣数据库库存，再扣减redis库存，保证在同一个事务里，无论两者哪一个发生了异常都会回滚。有一个问题是可能redis扣成功了由于网络问题返回失败，事务回滚，导致数据库和缓存不一致，这样实际少卖了，可以放到下轮秒杀去。</li>
+</ol>
+<p>这种做法能一定程度上解决问题，但是也有可能会有其他问题。比如当大量请求落在同一条库存记录上去做update时，行锁导致大量的锁竞争会使得数据库的tps急剧下降，性能无法满足要求。</p>
+<p>另外一种做法就是排队，在服务层进行排队，针对同一个商品ID的也就是数据库是一条库存记录的做一个内存队列，串行化去扣减库存，可以一定程度上缓解数据库的并发压力。</p>
+<h2 id="质量保障">质量保障</h2>
+<p>为了保证系统的稳定性，防止你的系统被秒杀，一些质量监控就不得不做。</p>
+<ol>
+<li>熔断限流降级，老生常谈，根据压测情况进行限流，可以使用sentinel或者hystrix。另外前端后端都该有降级开关。</li>
+<li>监控，该上的都上，QPS监控、容器监控、CPU、缓存、IO监控等等。</li>
+<li>演练，大型秒杀事前演练少不了，不能冒冒失失的就上了吧。</li>
+<li>核对、预案，事后库存订单 金额、数量核对，是否发生超卖了?金额是否正常？都是必须的。预案可以在紧急情况下进行降级。</li>
+</ol>
+<h2 id="数据统计">数据统计</h2>
+<p>活动做完了，数据该怎么统计？</p>
+<ol>
+<li>前端埋点</li>
+<li>数据大盘，通过后台服务的打点配合监控系统可以通过大盘直观的看到一些活动的监控和数据</li>
+<li>离线数据分析，事后活动的数据可以同步到离线数仓做进一步的分析统计</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>总的来说，面对巨量的流量我们的方式就是首先通过各种条件先筛选掉无效流量，进行流量错峰，然后再对现有的系统性能做出优化，比如页面静态化，库存商品预热，也可以通过独立部署的方式和其他的环境做隔离，最后还要解决高并发下缓存一致性、库存不能超卖的问题，防止大量的并发打爆你的数据库。</p>
+<p>一个完整的活动从前端到后端是一个完整的链路，中间有事前的演练工作，事后的数据分析等都是必不可少的环节。</p>
+<h3 id="吞吐量">吞吐量</h3>
+<p>在了解qps、tps、rt、并发数之前，首先我们应该明确一个系统的吞吐量到底代表什么含义，一般来说，系统吞吐量指的是系统的抗压、负载能力，代表一个系统每秒钟能承受的最大用户访问量。</p>
+<p>一个系统的吞吐量通常由qps（tps）、并发数来决定，每个系统对这两个值都有一个相对极限值，只要某一项达到最大值，系统的吞吐量就上不去了。</p>
+<h3 id="qps">QPS</h3>
+<p>Queries Per Second，每秒查询数，即是每秒能够响应的查询次数，注意这里的查询是指用户发出请求到服务器做出响应成功的次数，简单理解可以认为查询=请求request。</p>
+<p>qps=每秒钟request数量</p>
+<h3 id="tps">TPS</h3>
+<p>Transactions Per Second 的缩写，每秒处理的事务数。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</p>
+<p>针对单接口而言，TPS可以认为是等价于QPS的，比如访问一个页面/index.html，是一个TPS，而访问/index.html页面可能请求了3次服务器比如css、js、index接口，产生了3个QPS。</p>
+<p>tps=每秒钟事务数量</p>
+<h3 id="rt">RT</h3>
+<p>Response Time缩写，简单理解为系统从输入到输出的时间间隔，宽泛的来说，他代表从客户端发起请求到服务端接受到请求并响应所有数据的时间差。一般取平均响应时间。</p>
+<h3 id="并发数">并发数</h3>
+<p>简而言之，系统能同时处理的请求/事务数量。</p>
+<h3 id="计算方式">计算方式</h3>
+<p>QPS=并发数/RT 或者 并发数=QPS*RT</p>
+<p>举个栗子：</p>
+<p>假设公司每天早上9点到10点1个小时内都有员工要上厕所，公司有3600个员工，平均每个员工上厕所时间为10分钟，我们来计算一下。</p>
+<p>QPS  = 3600/60*60  1</p>
+<p>RT   = 10*60    600秒</p>
+<p>并发数 = 1 * 600    600</p>
+<p>这样就意味着如果想达到最好的蹲坑体验，公司需要600个坑位来满足员工需求，否则的话上厕所就要排队等待了。</p>
+<h3 id="性能思考">性能思考</h3>
+<p>按照QPS=并发数/RT公式，假设我们现在是单线程的场景，那么QPS公式应该是这样：QPS=1/RT，实际上RT应该=CPU time + CPU wait time，如果将线程数提高到2，那么QPS=2/(CPU time + CPU wait time)，那么是否意味着我们只要单纯提高线程数就能提高QPS呢？</p>
+<h3 id="最佳线程数计算">最佳线程数计算</h3>
+<p>假设CPU time是49ms，CPU wait time是200ms，那么QPS=1000ms/249ms=4.01，这里200ms的wait时间我们可以认为CPU一直处于等待状态啥也没干，理论上来说200ms还可以接受200/49≈4个请求，不考虑上下文切换和其他开销的话，可以认为总线程数=(200+49)/49=5，如果再考虑上CPU多核和利用率的问题，我们大致可以认为：<strong>最佳线程数=RT/CPUTime * CPU核心数 * CPU利用率</strong></p>
+<p>那么最大QPS公式推导为：</p>
+<p>最大QPS=最佳线程数*单线程QPS=（<strong>RT/CPU Time * CPU核心数 * CPU利用率）*（1/RT) = CPU核心数*CPU利用率/CPUTime</strong></p>
+<p>那么这样是否意味着我们只要不停增加CPU核心数就能无限提高QPS呢？</p>
+<h3 id="阿姆达尔定律amdahl">阿姆达尔定律Amdahl</h3>
+<p>G.M.Amdahl在1967年提出了Amdahl’s law，针对并行处理的scalability给出了一个模型，指出使用并行处理的提速由问题的可并行的部分所决定。我们可以简单理解为程序通过额外的计算资源，理论上能获得的加速值。</p>
+<p>par为并行计算所占的比例，p为并行处理节点个数</p>
+<p>假设你想从望京去顺义，坐一辆车需要3小时，虽然现在有3辆车，你也不能1小时就到。这里无法并行，所有Par=0%，p=3，加速比还是等于1，并没有提高速度。</p>
+<h3 id="古斯塔夫森定律gustafson">古斯塔夫森定律Gustafson</h3>
+<p>斯塔夫森定律又被称为扩展的加速比(scaled speedup)，他说明处理器个数、串行比例和加速比之间的关系，只是和阿姆达尔定律侧重角度有所不同。</p>
+<p>按照阿姆达尔定律和QPS计算公式，在CPUtime 和 CPU利用率不变的情况下，增加CPU核心数就能增加最大QPS，在par不为0即并行的时候，增加并行数量p就能提升效率，但是实际上随着请求数量的增加，带来大量的上下文的切换、gc和锁变化。qps更高，产生对象越多，gc越频繁，cpu time和利用率都受到影响，尤其在串行的时候，锁自旋、自适应、偏向等等也成为影响par的因素。</p>
 
             </div>
             
@@ -812,7 +630,7 @@ select * from Employee where dsalary&gt;2500.0/12(dsalary是索引列)
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://jboone1989.github.io/post/tiaoyou/" title="9、Mysql调优">https://jboone1989.github.io/post/tiaoyou/</a>
+      <a href="https://jboone1989.github.io/post/miaosha/" title="秒杀系统">https://jboone1989.github.io/post/miaosha/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -821,18 +639,22 @@ select * from Employee where dsalary&gt;2500.0/12(dsalary是索引列)
   </ul>
   <div class="tags">
     
-      <a href="https://jboone1989.github.io/tag/NP2MmsTrY/"># Mysql</a>
+      <a href="https://jboone1989.github.io/tag/82RsYFj8K/"># Gridea</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="6、事务" href="https://jboone1989.github.io/post/tanscation/">6、事务</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="6、事务" href="https://jboone1989.github.io/post/tanscation/">上一篇</a>
+        <a class="nav-pc-next" title="5、锁" href="https://jboone1989.github.io/post/lock/">5、锁</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="5、锁" href="https://jboone1989.github.io/post/lock/">上一篇</a>
       
     </div>
     <div class="nav-next">
+      
+        <a class="nav-pc-next" title="7、mybatis" href="https://jboone1989.github.io/post/mybatis/">7、mybatis</a>
+        <a class="nav-mobile-next" title="7、mybatis" href="https://jboone1989.github.io/post/mybatis/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>

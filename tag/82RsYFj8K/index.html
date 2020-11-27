@@ -9,7 +9,7 @@
 <meta name="description" content="君子终日乾乾，夕惕若，厉，无咎。">
 <meta name="theme-color" content="#000">
 <title>异见</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1605782067199">
+<link rel="shortcut icon" href="/favicon.ico?v=1606469147165">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -115,8 +115,8 @@
             <li class="nav-item ">
               
               
-                <a href="/post/about/" target="_self">
-                  <i class="fa fa-user"></i> 关于
+                <a href="https://jboone1989.github.io/" target="_self">
+                  <i class="fa fa-globe"></i> 关于
                 </a>
               
             </li>
@@ -184,19 +184,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">10</span>
+        <span class="site-item-stat-count">19</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">5</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">5</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -254,6 +254,67 @@
       
       
       
+      <a href="https://jboone1989.github.io/post/Jvm/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              11-19
+              <small>JVM</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
+      
+      
+      
+      <a href="https://jboone1989.github.io/post/daliuliang/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              11-19
+              <small>千万流量</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <a href="https://jboone1989.github.io/post/miaosha/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              11-19
+              <small>秒杀系统</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
+      
+      
+      
       <a href="https://jboone1989.github.io/post/mybatis/">
         <div class="motion-warpper">
           <div class="tag-post-node">
@@ -264,6 +325,10 @@
           </div>
         </div>
       </a>
+      
+      
+      
+      
       
       
       
@@ -494,6 +559,1904 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/mian-shi/"" data-c="
+          &lt;p&gt;&lt;strong&gt;说说进程和线程的区别？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;进程是程序的一次执行，是系统进行资源分配和调度的独立单位，他的作用是是程序能够并发执行提高资源利用率和吞吐率。&lt;/p&gt;
+&lt;p&gt;由于进程是资源分配和调度的基本单位，因为进程的创建、销毁、切换产生大量的时间和空间的开销，进程的数量不能太多，而线程是比进程更小的能独立运行的基本单位，他是进程的一个实体，可以减少程序并发执行时的时间和空间开销，使得操作系统具有更好的并发性。&lt;/p&gt;
+&lt;p&gt;线程基本不拥有系统资源，只有一些运行时必不可少的资源，比如程序计数器、寄存器和栈，进程则占有堆、栈。&lt;/p&gt;
+&lt;h3 id=&#34;知道synchronized原理吗&#34;&gt;&lt;strong&gt;知道synchronized原理吗？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;synchronized是java提供的原子性内置锁，这种内置的并且使用者看不到的锁也被称为&lt;strong&gt;监视器锁&lt;/strong&gt;，使用synchronized之后，会在编译之后在同步的代码块前后加上monitorenter和monitorexit字节码指令，他依赖操作系统底层互斥锁实现。他的作用主要就是实现原子性操作和解决共享变量的内存可见性问题。&lt;/p&gt;
+&lt;p&gt;执行monitorenter指令时会尝试获取对象锁，如果对象没有被锁定或者已经获得了锁，锁的计数器+1。此时其他竞争锁的线程则会进入等待队列中。&lt;/p&gt;
+&lt;p&gt;执行monitorexit指令时则会把计数器-1，当计数器值为0时，则锁释放，处于等待队列中的线程再继续竞争锁。&lt;/p&gt;
+&lt;p&gt;synchronized是排它锁，当一个线程获得锁之后，其他线程必须等待该线程释放锁后才能获得锁，而且由于Java中的线程和操作系统原生线程是一一对应的，线程被阻塞或者唤醒时时会从用户态切换到内核态，这种转换非常消耗性能。&lt;/p&gt;
+&lt;p&gt;从内存语义来说，加锁的过程会清除工作内存中的共享变量，再从主内存读取，而释放锁的过程则是将工作内存中的共享变量写回主内存。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;实际上大部分时候我认为说到monitorenter就行了，但是为了更清楚的描述，还是再具体一点&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;如果再深入到源码来说，synchronized实际上有两个队列waitSet和entryList。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当多个线程进入同步代码块时，首先进入entryList&lt;/li&gt;
+&lt;li&gt;有一个线程获取到monitor锁后，就赋值给当前线程，并且计数器+1&lt;/li&gt;
+&lt;li&gt;如果线程调用wait方法，将释放锁，当前线程置为null，计数器-1，同时进入waitSet等待被唤醒，调用notify或者notifyAll之后又会进入entryList竞争锁&lt;/li&gt;
+&lt;li&gt;如果线程执行完毕，同样释放锁，计数器-1，当前线程置为null&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehVayU2Ey8Fm3lFvDoaSjT2prBjWibRkk2tB1ric2LHVDCXYicyK2gb195Q/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;那锁的优化机制了解吗&#34;&gt;&lt;strong&gt;那锁的优化机制了解吗？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;从JDK1.6版本之后，synchronized本身也在不断优化锁的机制，有些情况下他并不会是一个很重量级的锁了。优化机制包括自适应锁、自旋锁、锁消除、锁粗化、轻量级锁和偏向锁。&lt;/p&gt;
+&lt;p&gt;锁的状态从低到高依次为&lt;strong&gt;无锁-&amp;gt;偏向锁-&amp;gt;轻量级锁-&amp;gt;重量级锁&lt;/strong&gt;，升级的过程就是从低到高，降级在一定条件也是有可能发生的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;自旋锁&lt;/strong&gt;：由于大部分时候，锁被占用的时间很短，共享变量的锁定时间也很短，所有没有必要挂起线程，用户态和内核态的来回上下文切换严重影响性能。自旋的概念就是让线程执行一个忙循环，可以理解为就是啥也不干，防止从用户态转入内核态，自旋锁可以通过设置-XX:+UseSpining来开启，自旋的默认次数是10次，可以使用-XX:PreBlockSpin设置。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;自适应锁&lt;/strong&gt;：自适应锁就是自适应的自旋锁，自旋的时间不是固定时间，而是由前一次在同一个锁上的自旋时间和锁的持有者状态来决定。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;锁消除&lt;/strong&gt;：锁消除指的是JVM检测到一些同步的代码块，完全不存在数据竞争的场景，也就是不需要加锁，就会进行锁消除。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;锁粗化&lt;/strong&gt;：锁粗化指的是有很多操作都是对同一个对象进行加锁，就会把锁的同步范围扩展到整个操作序列之外。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;偏向锁&lt;/strong&gt;：当线程访问同步块获取锁时，会在对象头和栈帧中的锁记录里存储偏向锁的线程ID，之后这个线程再次进入同步块时都不需要CAS来加锁和解锁了，偏向锁会永远偏向第一个获得锁的线程，如果后续没有其他线程获得过这个锁，持有锁的线程就永远不需要进行同步，反之，当有其他线程竞争偏向锁时，持有偏向锁的线程就会释放偏向锁。可以用过设置-XX:+UseBiasedLocking开启偏向锁。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;轻量级锁&lt;/strong&gt;：JVM的对象的对象头中包含有一些锁的标志位，代码进入同步块的时候，JVM将会使用CAS方式来尝试获取锁，如果更新成功则会把对象头中的状态位标记为轻量级锁，如果更新失败，当前线程就尝试自旋来获得锁。&lt;/p&gt;
+&lt;p&gt;整个锁升级的过程非常复杂，我尽力去除一些无用的环节，简单来描述整个升级的机制。&lt;/p&gt;
+&lt;p&gt;简单点说，偏向锁就是通过对象头的偏向线程ID来对比，甚至都不需要CAS了，而轻量级锁主要就是通过CAS修改对象头锁记录和自旋来实现，重量级锁则是除了拥有锁的线程其他全部阻塞。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehP1heYUUerKq0Xd3k7DGl9xqicy6NsgJow4xHIYSK0Oc90aN7TO2TsibA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;那对象头具体都包含哪些内容&#34;&gt;&lt;strong&gt;那对象头具体都包含哪些内容？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;在我们常用的Hotspot虚拟机中，对象在内存中布局实际包含3个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;对象头&lt;/li&gt;
+&lt;li&gt;实例数据&lt;/li&gt;
+&lt;li&gt;对齐填充&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;而对象头包含两部分内容，Mark Word中的内容会随着锁标志位而发生变化，所以只说存储结构就好了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;对象自身运行时所需的数据，也被称为Mark Word，也就是用于轻量级锁和偏向锁的关键点。具体的内容包含对象的hashcode、分代年龄、轻量级锁指针、重量级锁指针、GC标记、偏向锁线程ID、偏向锁时间戳。&lt;/li&gt;
+&lt;li&gt;存储类型指针，也就是指向类的元数据的指针，通过这个指针才能确定对象是属于哪个类的实例。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;em&gt;如果是数组的话，则还包含了数组的长度&lt;/em&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehqwibXA66l7WiaIxZx91PaPNjz8NDfYYvlm2tmWUjOIknNdYweYEBINzw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;对于加锁那再说下reentrantlock原理他和synchronized有什么区别&#34;&gt;&lt;strong&gt;对于加锁，那再说下ReentrantLock原理？他和synchronized有什么区别？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;相比于synchronized，ReentrantLock需要显式的获取锁和释放锁，相对现在基本都是用JDK7和JDK8的版本，ReentrantLock的效率和synchronized区别基本可以持平了。他们的主要区别有以下几点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;等待可中断，当持有锁的线程长时间不释放锁的时候，等待中的线程可以选择放弃等待，转而处理其他的任务。&lt;/li&gt;
+&lt;li&gt;公平锁：synchronized和ReentrantLock默认都是非公平锁，但是ReentrantLock可以通过构造函数传参改变。只不过使用公平锁的话会导致性能急剧下降。&lt;/li&gt;
+&lt;li&gt;绑定多个条件：ReentrantLock可以同时绑定多个Condition条件对象。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;ReentrantLock基于AQS(&lt;strong&gt;AbstractQueuedSynchronizer 抽象队列同步器&lt;/strong&gt;)实现。别说了，我知道问题了，AQS原理我来讲。&lt;/p&gt;
+&lt;p&gt;AQS内部维护一个state状态位，尝试加锁的时候通过CAS(CompareAndSwap)修改值，如果成功设置为1，并且把当前线程ID赋值，则代表加锁成功，一旦获取到锁，其他的线程将会被阻塞进入阻塞队列自旋，获得锁的线程释放锁的时候将会唤醒阻塞队列中的线程，释放锁的时候则会把state重新置为0，同时当前线程ID置为空。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehjaoTsjWvmlr4VwFnX8ZHGh8xUPt87pI4iaYBOoltaT7zWibDqrO1HouA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;cas的原理呢&#34;&gt;&lt;strong&gt;CAS的原理呢？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;CAS叫做CompareAndSwap，比较并交换，主要是通过处理器的指令来保证操作的原子性，它包含三个操作数：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;变量内存地址，V表示&lt;/li&gt;
+&lt;li&gt;旧的预期值，A表示&lt;/li&gt;
+&lt;li&gt;准备设置的新值，B表示&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当执行CAS指令时，只有当V等于A时，才会用B去更新V的值，否则就不会执行更新操作。&lt;/p&gt;
+&lt;h3 id=&#34;那么cas有什么缺点吗&#34;&gt;&lt;strong&gt;那么CAS有什么缺点吗？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;CAS的缺点主要有3点：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ABA问题&lt;/strong&gt;：ABA的问题指的是在CAS更新的过程中，当读取到的值是A，然后准备赋值的时候仍然是A，但是实际上有可能A的值被改成了B，然后又被改回了A，这个CAS更新的漏洞就叫做ABA。只是ABA的问题大部分场景下都不影响并发的最终效果。&lt;/p&gt;
+&lt;p&gt;Java中有AtomicStampedReference来解决这个问题，他加入了预期标志和更新后标志两个字段，更新时不光检查值，还要检查当前的标志是否等于预期标志，全部相等的话才会更新。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;循环时间长开销大&lt;/strong&gt;：自旋CAS的方式如果长时间不成功，会给CPU带来很大的开销。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;只能保证一个共享变量的原子操作&lt;/strong&gt;：只对一个共享变量操作可以保证原子性，但是多个则不行，多个可以通过AtomicReference来处理或者使用锁synchronized实现。&lt;/p&gt;
+&lt;h3 id=&#34;好说说hashmap原理吧&#34;&gt;&lt;strong&gt;好，说说HashMap原理吧？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;HashMap主要由数组和链表组成，他不是线程安全的。核心的点就是put插入数据的过程，get查询数据以及扩容的方式。JDK1.7和1.8的主要区别在于头插和尾插方式的修改，头插容易导致HashMap链表死循环，并且1.8之后加入红黑树对性能有提升。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;put插入数据流程&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;往map插入元素的时候首先通过对key hash然后与数组长度-1进行与运算((n-1)&amp;amp;hash)，都是2的次幂所以等同于取模，但是位运算的效率更高。找到数组中的位置之后，如果数组中没有元素直接存入，反之则判断key是否相同，key相同就覆盖，否则就会插入到链表的尾部，如果链表的长度超过8，则会转换成红黑树，最后判断数组长度是否超过默认的长度*负载因子也就是12，超过则进行扩容。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehhYJqIVUVqkQmiaXVoachgswvKcUfQ5AdgbJpYngXOvicVTDub1KxYMsw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;get查询数据&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;查询数据相对来说就比较简单了，首先计算出hash值，然后去数组查询，是红黑树就去红黑树查，链表就遍历链表查询就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;resize扩容过程&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;扩容的过程就是对key重新计算hash，然后把数据拷贝到新的数组。&lt;/p&gt;
+&lt;h3 id=&#34;那多线程环境怎么使用map呢concurrenthashmap了解过吗&#34;&gt;&lt;strong&gt;那多线程环境怎么使用Map呢？ConcurrentHashmap了解过吗？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;多线程环境可以使用Collections.synchronizedMap同步加锁的方式，还可以使用HashTable，但是同步的方式显然性能不达标，而ConurrentHashMap更适合高并发场景使用。&lt;/p&gt;
+&lt;p&gt;ConcurrentHashmap在JDK1.7和1.8的版本改动比较大，1.7使用Segment+HashEntry分段锁的方式实现，1.8则抛弃了Segment，改为使用CAS+synchronized+Node实现，同样也加入了红黑树，避免链表过长导致性能的问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.7分段锁&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;从结构上说，1.7版本的ConcurrentHashMap采用分段锁机制，里面包含一个Segment数组，Segment继承于ReentrantLock，Segment则包含HashEntry的数组，HashEntry本身就是一个链表的结构，具有保存key、value的能力能指向下一个节点的指针。&lt;/p&gt;
+&lt;p&gt;实际上就是相当于每个Segment都是一个HashMap，默认的Segment长度是16，也就是支持16个线程的并发写，Segment之间相互不会受到影响。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehq0unBKlKXBhARwBmeYWZJFgiaXCX2zCTjMk0Xq3gduRqI6fsR2ao9Hw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;put流程&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;其实发现整个流程和HashMap非常类似，只不过是先定位到具体的Segment，然后通过ReentrantLock去操作而已，后面的流程我就简化了，因为和HashMap基本上是一样的。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;计算hash，定位到segment，segment如果是空就先初始化&lt;/li&gt;
+&lt;li&gt;使用ReentrantLock加锁，如果获取锁失败则尝试自旋，自旋超过次数就阻塞获取，保证一定获取锁成功&lt;/li&gt;
+&lt;li&gt;遍历HashEntry，就是和HashMap一样，数组中key和hash一样就直接替换，不存在就再插入链表，链表同样&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPeh5Ua8JnShvjMmVbqbnG4SBeM0XbGC7XicL1tyic2ZsCLUM8doxianE5W9w/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;get流程&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;get也很简单，key通过hash定位到segment，再遍历链表定位到具体的元素上，需要注意的是value是volatile的，所以get是不需要加锁的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.8、CAS+synchronized&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1.8抛弃分段锁，转为用CAS+synchronized来实现，同样HashEntry改为Node，也加入了红黑树的实现。主要还是看put的流程。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehOaIZhNNGIw92iaLxnZW4PsxRN64LOy5vZCLrOcjf22f4umKTgtEU9TQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;put流程&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先计算hash，遍历node数组，如果node是空的话，就通过CAS+自旋的方式初始化&lt;/li&gt;
+&lt;li&gt;如果当前数组位置是空则直接通过CAS自旋写入数据&lt;/li&gt;
+&lt;li&gt;如果hash==MOVED，说明需要扩容，执行扩容&lt;/li&gt;
+&lt;li&gt;如果都不满足，就使用synchronized写入数据，写入数据同样判断链表、红黑树，链表写入和HashMap的方式一样，key hash一样就覆盖，反之就尾插法，链表长度超过8就转换成红黑树&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehSWXgNAwd00W76yvhUsqNK8uztPmTQwzicee3zNic0po5hjZILceUTiaCg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;get查询&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;get很简单，通过key计算hash，如果key hash相同就返回，如果是红黑树按照红黑树获取，都不是就遍历链表获取。&lt;/p&gt;
+&lt;h3 id=&#34;volatile原理知道吗&#34;&gt;&lt;strong&gt;volatile原理知道吗？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;相比synchronized的加锁方式来解决共享变量的内存可见性问题，volatile就是更轻量的选择，他没有上下文切换的额外开销成本。使用volatile声明的变量，可以确保值被更新的时候对其他线程立刻可见。volatile使用内存屏障来保证不会发生指令重排，解决了内存可见性的问题。&lt;/p&gt;
+&lt;p&gt;我们知道，线程都是从主内存中读取共享变量到工作内存来操作，完成之后再把结果写会主内存，但是这样就会带来可见性问题。举个例子，假设现在我们是两级缓存的双核CPU架构，包含L1、L2两级缓存。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;线程A首先获取变量X的值，由于最初两级缓存都是空，所以直接从主内存中读取X，假设X初始值为0，线程A读取之后把X值都修改为1，同时写回主内存。这时候缓存和主内存的情况如下图。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPeh2IXL5iaBEibeGqJKKHl3Gf731F1eqUlsWUUZKIgBuvZicV9Xb7WuSkGqQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;2.线程B也同样读取变量X的值，由于L2缓存已经有缓存X=1，所以直接从L2缓存读取，之后线程B把X修改为2，同时写回L2和主内存。这时候的X值入下图所示。&lt;/p&gt;
+&lt;p&gt;那么线程A如果再想获取变量X的值，因为L1缓存已经有x=1了，所以这时候变量内存不可见问题就产生了，B修改为2的值对A来说没有感知。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehzJKtGbqLVwjSh0MvYUVQg9ygbGhIVKSD5bK5V1ibtcYgRlKLVnasuEw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;那么，如果X变量用volatile修饰的话，当线程A再次读取变量X的话，CPU就会根据缓存一致性协议强制线程A重新从主内存加载最新的值到自己的工作内存，而不是直接用缓存中的值。&lt;/p&gt;
+&lt;p&gt;再来说内存屏障的问题，volatile修饰之后会加入不同的内存屏障来保证可见性的问题能正确执行。这里写的屏障基于书中提供的内容，但是实际上由于CPU架构不同，重排序的策略不同，提供的内存屏障也不一样，比如x86平台上，只有StoreLoad一种内存屏障。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;StoreStore屏障，保证上面的普通写不和volatile写发生重排序&lt;/li&gt;
+&lt;li&gt;StoreLoad屏障，保证volatile写与后面可能的volatile读写不发生重排序&lt;/li&gt;
+&lt;li&gt;LoadLoad屏障，禁止volatile读与后面的普通读重排序&lt;/li&gt;
+&lt;li&gt;LoadStore屏障，禁止volatile读和后面的普通写重排序&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehWmicawj6sLn1eYoBoPYlPUfFJHHV9jVaTtIy7al6m58Zp6MMtXsOl7g/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;那么说说你对jmm内存模型的理解为什么需要jmm&#34;&gt;&lt;strong&gt;那么说说你对JMM内存模型的理解？为什么需要JMM？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;本身随着CPU和内存的发展速度差异的问题，导致CPU的速度远快于内存，所以现在的CPU加入了高速缓存，高速缓存一般可以分为L1、L2、L3三级缓存。基于上面的例子我们知道了这导致了缓存一致性的问题，所以加入了缓存一致性协议，同时导致了内存可见性的问题，而编译器和CPU的重排序导致了原子性和有序性的问题，JMM内存模型正是对多线程操作下的一系列规范约束，因为不可能让陈雇员的代码去兼容所有的CPU，通过JMM我们才屏蔽了不同硬件和操作系统内存的访问差异，这样保证了Java程序在不同的平台下达到一致的内存访问效果，同时也是保证在高效并发的时候程序能够正确执行。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehfsHXibmwFS8CsYP1MkEr6PEJMfic9qfA5fqq9ic3XWIic7sgTOkJVtkIMg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;原子性&lt;/strong&gt;：Java内存模型通过read、load、assign、use、store、write来保证原子性操作，此外还有lock和unlock，直接对应着synchronized关键字的monitorenter和monitorexit字节码指令。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;可见性&lt;/strong&gt;：可见性的问题在上面的回答已经说过，Java保证可见性可以认为通过volatile、synchronized、final来实现。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;有序性&lt;/strong&gt;：由于处理器和编译器的重排序导致的有序性问题，Java通过volatile、synchronized来保证。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;happen-before规则&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;虽然指令重排提高了并发的性能，但是Java虚拟机会对指令重排做出一些规则限制，并不能让所有的指令都随意的改变执行位置，主要有以下几点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;单线程每个操作，happen-before于该线程中任意后续操作&lt;/li&gt;
+&lt;li&gt;volatile写happen-before与后续对这个变量的读&lt;/li&gt;
+&lt;li&gt;synchronized解锁happen-before后续对这个锁的加锁&lt;/li&gt;
+&lt;li&gt;final变量的写happen-before于final域对象的读，happen-before后续对final变量的读&lt;/li&gt;
+&lt;li&gt;传递性规则，A先于B，B先于C，那么A一定先于C发生&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;说了半天到底工作内存和主内存是什么&#34;&gt;&lt;strong&gt;说了半天，到底工作内存和主内存是什么？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;主内存可以认为就是物理内存，Java内存模型中实际就是虚拟机内存的一部分。而工作内存就是CPU缓存，他有可能是寄存器也有可能是L1\L2\L3缓存，都是有可能的。&lt;/p&gt;
+&lt;h3 id=&#34;说说threadlocal原理&#34;&gt;&lt;strong&gt;说说ThreadLocal原理？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;ThreadLocal可以理解为线程本地变量，他会在每个线程都创建一个副本，那么在线程之间访问内部副本变量就行了，做到了线程之间互相隔离，相比于synchronized的做法是用空间来换时间。&lt;/p&gt;
+&lt;p&gt;ThreadLocal有一个静态内部类ThreadLocalMap，ThreadLocalMap又包含了一个Entry数组，Entry本身是一个弱引用，他的key是指向ThreadLocal的弱引用，Entry具备了保存key value键值对的能力。&lt;/p&gt;
+&lt;p&gt;弱引用的目的是为了防止内存泄露，如果是强引用那么ThreadLocal对象除非线程结束否则始终无法被回收，弱引用则会在下一次GC的时候被回收。&lt;/p&gt;
+&lt;p&gt;但是这样还是会存在内存泄露的问题，假如key和ThreadLocal对象被回收之后，entry中就存在key为null，但是value有值的entry对象，但是永远没办法被访问到，同样除非线程结束运行。&lt;/p&gt;
+&lt;p&gt;但是只要ThreadLocal使用恰当，在使用完之后调用remove方法删除Entry对象，实际上是不会出现这个问题的。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehlyogmxkbKb9Sibtp5k8lz73a2AlyVgerJAtfmibhIic38dJh38NF0QYZA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;那引用类型有哪些有什么区别&#34;&gt;&lt;strong&gt;那引用类型有哪些？有什么区别？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;引用类型主要分为强软弱虚四种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;强引用指的就是代码中普遍存在的赋值方式，比如A a = new A()这种。强引用关联的对象，永远不会被GC回收。&lt;/li&gt;
+&lt;li&gt;软引用可以用SoftReference来描述，指的是那些有用但是不是必须要的对象。系统在发生内存溢出前会对这类引用的对象进行回收。&lt;/li&gt;
+&lt;li&gt;弱引用可以用WeakReference来描述，他的强度比软引用更低一点，弱引用的对象下一次GC的时候一定会被回收，而不管内存是否足够。&lt;/li&gt;
+&lt;li&gt;虚引用也被称作幻影引用，是最弱的引用关系，可以用PhantomReference来描述，他必须和ReferenceQueue一起使用，同样的当发生GC的时候，虚引用也会被回收。可以用虚引用来管理堆外内存。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;线程池原理知道吗&#34;&gt;&lt;strong&gt;线程池原理知道吗？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;首先线程池有几个核心的参数概念：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;最大线程数maximumPoolSize&lt;/li&gt;
+&lt;li&gt;核心线程数corePoolSize&lt;/li&gt;
+&lt;li&gt;活跃时间keepAliveTime&lt;/li&gt;
+&lt;li&gt;阻塞队列workQueue&lt;/li&gt;
+&lt;li&gt;拒绝策略RejectedExecutionHandler&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当提交一个新任务到线程池时，具体的执行流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当我们提交任务，线程池会根据corePoolSize大小创建若干任务数量线程执行任务&lt;/li&gt;
+&lt;li&gt;当任务的数量超过corePoolSize数量，后续的任务将会进入阻塞队列阻塞排队&lt;/li&gt;
+&lt;li&gt;当阻塞队列也满了之后，那么将会继续创建(maximumPoolSize-corePoolSize)个数量的线程来执行任务，如果任务处理完成，maximumPoolSize-corePoolSize额外创建的线程等待keepAliveTime之后被自动销毁&lt;/li&gt;
+&lt;li&gt;如果达到maximumPoolSize，阻塞队列还是满的状态，那么将根据不同的拒绝策略对应处理&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUljPgPC9h7FmEyOSbttvPehFlVhBew4SJXUzCicAjSkHdwXoLCaOMI7x2HhamkQqvHoBd1Zw9LS6OQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;拒绝策略有哪些&#34;&gt;&lt;strong&gt;拒绝策略有哪些？&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;主要有4种拒绝策略：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;AbortPolicy：直接丢弃任务，抛出异常，这是默认策略&lt;/li&gt;
+&lt;li&gt;CallerRunsPolicy：只用调用者所在的线程来处理任务&lt;/li&gt;
+&lt;li&gt;DiscardOldestPolicy：丢弃等待队列中最旧的任务，并执行当前任务&lt;/li&gt;
+&lt;li&gt;DiscardPolicy：直接丢弃任务，也不抛出异常&lt;/li&gt;
+&lt;/ol&gt;
+">java面试1</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/ying-yu-jin-ju/"" data-c="
+          &lt;p&gt;1、A true master/grandmaster is an eternal student;&lt;br&gt;
+2、I long for a worthy opponent;  I&#39;ve been longing for girlfriend;&lt;br&gt;
+3、It&#39;s not how much time you have;It&#39;s how you use it;&lt;br&gt;
+4、I have been to the top of the mountain,and the bottom of the gutter.Thers&#39;s much to learn from both.&lt;br&gt;
+5、It&#39;s all somke and mirrors;&lt;/p&gt;
+&lt;h4 id=&#34;宾语从句&#34;&gt;宾语从句&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;I didn&#39;t say you could leave; He said he was coming;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;that 之后的内容做宾语修饰that之前的内容。&lt;/p&gt;
+&lt;h5 id=&#34;主过从过宾语从句时态与主句一致&#34;&gt;&lt;mark&gt;主过从过：宾语从句时态与主句一致&lt;/mark&gt;&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Do:过去式（的否定式）didn’t  -&amp;gt; can:过去式 could&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;定语从句&#34;&gt;定语从句&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;I came back for others who could not;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;who定语从句：who后面内容修饰前面的人&lt;/p&gt;
+&lt;p&gt;相对于宾语从句：&lt;mark&gt;定语从句时态不受主句影响&lt;/mark&gt;,只起修饰的作用&lt;/p&gt;
+&lt;h4 id=&#34;what主语从句what引导一句话来从当主语&#34;&gt;What主语从句：what引导一句话来从当主语&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;what is broken can be reforged.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;mark&gt;主语句子是一个整体，谓语一般用单数&lt;/mark&gt;&lt;/p&gt;
+&lt;h4 id=&#34;倒装句当主语是名词且&#34;&gt;倒装句：当主语是名词，且&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;mark&gt;句首&lt;/mark&gt;表示时间，或&lt;/li&gt;
+&lt;li&gt;&lt;mark&gt;句首&lt;/mark&gt;表示运动方向，或&lt;/li&gt;
+&lt;li&gt;&lt;mark&gt;句首&lt;/mark&gt;表示位置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;把谓语在主语前。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;In Carnage I bloom, like a flower in the dawn.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;mark&gt;当主语是一个代词，eg. I 就不需要倒装&lt;/mark&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;what引导的感叹句what-被修饰的名词主语谓语&#34;&gt;What引导的感叹句：what +被修饰的名词+主语+谓语&lt;/h4&gt;
+&lt;p&gt;如果名词是可数的，需要加a/an;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;what delightfull agony we shall inflict.
+&lt;/code&gt;&lt;/pre&gt;
+">英语金句</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/HashMap/"" data-c="
+          &lt;h2 id=&#34;hashmap&#34;&gt;HashMap&lt;/h2&gt;
+&lt;p&gt;HashMap也是我们使用非常多的Collection，它是基于哈希表的 Map 接口的实现，以key-value的形式存在。在HashMap中，key-value总是会当做一个整体来处理，系统会根据hash算法来来计算key-value的存储位置，我们总是可以通过key快速地存、取value。下面就来分析HashMap的存取。&lt;/p&gt;
+&lt;h3 id=&#34;定义&#34;&gt;定义&lt;/h3&gt;
+&lt;p&gt;HashMap实现了Map接口，继承AbstractMap。其中Map接口定义了键映射到值的规则，而AbstractMap类提供 Map 接口的骨干实现，以最大限度地减少实现此接口所需的工作，其实AbstractMap类已经实现了Map，这里标注Map LZ觉得应该是更加清晰吧！&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class HashMap&amp;lt;K,V&amp;gt;
+    extends AbstractMap&amp;lt;K,V&amp;gt;
+    implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;构造函数&#34;&gt;构造函数&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  HashMap提供了三个构造函数：
+
+  HashMap()：构造一个具有默认初始容量 (16) 和默认加载因子 (0.75) 的空 HashMap。
+
+  HashMap(int initialCapacity)：构造一个带指定初始容量和默认加载因子 (0.75) 的空 HashMap。
+
+  HashMap(int initialCapacity, float loadFactor)：构造一个带指定初始容量和加载因子的空 HashMap。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在这里提到了两个参数：初始容量，加载因子。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这两个参数是影响HashMap性能的重要参数，其中容量表示哈希表中桶的数量，初始容量是创建哈希表时的容量，加载因子是哈希表在其容量自动增加之前可以达到多满的一种尺度，它衡量的是一个散列表的空间的使用程度，负载因子越大表示散列表的装填程度越高，反之愈小。&lt;/p&gt;
+&lt;p&gt;对于使用链表法的散列表来说，查找一个元素的平均时间是O(1+a)，因此如果负载因子越大，对空间的利用更充分，然而后果是查找效率的降低；如果负载因子太小，那么散列表的数据将过于稀疏，对空间造成严重浪费。系统默认负载因子为0.75，一般情况下我们是无需修改的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;HashMap是一种支持快速存取的数据结构，要了解它的性能必须要了解它的数据结构。&lt;/p&gt;
+&lt;h3 id=&#34;数据结构&#34;&gt;数据结构&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们知道在Java中最常用的两种结构是数组和模拟指针(引用)，几乎所有的数据结构都可以利用这两种来组合实现，HashMap也是如此。实际上HashMap是一个“链表散列”，如下是它的数据结构：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;HashMap数据结构图&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://gitee.com/chenssy/blog-home/raw/master/image/sijava/152128351581.png&#34; alt=&#34;HashMap数据结构图_thumb[13]&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;下图的table数组的每个格子都是一个桶。负载因子就是map中的元素占用的容量百分比。比如负载因子是0.75，初始容量（桶数量）为16时，那么允许装填的元素最大个数就是16*0.75 = 12，这个最大个数也被成为阈值，就是map中定义的threshold。超过这个阈值时，map就会自动扩容。&lt;/p&gt;
+&lt;h3 id=&#34;存储实现putkeyvlaue&#34;&gt;存储实现：put(key,vlaue)&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public V put(K key, V value) {
+        //当key为null，调用putForNullKey方法，保存null在table第一个位置中，这是HashMap允许为null的原因
+        if (key == null)
+            return putForNullKey(value);
+        //计算key的hash值，此处对原来元素的hashcode进行了再次hash
+        int hash = hash(key.hashCode());                  ------(1)
+        //计算key hash 值在 table 数组中的位置
+        int i = indexFor(hash, table.length);             ------(2)
+        //从i出开始迭代 e,找到 key 保存的位置
+        for (Entry&amp;lt;K, V&amp;gt; e = table[i]; e != null; e = e.next) {
+            Object k;
+            //判断该条链上是否有hash值相同的(key相同)
+            //若存在相同，则直接覆盖value，返回旧value
+            if (e.hash == hash &amp;amp;&amp;amp; ((k = e.key) == key || key.equals(k))) {
+                V oldValue = e.value;    //旧值 = 新值
+                e.value = value;
+                e.recordAccess(this);
+                return oldValue;     //返回旧值
+            }
+        }
+        //修改次数增加1
+        modCount++;
+        //将key、value添加至i位置处
+        addEntry(hash, key, value, i);
+        return null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过源码我们可以清晰看到HashMap保存数据的过程为：首先判断key是否为null，若为null，则直接调用putForNullKey方法。&lt;/p&gt;
+&lt;p&gt;若不为空则先计算key的hash值，然后根据hash值搜索在table数组中的索引位置，如果table数组在该位置处有元素，则通过比较是否存在相同的key，若存在则覆盖原来key的value，&lt;mark&gt;否则将该元素保存在链头（最先保存的元素放在链尾）&lt;/mark&gt;。&lt;/p&gt;
+&lt;p&gt;若table在该处没有元素，则直接保存。这个过程看似比较简单，其实深有内幕。有如下几点：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、 先看迭代处。此处迭代原因就是为了防止存在相同的key值，若发现两个hash值（key）相同时，HashMap的处理方式是用新value替换旧value，这里并没有处理key，这就解释了HashMap中没有两个相同的key。&lt;/p&gt;
+&lt;p&gt;2、 在看（1）、（2）处。这里是HashMap的精华所在。首先是hash方法，该方法为一个纯粹的数学计算，就是计算h的hash值。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;static int hash(int h) {
+        h ^= (h &amp;gt;&amp;gt;&amp;gt; 20) ^ (h &amp;gt;&amp;gt;&amp;gt; 12);
+        return h ^ (h &amp;gt;&amp;gt;&amp;gt; 7) ^ (h &amp;gt;&amp;gt;&amp;gt; 4);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们知道对于HashMap的table而言，数据分布需要均匀（最好每项都只有一个元素，这样就可以直接找到），不能太紧也不能太松，太紧会导致查询速度慢，太松则浪费空间。计算hash值后，怎么才能保证table元素分布均衡呢？我们会想到取模，但是由于取模的消耗较大，HashMap是这样处理的：调用indexFor方法。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;static int indexFor(int h, int length) {
+        return h &amp;amp; (length-1);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;HashMap的底层数组长度总是2的n次方，在构造函数中存在：capacity &amp;lt;&amp;lt;= 1;这样做总是能够保证HashMap的底层数组长度为2的n次方。当length为2的n次方时，h&amp;amp;(length - 1)就相当于对length取模，而且速度比直接取模快得多，这是HashMap在速度上的一个优化。至于为什么是2的n次方下面解释。&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;对length取模来得到hash是常用的hash索引方法，这里采用位运算的话效率更高。&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;我们回到indexFor方法，该方法仅有一条语句：h&amp;amp;(length - 1)，这句话除了上面的取模运算外还有一个非常重要的责任：均匀分布table数据和充分利用空间。&lt;/p&gt;
+&lt;p&gt;这里我们假设length为16(2^n)和15，h为5、6、7。&lt;/p&gt;
+&lt;p&gt;当n=15时，6和7的结果一样，这样表示他们在table存储的位置是相同的，也就是产生了碰撞，6、7就会在一个位置形成链表，这样就会导致查询速度降低。诚然这里只分析三个数字不是很多，那么我们就看0-15。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;而当length = 16时，length – 1 = 15 即1111，那么进行低位&amp;amp;运算时，值总是与原来hash值相同，而进行高位运算时，其值等于其低位值。所以说当length = 2^n时，不同的hash值发生碰撞的概率比较小，这样就会使得数据在table数组中分布较均匀，查询速度也较快。&lt;/p&gt;
+&lt;p&gt;这里我们再来复习put的流程：当我们想一个HashMap中添加一对key-value时，系统首先会计算key的hash值，然后根据hash值确认在table中存储的位置。若该位置没有元素，则直接插入。否则迭代该处元素链表并依此比较其key的hash值。&lt;/p&gt;
+&lt;p&gt;如果两个hash值相等且key值相等(e.hash == hash &amp;amp;&amp;amp; ((k = e.key) == key || key.equals(k))),则用新的Entry的value覆盖原来节点的value。如果两个hash值相等但key值不等 ，则将该节点插入该链表的链头。具体的实现过程见addEntry方法，如下：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void addEntry(int hash, K key, V value, int bucketIndex) {
+        //获取bucketIndex处的Entry
+        Entry&amp;lt;K, V&amp;gt; e = table[bucketIndex];
+        //将新创建的 Entry 放入 bucketIndex 索引处，并让新的 Entry 指向原来的 Entry 
+        table[bucketIndex] = new Entry&amp;lt;K, V&amp;gt;(hash, key, value, e);
+        //若HashMap中元素的个数超过极限了，则容量扩大两倍
+        if (size++ &amp;gt;= threshold)
+            resize(2 * table.length);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个方法中有两点需要注意：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;后面添加的entry反而会接到前面。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;一、是链的产生。&lt;/p&gt;
+&lt;p&gt;这是一个非常优雅的设计。系统总是将新的Entry对象添加到bucketIndex处。如果bucketIndex处已经有了对象，那么新添加的Entry对象将指向原有的Entry对象，形成一条Entry链，但是若bucketIndex处没有Entry对象，也就是e==null,那么新添加的Entry对象指向null，也就不会产生Entry链了。&lt;/p&gt;
+&lt;p&gt;二、扩容问题。&lt;/p&gt;
+&lt;p&gt;随着HashMap中元素的数量越来越多，发生碰撞的概率就越来越大，所产生的链表长度就会越来越长，这样势必会影响HashMap的速度，为了保证HashMap的效率，系统必须要在某个临界点进行扩容处理。&lt;/p&gt;
+&lt;p&gt;该临界点在当HashMap中元素的数量等于table数组长度*加载因子。但是扩容是一个非常耗时的过程，因为它需要重新计算这些数据在新table数组中的位置并进行复制处理。所以如果我们已经预知HashMap中元素的个数，那么预设元素的个数能够有效的提高HashMap的性能。&lt;/p&gt;
+&lt;h3 id=&#34;jdk18的hashmapput方法&#34;&gt;JDK1.8的hashmap：put方法&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        Node&amp;lt;K,V&amp;gt;[] tab; Node&amp;lt;K,V&amp;gt; p; int n, i;
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+        if ((p = tab[i = (n - 1) &amp;amp; hash]) == null)
+            tab[i] = newNode(hash, key, value, null);
+        else {
+            Node&amp;lt;K,V&amp;gt; e; K k;
+            if (p.hash == hash &amp;amp;&amp;amp;
+                ((k = p.key) == key || (key != null &amp;amp;&amp;amp; key.equals(k))))
+                e = p;
+                //如果p是红黑树节点，则用另外的处理方法
+            else if (p instanceof TreeNode)
+                e = ((TreeNode&amp;lt;K,V&amp;gt;)p).putTreeVal(this, tab, hash, key, value);
+            else {
+                for (int binCount = 0; ; ++binCount) {
+                    if ((e = p.next) == null) {
+                        p.next = newNode(hash, key, value, null);
+                        if (binCount &amp;gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        //当链表节点数超过8个，则直接进行红黑树化。
+                            treeifyBin(tab, hash);
+                        break;
+                    }
+                    if (e.hash == hash &amp;amp;&amp;amp;
+                        ((k = e.key) == key || (key != null &amp;amp;&amp;amp; key.equals(k))))
+                        break;
+                    p = e;
+                }
+            }
+            if (e != null) { // existing mapping for key
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value;
+                afterNodeAccess(e);
+                return oldValue;
+            }
+        }
+        ++modCount;
+        if (++size &amp;gt; threshold)
+            resize();
+        afterNodeInsertion(evict);
+        return null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;JDK1.8在链表长度超过8时会转换为红黑树。 转换方法如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;final void treeifyBin(Node&amp;lt;K,V&amp;gt;[] tab, int hash) {
+        int n, index; Node&amp;lt;K,V&amp;gt; e;
+        if (tab == null || (n = tab.length) &amp;lt; MIN_TREEIFY_CAPACITY)
+        //如果节点数变小小于红黑树的节点数阈值时，调整空间
+            resize();
+        else if ((e = tab[index = (n - 1) &amp;amp; hash]) != null) {
+            TreeNode&amp;lt;K,V&amp;gt; hd = null, tl = null;
+            do {
+            //该方法直接返回一个红黑树结点。
+                TreeNode&amp;lt;K,V&amp;gt; p = replacementTreeNode(e, null);
+                if (tl == null)
+                    hd = p;
+                else {
+                //从链表头开始依次插入红黑树
+                    p.prev = tl;
+                    tl.next = p;
+                }
+                tl = p;
+            } while ((e = e.next) != null);
+            if ((tab[index] = hd) != null)
+                hd.treeify(tab);
+        }
+    }
+    
+        // For treeifyBin
+TreeNode&amp;lt;K,V&amp;gt; replacementTreeNode(Node&amp;lt;K,V&amp;gt; p, Node&amp;lt;K,V&amp;gt; next) {
+    return new TreeNode&amp;lt;&amp;gt;(p.hash, p.key, p.value, next);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;扩容&#34;&gt;扩容&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;final Node&amp;lt;K,V&amp;gt;[] resize() {
+        Node&amp;lt;K,V&amp;gt;[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap &amp;gt; 0) {
+            //如果原容量大于最大空间，则让阈值为最大值。因为不能再扩容了，最大容量就是整数最大值。
+            if (oldCap &amp;gt;= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            //两倍扩容，阈值也跟着变为两倍
+            else if ((newCap = oldCap &amp;lt;&amp;lt; 1) &amp;lt; MAXIMUM_CAPACITY &amp;amp;&amp;amp;
+                     oldCap &amp;gt;= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr &amp;lt;&amp;lt; 1; // double threshold
+        }
+        else if (oldThr &amp;gt; 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        else {               // zero initial threshold signifies using defaults
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (newThr == 0) {
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap &amp;lt; MAXIMUM_CAPACITY &amp;amp;&amp;amp; ft &amp;lt; (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        @SuppressWarnings({&amp;quot;rawtypes&amp;quot;,&amp;quot;unchecked&amp;quot;})
+            Node&amp;lt;K,V&amp;gt;[] newTab = (Node&amp;lt;K,V&amp;gt;[])new Node[newCap];
+        table = newTab;
+        if (oldTab != null) {
+            for (int j = 0; j &amp;lt; oldCap; ++j) {
+                Node&amp;lt;K,V&amp;gt; e;
+                if ((e = oldTab[j]) != null) {
+                    oldTab[j] = null;
+                    if (e.next == null)
+                        //当后面没有节点时，直接插入即可 //每个元素重新计算索引位置，此处的hash值并没有变，只是改变索引值
+                        newTab[e.hash &amp;amp; (newCap - 1)] = e;
+                    else if (e instanceof TreeNode)
+                        ((TreeNode&amp;lt;K,V&amp;gt;)e).split(this, newTab, j, oldCap);
+                    else { // preserve order
+                    //否则，就从头到尾依次将节点进行索引然后插入新数组，这样插入后的链表顺序会和原来的顺序相反。
+                        Node&amp;lt;K,V&amp;gt; loHead = null, loTail = null;
+                        Node&amp;lt;K,V&amp;gt; hiHead = null, hiTail = null;
+                        Node&amp;lt;K,V&amp;gt; next;
+                        do {
+                            next = e.next;
+                            if ((e.hash &amp;amp; oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        if (loTail != null) {
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;读取实现getkey&#34;&gt;读取实现：get(key)&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;        相对于HashMap的存而言，取就显得比较简单了。通过key的hash值找到在table数组中的索引处的Entry，然后返回该key对应的value即可。
+
+public V get(Object key) {
+        // 若为null，调用getForNullKey方法返回相对应的value
+        if (key == null)
+            return getForNullKey();
+        // 根据该 key 的 hashCode 值计算它的 hash 码  
+        int hash = hash(key.hashCode());
+        // 取出 table 数组中指定索引处的值
+        for (Entry&amp;lt;K, V&amp;gt; e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
+            Object k;
+            //若搜索的key与查找的key相同，则返回相对应的value
+            if (e.hash == hash &amp;amp;&amp;amp; ((k = e.key) == key || key.equals(k)))
+                return e.value;
+        }
+        return null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在这里能够根据key快速的取到value除了和HashMap的数据结构密不可分外，还和Entry有莫大的关系，在前面就提到过，HashMap在存储过程中并没有将key，value分开来存储，而是当做一个整体key-value来处理的，这个整体就是Entry对象。&lt;/p&gt;
+&lt;p&gt;同时value也只相当于key的附属而已。在存储的过程中，系统根据key的hashcode来决定Entry在table数组中的存储位置，在取的过程中同样根据key的hashcode取出相对应的Entry对象。&lt;/p&gt;
+&lt;p&gt;在java中与有两个类都提供了一个多种用途的hashTable机制，他们都可以将可以key和value结合起来构成键值对通过put(key,value)方法保存起来，然后通过get(key)方法获取相对应的value值。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;hashtable&#34;&gt;HashTable&lt;/h2&gt;
+&lt;p&gt;一个是前面提到的HashMap，还有一个就是马上要讲解的HashTable。对于HashTable而言，它在很大程度上和HashMap的实现差不多，如果我们对HashMap比较了解的话，对HashTable的认知会提高很大的帮助。他们两者之间只存在几点的不同，这个后面会阐述。&lt;/p&gt;
+&lt;h3 id=&#34;定义-2&#34;&gt;定义&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  HashTable在Java中的定义如下：
+
+public class Hashtable&amp;lt;K,V&amp;gt;
+    extends Dictionary&amp;lt;K,V&amp;gt;
+    implements Map&amp;lt;K,V&amp;gt;, Cloneable, java.io.Serializable
+      从中可以看出HashTable继承Dictionary类，实现Map接口。其中Dictionary类是任何可将键映射到相应值的类（如 Hashtable）的抽象父类。每个键和每个值都是一个对象。在任何一个 Dictionary 对象中，每个键至多与一个值相关联。Map是&amp;quot;key-value键值对&amp;quot;接口。
+
+
+
+  HashTable采用&amp;quot;拉链法&amp;quot;实现哈希表，它定义了几个重要的参数：table、count、threshold、loadFactor、modCount。
+
+
+
+  table：为一个Entry[]数组类型，Entry代表了“拉链”的节点，每一个Entry代表了一个键值对，哈希表的&amp;quot;key-value键值对&amp;quot;都是存储在Entry数组中的。
+
+
+
+  count：HashTable的大小，注意这个大小并不是HashTable的容器大小，而是他所包含Entry键值对的数量。
+
+
+
+  threshold：Hashtable的阈值，用于判断是否需要调整Hashtable的容量。threshold的值=&amp;quot;容量*加载因子&amp;quot;。
+
+
+
+  loadFactor：加载因子。
+
+
+
+  modCount：用来实现“fail-fast”机制的（也就是快速失败）。所谓快速失败就是在并发集合中，其进行迭代操作时，若有其他线程对其进行结构性的修改，这时迭代器会立马感知到，并且立即抛出ConcurrentModificationException异常，而不是等到迭代完成之后才告诉你（你已经出错了）。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;构造方法&#34;&gt;构造方法&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  在HashTabel中存在5个构造函数。通过这5个构造函数我们构建出一个我想要的HashTable。
+
+public Hashtable() {
+        this(11, 0.75f);
+    }
+      默认构造函数，容量为11，加载因子为0.75。
+
+public Hashtable(int initialCapacity) {
+        this(initialCapacity, 0.75f);
+    }
+      用指定初始容量和默认的加载因子 (0.75) 构造一个新的空哈希表。
+
+public Hashtable(int initialCapacity, float loadFactor) {
+        //验证初始容量
+        if (initialCapacity &amp;lt; 0)
+            throw new IllegalArgumentException(&amp;quot;Illegal Capacity: &amp;quot;+
+                                               initialCapacity);
+        //验证加载因子
+        if (loadFactor &amp;lt;= 0 || Float.isNaN(loadFactor))
+            throw new IllegalArgumentException(&amp;quot;Illegal Load: &amp;quot;+loadFactor);
+
+        if (initialCapacity==0)
+            initialCapacity = 1;
+
+        this.loadFactor = loadFactor;
+
+        //初始化table，获得大小为initialCapacity的table数组
+        table = new Entry[initialCapacity];
+        //计算阀值
+        threshold = (int)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+        //初始化HashSeed值
+        initHashSeedAsNeeded(initialCapacity);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;用指定初始容量和指定加载因子构造一个新的空哈希表。其中initHashSeedAsNeeded方法用于初始化hashSeed参数，其中hashSeed用于计算key的hash值，它与key的hashCode进行按位异或运算。这个hashSeed是一个与实例相关的随机值，主要用于解决hash冲突。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;private int hash(Object k) {
+        return hashSeed ^ k.hashCode();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;构造一个与给定的 Map 具有相同映射关系的新哈希表。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public Hashtable(Map&amp;lt;? extends K, ? extends V&amp;gt; t) {
+        //设置table容器大小，其值==t.size * 2 + 1
+        this(Math.max(2*t.size(), 11), 0.75f);
+        putAll(t);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;主要方法&#34;&gt;主要方法&lt;/h3&gt;
+&lt;p&gt;HashTable的API对外提供了许多方法，这些方法能够很好帮助我们操作HashTable，但是这里我只介绍两个最根本的方法：put、get。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  首先我们先看put方法：将指定 key 映射到此哈希表中的指定 value。注意这里键key和值value都不可为空。
+
+public synchronized V put(K key, V value) {
+        // 确保value不为null
+        if (value == null) {
+            throw new NullPointerException();
+        }
+
+        /*
+         * 确保key在table[]是不重复的
+         * 处理过程：
+         * 1、计算key的hash值，确认在table[]中的索引位置
+         * 2、迭代index索引位置，如果该位置处的链表中存在一个一样的key，则替换其value，返回旧值
+         */
+        Entry tab[] = table;
+        int hash = hash(key);    //计算key的hash值
+        int index = (hash &amp;amp; 0x7FFFFFFF) % tab.length;     //确认该key的索引位置
+        //迭代，寻找该key，替换
+        for (Entry&amp;lt;K,V&amp;gt; e = tab[index] ; e != null ; e = e.next) {
+            if ((e.hash == hash) &amp;amp;&amp;amp; e.key.equals(key)) {
+                V old = e.value;
+                e.value = value;
+                return old;
+            }
+        }
+
+        modCount++;
+        if (count &amp;gt;= threshold) {  //如果容器中的元素数量已经达到阀值，则进行扩容操作
+            rehash();
+            tab = table;
+            hash = hash(key);
+            index = (hash &amp;amp; 0x7FFFFFFF) % tab.length;
+        }
+
+        // 在索引位置处插入一个新的节点
+        Entry&amp;lt;K,V&amp;gt; e = tab[index];
+        tab[index] = new Entry&amp;lt;&amp;gt;(hash, key, value, e);
+        //容器中元素+1
+        count++;
+        return null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;put方法的整个处理流程是：计算key的hash值，根据hash值获得key在table数组中的索引位置，然后迭代该key处的Entry链表（我们暂且理解为链表），若该链表中存在一个这个的key对象，那么就直接替换其value值即可，否则在将改key-value节点插入该index索引位置处&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在HashTabled的put方法中有两个地方需要注意：&lt;/p&gt;
+&lt;p&gt;1、HashTable的扩容操作，在put方法中，如果需要向table[]中添加Entry元素，会首先进行容量校验，如果容量已经达到了阀值，HashTable就会进行扩容处理rehash()，如下:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;protected void rehash() {
+        int oldCapacity = table.length;
+        //元素
+        Entry&amp;lt;K,V&amp;gt;[] oldMap = table;
+
+        //新容量=旧容量 * 2 + 1
+        int newCapacity = (oldCapacity &amp;lt;&amp;lt; 1) + 1;
+        if (newCapacity - MAX_ARRAY_SIZE &amp;gt; 0) {
+            if (oldCapacity == MAX_ARRAY_SIZE)
+                return;
+            newCapacity = MAX_ARRAY_SIZE;
+        }
+
+        //新建一个size = newCapacity 的HashTable
+        Entry&amp;lt;K,V&amp;gt;[] newMap = new Entry[];
+
+        modCount++;
+        //重新计算阀值
+        threshold = (int)Math.min(newCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+        //重新计算hashSeed
+        boolean rehash = initHashSeedAsNeeded(newCapacity);
+
+        table = newMap;
+        //将原来的元素拷贝到新的HashTable中
+        for (int i = oldCapacity ; i-- &amp;gt; 0 ;) {
+            for (Entry&amp;lt;K,V&amp;gt; old = oldMap[i] ; old != null ; ) {
+                Entry&amp;lt;K,V&amp;gt; e = old;
+                old = old.next;
+
+                if (rehash) {
+                    e.hash = hash(e.key);
+                }
+                int index = (e.hash &amp;amp; 0x7FFFFFFF) % newCapacity;
+                e.next = newMap[index];
+                newMap[index] = e;
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在这个rehash()方法中我们可以看到容量扩大两倍+1，同时需要将原来HashTable中的元素一一复制到新的HashTable中，这个过程是比较消耗时间的，同时还需要重新计算hashSeed的，毕竟容量已经变了。&lt;/p&gt;
+&lt;p&gt;这里对阀值啰嗦一下：比如初始值11、加载因子默认0.75，那么这个时候阀值threshold=8，当容器中的元素达到8时，HashTable进行一次扩容操作，容量 = 8 * 2 + 1 =17，而阀值threshold=17*0.75 = 13，当容器元素再一次达到阀值时，HashTable还会进行扩容操作，依次类推。&lt;/p&gt;
+&lt;p&gt;下面是计算key的hash值，这里hashSeed发挥了作用。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;private int hash(Object k) {
+        return hashSeed ^ k.hashCode();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;相对于put方法，get方法就会比较简单，处理过程就是计算key的hash值，判断在table数组中的索引位置，然后迭代链表，匹配直到找到相对应key的value,若没有找到返回null。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public synchronized V get(Object key) {
+        Entry tab[] = table;
+        int hash = hash(key);
+        int index = (hash &amp;amp; 0x7FFFFFFF) % tab.length;
+        for (Entry&amp;lt;K,V&amp;gt; e = tab[index] ; e != null ; e = e.next) {
+            if ((e.hash == hash) &amp;amp;&amp;amp; e.key.equals(key)) {
+                return e.value;
+            }
+        }
+        return null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;hashtable与hashmap的异同点&#34;&gt;HashTable与HashMap的异同点&lt;/h2&gt;
+&lt;p&gt;HashTable和HashMap存在很多的相同点，但是他们还是有几个比较重要的不同点。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;第一：我们从他们的定义就可以看出他们的不同，HashTable基于Dictionary类，而HashMap是基于AbstractMap。Dictionary是什么？它是任何可将键映射到相应值的类的抽象父类，而AbstractMap是基于Map接口的骨干实现，它以最大限度地减少实现此接口所需的工作。&lt;/p&gt;
+&lt;p&gt;第二：HashMap可以允许存在一个为null的key和任意个为null的value，但是HashTable中的key和value都不允许为null。如下：&lt;/p&gt;
+&lt;p&gt;当HashMap遇到为null的key时，它会调用putForNullKey方法来进行处理。对于value没有进行任何处理，只要是对象都可以。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if (key == null)
+            return putForNullKey(value);
+      而当HashTable遇到null时，他会直接抛出NullPointerException异常信息。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;if (value == null) {
+    throw new NullPointerException();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;第三：Hashtable的方法是同步的，而HashMap的方法不是。所以有人一般都建议如果是涉及到多线程同步时采用HashTable，没有涉及就采用HashMap，但是在Collections类中存在一个静态方法：synchronizedMap()，该方法创建了一个线程安全的Map对象，并把它作为一个封装的对象来返回，所以通过Collections类的synchronizedMap方法是可以我们你同步访问潜在的HashMap。这样君该如何选择呢？？？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;面试题hashmap和hashtable的区别&#34;&gt;面试题：HashMap和HashTable的区别&lt;/h2&gt;
+&lt;p&gt;HashMap线程不安全，HashTable是线程安全的。HashMap内部实现没有任何线程同步相关的代码，所以相对而言性能要好一点。如果在多线程中使用HashMap需要自己管理线程同步。HashTable大部分对外接口都使用synchronized包裹，所以是线程安全的，但是性能会相对差一些。&lt;/p&gt;
+&lt;p&gt;二者的基类不一样。HashMap派生于AbstractMap，HashTable派生于Dictionary。它们都实现Map, Cloneable, Serializable这些接口。AbstractMap中提供的基础方法更多，并且实现了多个通用的方法，而在Dictionary中只有少量的接口，并且都是abstract类型。&lt;/p&gt;
+&lt;p&gt;key和value的取值范围不同。HashMap的key和value都可以为null，但是HashTablekey和value都不能为null。对于HashMap如果get返回null，并不能表明HashMap不存在这个key，如果需要判断HashMap中是否包含某个key，就需要使用containsKey这个方法来判断。&lt;/p&gt;
+&lt;p&gt;算法不一样。HashMap的initialCapacity为16，而HashTable的initialCapacity为11。HashMap中初始容量必须是2的幂,如果初始化传入的initialCapacity不是2的幂，将会自动调整为大于出入的initialCapacity最小的2的幂。HashMap使用自己的计算hash的方法(会依赖key的hashCode方法)，HashTable则使用key的hashCode方法得到。&lt;/p&gt;
+">HashMap与HashTable</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/iteratorfail-fast-ji-zhi-yu-bi-jiao-qi/"" data-c="
+          &lt;h2 id=&#34;iterator&#34;&gt;Iterator&lt;/h2&gt;
+&lt;p&gt;迭代对于我们搞Java的来说绝对不陌生。我们常常使用JDK提供的迭代接口进行Java集合的迭代。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Iterator iterator = list.iterator();
+        while(iterator.hasNext()){
+            String string = iterator.next();
+            do something
+        }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;迭代其实我们可以简单地理解为遍历，是一个标准化遍历各类容器里面的所有对象的方法类，它是一个很典型的设计模式。Iterator模式是用于遍历集合类的标准访问方法。&lt;/p&gt;
+&lt;p&gt;它可以把访问逻辑从不同类型的集合类中抽象出来，从而避免向客户端暴露集合的内部结构。 在没有迭代器时我们都是这么进行处理的。如下：&lt;/p&gt;
+&lt;p&gt;对于数组我们是使用下标来进行处理的&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;int[] arrays = new int[10];
+   for(int i = 0 ; i  arrays.length ; i++){
+       int a = arrays[i];
+       do something
+   }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于ArrayList是这么处理的&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ListString list = new ArrayListString();
+   for(int i = 0 ; i  list.size() ;  i++){
+      String string = list.get(i);
+      do something
+   }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于这两种方式，我们总是都事先知道集合的内部结构，访问代码和集合本身是紧密耦合的，无法将访问逻辑从集合类和客户端代码中分离出来。同时每一种集合对应一种遍历方法，客户端代码无法复用。&lt;/p&gt;
+&lt;p&gt;在实际应用中如何需要将上面将两个集合进行整合是相当麻烦的。所以为了解决以上问题，Iterator模式腾空出世，它总是用同一种逻辑来遍历集合。&lt;/p&gt;
+&lt;p&gt;使得客户端自身不需要来维护集合的内部结构，所有的内部状态都由Iterator来维护。客户端从不直接和集合类打交道，它总是控制Iterator，向它发送向前，向后，取当前元素的命令，就可以间接遍历整个集合。&lt;/p&gt;
+&lt;p&gt;上面只是对Iterator模式进行简单的说明，下面我们看看Java中Iterator接口，看他是如何来进行实现的。&lt;/p&gt;
+&lt;h3 id=&#34;javautiliterator&#34;&gt;java.util.Iterator&lt;/h3&gt;
+&lt;p&gt;在Java中Iterator为一个接口，它只提供了迭代了基本规则，在JDK中他是这样定义的：对 collection 进行迭代的迭代器。迭代器取代了 Java Collections Framework 中的 Enumeration。迭代器与枚举有两点不同：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;迭代器允许调用者利用定义良好的语义在迭代期间从迭代器所指向的 collection 移除元素。&lt;/li&gt;
+&lt;li&gt;方法名称得到了改进。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其接口定义如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface Iterator {
+　　boolean hasNext();
+　　Object next();
+　　void remove();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Object next()：返回迭代器刚越过的元素的引用，返回值是Object，需要强制转换成自己需要的类型
+
+boolean hasNext()：判断容器内是否还有可供访问的元素
+
+void remove()：删除迭代器刚越过的元素
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于我们而言，我们只一般只需使用next()、hasNext()两个方法即可完成迭代。如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;for(Iterator it = c.iterator(); it.hasNext(); ) {
+　　Object o = it.next();
+　　 do something
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;mark&gt;前面阐述了Iterator有一个很大的优点,就是我们不必知道集合的内部结果,集合的内部结构、状态由Iterator来维持，通过统一的方法hasNext()、next()来判断、获取下一个元素，至于具体的内部实现我们就不用关心了。&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;但是作为一个合格的程序员我们非常有必要来弄清楚Iterator的实现。下面就ArrayList的源码进行分析分析。&lt;/p&gt;
+&lt;h3 id=&#34;各个集合的iterator的实现&#34;&gt;各个集合的Iterator的实现&lt;/h3&gt;
+&lt;p&gt;下面就ArrayList的Iterator实现来分析，其实如果我们理解了ArrayList、Hashset、TreeSet的数据结构，内部实现，对于他们是如何实现Iterator也会胸有成竹的。因为ArrayList的内部实现采用数组，所以我们只需要记录相应位置的索引即可，其方法的实现比较简单。&lt;/p&gt;
+&lt;h4 id=&#34;arraylist的iterator实现&#34;&gt;ArrayList的Iterator实现&lt;/h4&gt;
+&lt;p&gt;在ArrayList内部首先是定义一个内部类Itr，该内部类实现Iterator接口，如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;private class Itr implements IteratorE {
+    do something
+}
+而ArrayList的iterator()方法实现：
+
+public IteratorE iterator() {
+        return new Itr();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;所以通过使用ArrayList.iterator()方法返回的是Itr()内部类，所以现在我们需要关心的就是Itr()内部类的实现：&lt;/p&gt;
+&lt;p&gt;在Itr内部定义了三个int型的变量：cursor、lastRet、expectedModCount。其中cursor表示下一个元素的索引位置，lastRet表示上一个元素的索引位置&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;        int cursor;             
+        int lastRet = -1;     
+        int expectedModCount = modCount;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从cursor、lastRet定义可以看出，lastRet一直比cursor少一所以hasNext()实现方法异常简单，只需要判断cursor和lastRet是否相等即可。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public boolean hasNext() {
+    return cursor != size;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于next()实现其实也是比较简单的，只要返回cursor索引位置处的元素即可，然后修改cursor、lastRet即可。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public E next() {
+    checkForComodification();
+    int i = cursor;    //记录索引位置
+    if (i = size)    //如果获取元素大于集合元素个数，则抛出异常
+        throw new NoSuchElementException();
+    Object[] elementData = ArrayList.this.elementData;
+    if (i = elementData.length)
+        throw new ConcurrentModificationException();
+    cursor = i + 1;      //cursor + 1
+    return (E) elementData[lastRet = i];  //lastRet + 1 且返回cursor处元素
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;checkForComodification()主要用来判断集合的修改次数是否合法，即用来判断遍历过程中集合是否被修改过。&lt;/p&gt;
+&lt;p&gt;。modCount用于记录ArrayList集合的修改次数，初始化为0，，每当集合被修改一次（结构上面的修改，内部update不算），如add、remove等方法，modCount + 1，所以如果modCount不变，则表示集合内容没有被修改。&lt;/p&gt;
+&lt;p&gt;该机制主要是用于实现ArrayList集合的快速失败机制，在Java的集合中，较大一部分集合是存在快速失败机制的，这里就不多说，后面会讲到。&lt;/p&gt;
+&lt;p&gt;所以要保证在遍历过程中不出错误，我们就应该保证在遍历过程中不会对集合产生结构上的修改（当然remove方法除外），出现了异常错误，我们就应该认真检查程序是否出错而不是catch后不做处理。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;final void checkForComodification() {
+            if (modCount != expectedModCount)
+                throw new ConcurrentModificationException();
+        }
+//对于remove()方法的是实现，它是调用ArrayList本身的remove()方法删除lastRet位置元素，然后修改modCount即可。
+
+public void remove() {
+    if (lastRet  0)
+        throw new IllegalStateException();
+    checkForComodification();
+
+    try {
+        ArrayList.this.remove(lastRet);
+        cursor = lastRet;
+        lastRet = -1;
+        expectedModCount = modCount;
+    } catch (IndexOutOfBoundsException ex) {
+        throw new ConcurrentModificationException();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里就对ArrayList的Iterator实现讲解到这里，对于Hashset、TreeSet等集合的Iterator实现，各位如果感兴趣可以继续研究，个人认为在研究这些集合的源码之前，有必要对该集合的数据结构有清晰的认识，这样会达到事半功倍的效果！！！！&lt;/p&gt;
+&lt;h3 id=&#34;fail-fast机制&#34;&gt;fail-fast机制&lt;/h3&gt;
+&lt;p&gt;这部分参考http://cmsblogs.com/p=1220&lt;/p&gt;
+&lt;p&gt;在JDK的Collection中我们时常会看到类似于这样的话：&lt;/p&gt;
+&lt;p&gt;例如，ArrayList&lt;/p&gt;
+&lt;p&gt;注意，迭代器的快速失败行为无法得到保证，因为一般来说，不可能对是否出现不同步并发修改做出任何硬性保证。快速失败迭代器会尽最大努力抛出ConcurrentModificationException。 因此，为提高这类迭代器的正确性而编写一个依赖于此异常的程序是错误的做法：迭代器的快速失败行为应该仅用于检测 bug。&lt;/p&gt;
+&lt;p&gt;HashMap中：&lt;/p&gt;
+&lt;p&gt;注意，迭代器的快速失败行为不能得到保证，一般来说，存在非同步的并发修改时，不可能作出任何坚决的保证。快速失败迭代器尽最大努力抛出 ConcurrentModificationException。因此，编写依赖于此异常的程序的做法是错误的，正确做法是：迭代器的快速失败行为应该仅用于检测程序错误。&lt;/p&gt;
+&lt;p&gt;在这两段话中反复地提到”快速失败”。那么何为”快速失败”机制呢？&lt;/p&gt;
+&lt;p&gt;“快速失败”也就是fail-fast，它是Java集合的一种错误检测机制。当多个线程对集合进行结构上的改变的操作时，有可能会产生fail-fast机制。&lt;/p&gt;
+&lt;p&gt;记住是有可能，而不是一定。例如：假设存在两个线程（线程1、线程2），线程1通过Iterator在遍历集合A中的元素，在某个时候线程2修改了集合A的结构（是结构上面的修改，而不是简单的修改集合元素的内容），那么这个时候程序就会抛出 ConcurrentModificationException异常，从而产生fail-fast机制。&lt;/p&gt;
+&lt;h4 id=&#34;fail-fast示例&#34;&gt;fail-fast示例&lt;/h4&gt;
+&lt;p&gt;@desc线程one迭代list @Projecttest @fileFailFastTest.java @Authrochenssy @data2014年7月26日&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class FailFastTest {
+    private static ListInteger list = new ArrayList(); 
+    
+	private static class threadOne extends Thread{
+        public void run() {
+            IteratorInteger iterator = list.iterator();
+            while(iterator.hasNext()){
+                int i = iterator.next();
+                System.out.println(ThreadOne 遍历 + i);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当i == 3时，修改list&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;    private static class threadTwo extends Thread{
+        public void run(){
+            int i = 0 ; 
+            while(i&amp;lt;6){
+                System.out.println(ThreadTwo run： + i);
+                if(i == 3){
+                    list.remove(i);
+                }
+                i++;
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        for(int i = 0 ; i  10;i++){
+            list.add(i);
+        }
+        new threadOne().start();
+        new threadTwo().start();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;运行结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;ThreadOne 遍历0
+ThreadTwo run：0
+ThreadTwo run：1
+ThreadTwo run：2
+ThreadTwo run：3
+ThreadTwo run：4
+ThreadTwo run：5
+Exception in thread Thread-0 java.util.ConcurrentModificationException
+    at java.util.ArrayList$Itr.checkForComodification(Unknown Source)
+    at java.util.ArrayList$Itr.next(Unknown Source)
+    at test.ArrayListTest$threadOne.run(ArrayListTest.java23)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;fail-fast产生原因&#34;&gt;fail-fast产生原因&lt;/h4&gt;
+&lt;p&gt;通过上面的示例和讲解，我初步知道fail-fast产生的原因就在于程序在对 collection 进行迭代时，某个线程对该 collection 在结构上对其做了修改，这时迭代器就会抛出 ConcurrentModificationException 异常信息，从而产生 fail-fast。&lt;/p&gt;
+&lt;p&gt;要了解fail-fast机制，我们首先要对ConcurrentModificationException 异常有所了解。当方法检测到对象的并发修改，但不允许这种修改时就抛出该异常。同时需要注意的是，该异常不会始终指出对象已经由不同线程并发修改，如果单线程违反了规则，同样也有可能会抛出改异常。&lt;/p&gt;
+&lt;p&gt;诚然，迭代器的快速失败行为无法得到保证，它不能保证一定会出现该错误，但是快速失败操作会尽最大努力抛出ConcurrentModificationException异常，所以因此，为提高此类操作的正确性而编写一个依赖于此异常的程序是错误的做法，正确做法是：ConcurrentModificationException 应该仅用于检测 bug。下面我将以ArrayList为例进一步分析fail-fast产生的原因。&lt;/p&gt;
+&lt;p&gt;从前面我们知道fail-fast是在操作迭代器时产生的。现在我们来看看ArrayList中迭代器的源代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private class Itr implements IteratorE {
+        int cursor;
+        int lastRet = -1;
+        int expectedModCount = ArrayList.this.modCount;
+
+        public boolean hasNext() {
+            return (this.cursor != ArrayList.this.size);
+        }
+
+        public E next() {
+            checkForComodification();
+             省略此处代码 
+        }
+
+        public void remove() {
+            if (this.lastRet&amp;lt;0)
+                throw new IllegalStateException();
+            checkForComodification();
+             省略此处代码 
+        }
+
+        final void checkForComodification() {
+            if (ArrayList.this.modCount == this.expectedModCount)
+                return;
+            throw new ConcurrentModificationException();
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从上面的源代码我们可以看出，迭代器在调用next()、remove()方法时都是调用checkForComodification()方法，该方法主要就是检测modCount == expectedModCount 若不等则抛出ConcurrentModificationException 异常，从而产生fail-fast机制。所以要弄清楚为什么会产生fail-fast机制我们就必须要用弄明白为什么modCount != expectedModCount ，他们的值在什么时候发生改变的。&lt;/p&gt;
+&lt;p&gt;expectedModCount 是在Itr中定义的：int expectedModCount = ArrayList.this.modCount;所以他的值是不可能会修改的，所以会变的就是modCount。modCount是在 AbstractList 中定义的，为全局变量：&lt;/p&gt;
+&lt;p&gt;protected transient int modCount = 0; 那么他什么时候因为什么原因而发生改变呢？请看ArrayList的源码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public boolean add(E paramE) {
+    ensureCapacityInternal(this.size + 1);
+     省略此处代码 
+}
+
+private void ensureCapacityInternal(int paramInt) {
+    if (this.elementData == EMPTY_ELEMENTDATA)
+        paramInt = Math.max(10, paramInt);
+    ensureExplicitCapacity(paramInt);
+}
+
+private void ensureExplicitCapacity(int paramInt) {
+    this.modCount += 1;    修改modCount
+     省略此处代码 
+}
+
+private void fastRemove(int paramInt) {
+    this.modCount += 1;   修改modCount
+     省略此处代码 
+}
+
+public void clear() {
+    this.modCount += 1;    修改modCount
+     省略此处代码 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从上面的源代码我们可以看出，ArrayList中无论add、remove、clear方法只要是涉及了改变ArrayList元素的个数的方法都会导致modCount的改变。&lt;/p&gt;
+&lt;p&gt;所以我们这里可以初步判断由于expectedModCount 得值与modCount的改变不同步，导致两者之间不等从而产生fail-fast机制。知道产生fail-fast产生的根本原因了，我们可以有如下场景：&lt;/p&gt;
+&lt;p&gt;有两个线程（线程A，线程B），其中线程A负责遍历list、线程B修改list。线程A在遍历list过程的某个时候（此时expectedModCount = modCount=N），线程启动，同时线程B增加一个元素，这是modCount的值发生改变（modCount + 1 = N + 1）。&lt;/p&gt;
+&lt;p&gt;线程A继续遍历执行next方法时，通告checkForComodification方法发现expectedModCount = N ，而modCount = N + 1，两者不等，这时就抛出ConcurrentModificationException 异常，从而产生fail-fast机制。&lt;/p&gt;
+&lt;p&gt;所以，直到这里我们已经完全了解了fail-fast产生的根本原因了。知道了原因就好找解决办法了。&lt;/p&gt;
+&lt;h4 id=&#34;fail-fast解决办法&#34;&gt;fail-fast解决办法&lt;/h4&gt;
+&lt;p&gt;通过前面的实例、源码分析，我想各位已经基本了解了fail-fast的机制，下面我就产生的原因提出解决方案。这里有两种解决方案：&lt;/p&gt;
+&lt;p&gt;方案一：在遍历过程中所有涉及到改变modCount值得地方全部加上synchronized或者直接使用Collections.synchronizedList，这样就可以解决。但是不推荐，因为增删造成的同步锁可能会阻塞遍历操作。&lt;/p&gt;
+&lt;p&gt;方案二：使用CopyOnWriteArrayList来替换ArrayList。推荐使用该方案。&lt;/p&gt;
+&lt;p&gt;CopyOnWriteArrayList为何物？ArrayList 的一个线程安全的变体，其中所有可变操作（add、set 等等）都是通过对底层数组进行一次新的复制来实现的。 该类产生的开销比较大，但是在两种情况下，它非常适合使用。&lt;/p&gt;
+&lt;p&gt;1：在不能或不想进行同步遍历，但又需要从并发线程中排除冲突时。&lt;/p&gt;
+&lt;p&gt;2：当遍历操作的数量大大超过可变操作的数量时。遇到这两种情况使用CopyOnWriteArrayList来替代ArrayList再适合不过了。那么为什么CopyOnWriterArrayList可以替代ArrayList呢？&lt;/p&gt;
+&lt;p&gt;第一、CopyOnWriterArrayList的无论是从数据结构、定义都和ArrayList一样。它和ArrayList一样，同样是实现List接口，底层使用数组实现。在方法上也包含add、remove、clear、iterator等方法。&lt;/p&gt;
+&lt;p&gt;第二、CopyOnWriterArrayList根本就不会产生ConcurrentModificationException异常，也就是它使用迭代器完全不会产生fail-fast机制。请看：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static class COWIteratorE implements ListIteratorE {
+         省略此处代码 
+        public E next() {
+            if (!(hasNext()))
+                throw new NoSuchElementException();
+            return this.snapshot[(this.cursor++)];
+        }
+
+         省略此处代码 
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;CopyOnWriterArrayList的方法根本就没有像ArrayList中使用checkForComodification方法来判断expectedModCount 与 modCount 是否相等。它为什么会这么做，凭什么可以这么做呢？我们以add方法为例：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public boolean add(E paramE) {
+        ReentrantLock localReentrantLock = this.lock;
+        localReentrantLock.lock();
+        try {
+            Object[] arrayOfObject1 = getArray();
+            int i = arrayOfObject1.length;
+            Object[] arrayOfObject2 = Arrays.copyOf(arrayOfObject1, i + 1);
+            arrayOfObject2[i] = paramE;
+            setArray(arrayOfObject2);
+            int j = 1;
+            return j;
+        } finally {
+            localReentrantLock.unlock();
+        }
+    }
+
+
+  
+    final void setArray(Object[] paramArrayOfObject) {
+        this.array = paramArrayOfObject;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;CopyOnWriterArrayList的add方法与ArrayList的add方法有一个最大的不同点就在于，下面三句代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Object[] arrayOfObject2 = Arrays.copyOf(arrayOfObject1, i + 1);
+arrayOfObject2[i] = paramE;
+setArray(arrayOfObject2);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;就是这三句代码使得CopyOnWriterArrayList不会抛ConcurrentModificationException异常。他们所展现的魅力就在于copy原来的array，再在copy数组上进行add操作，这样做就完全不会影响COWIterator中的array了。&lt;/p&gt;
+&lt;p&gt;所以CopyOnWriterArrayList所代表的核心概念就是：任何对array在结构上有所改变的操作（add、remove、clear等），CopyOnWriterArrayList都会copy现有的数据，再在copy的数据上修改，这样就不会影响COWIterator中的数据了，修改完成之后改变原有数据的引用即可。同时这样造成的代价就是产生大量的对象，同时数组的copy也是相当有损耗的。&lt;/p&gt;
+&lt;h1 id=&#34;comparable-和-comparator&#34;&gt;Comparable 和 Comparator&lt;/h1&gt;
+&lt;p&gt;Java 中为我们提供了两种比较机制：Comparable 和 Comparator，他们之间有什么区别呢？今天来了解一下。&lt;/p&gt;
+&lt;h2 id=&#34;comparable&#34;&gt;Comparable&lt;/h2&gt;
+&lt;p&gt;Comparable 在 java.lang包下，是一个接口，内部只有一个方法 compareTo()：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface Comparable&amp;lt;T&amp;gt; {
+    public int compareTo(T o);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Comparable 可以让实现它的类的对象进行比较，具体的比较规则是按照 compareTo 方法中的规则进行。这种顺序称为 自然顺序。&lt;/p&gt;
+&lt;p&gt;compareTo 方法的返回值有三种情况：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;e1.compareTo(e2)&amp;gt;0 //即 e1 &amp;gt; e2
+e1.compareTo(e2) = 0 //即 e1 = e2
+e1.compareTo(e2)&amp;lt; 0 //即 e1 &amp;lt; e2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;注意：&lt;/p&gt;
+&lt;p&gt;1.由于 null 不是一个类，也不是一个对象，因此在重写 compareTo 方法时应该注意 e.compareTo(null) 的情况，即使 e.equals(null) 返回 false，compareTo 方法也应该主动抛出一个空指针异常 NullPointerException。&lt;/p&gt;
+&lt;p&gt;2.Comparable 实现类重写 compareTo 方法时一般要求 e1.compareTo(e2) == 0 的结果要和 e1.equals(e2) 一致。这样将来使用 SortedSet 等根据类的自然排序进行排序的集合容器时可以保证保存的数据的顺序和想象中一致。 有人可能好奇上面的第二点如果违反了会怎样呢？&lt;/p&gt;
+&lt;p&gt;举个例子，如果你往一个 SortedSet 中先后添加两个对象 a 和 b，a b 满足 (!a.equals(b) &amp;amp;&amp;amp; a.compareTo(b) == 0)，同时也没有另外指定个 Comparator，那当你添加完 a 再添加 b 时会添加失败返回 false, SortedSet 的 size 也不会增加，因为在 SortedSet 看来它们是相同的，而 SortedSet 中是不允许重复的。&lt;/p&gt;
+&lt;p&gt;实际上所有实现了 &lt;strong&gt;Comparable 接口的 Java 核心类的结果都和 equlas 方法保持一致&lt;/strong&gt;。 实现了 Comparable 接口的 List 或则数组可以使用 Collections.sort() 或者 Arrays.sort() 方法进行排序。&lt;/p&gt;
+&lt;p&gt;实现了 Comparable 接口的对象才能够直接被用作 SortedMap (SortedSet) 的 key，要不然得在外边指定 Comparator 排序规则。&lt;/p&gt;
+&lt;p&gt;因此自己定义的类如果想要使用有序的集合类，需要实现 Comparable 接口，比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class BookBean implements Serializable, Comparable {
+    private String name;
+    private int count;
+
+
+public BookBean(String name, int count) {
+    this.name = name;
+    this.count = count;
+}
+
+public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public int getCount() {
+    return count;
+}
+
+public void setCount(int count) {
+    this.count = count;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;重写 equals&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof BookBean)) return false;
+
+    BookBean bean = (BookBean) o;
+
+    if (getCount() != bean.getCount()) return false;
+    return getName().equals(bean.getName());
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;重写 hashCode 的计算方法 根据所有属性进行 迭代计算，避免重复 计算 hashCode 时 计算因子 31 见得很多，是一个质数，不能再被除&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Override
+public int hashCode() {
+    //调用 String 的 hashCode(), 唯一表示一个字符串内容
+    int result = getName().hashCode();
+    //乘以 31, 再加上 count
+    result = 31*result + getCount();
+    return result;
+}
+
+@Override
+public String toString() {
+    return BookBean{ +
+            name=&#39; + name + &#39;&#39;&#39; +
+            , count= + count +
+            &#39;}&#39;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当向 TreeSet 中添加 BookBean 时，会调用这个方法进行排序&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Override
+public int compareTo(Object another) {
+    if (another instanceof BookBean){
+        BookBean anotherBook = (BookBean) another;
+        int result;
+
+        //比如这里按照书价排序
+        result = getCount() - anotherBook.getCount();     
+
+        if (result == 0){   //当书价一致时，再对比书名。 保证所有属性比较一遍
+            result = getName().compareTo(anotherBook.getName());
+        }
+        return result;
+    }
+     //一样就返回 0
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上述代码还重写了 equlas(), hashCode() 方法，自定义的类将来可能会进行比较时，建议重写这些方法。&lt;/p&gt;
+&lt;p&gt;这里我想表达的是在有些场景下 equals 和 compareTo 结果要保持一致，这时候不重写 equals，使用 Object.equals 方法得到的结果会有问题，比如说 HashMap.put() 方法，会先调用 key 的 equals 方法进行比较，然后才调用 compareTo。&lt;/p&gt;
+&lt;p&gt;后面重写 compareTo 时，要判断某个相同时对比下一个属性，把所有属性都比较一次。&lt;/p&gt;
+&lt;h3 id=&#34;comparator&#34;&gt;Comparator&lt;/h3&gt;
+&lt;p&gt;首先认识一下Comparator：&lt;/p&gt;
+&lt;p&gt;Comparator 是javase中的接口，位于java.util包下，该接口抽象度极高，有必要掌握该接口的使用 大多数文章告诉大家Comparator是用来排序，但我想说排序是Comparator能实现的功能之一，他不仅限于排序&lt;/p&gt;
+&lt;p&gt;排序例子： 题目描述 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。&lt;/p&gt;
+&lt;p&gt;代码实现：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+ 
+public class Solution {
+    public String PrintMinNumber(int [] s) {
+        if(s==null) return null;
+        String s1=&amp;quot;&amp;quot;;
+        ArrayList&amp;lt;Integer&amp;gt; list=new ArrayList&amp;lt;Integer&amp;gt;();
+        for(int i=0;i&amp;lt;s.length;i++){
+             list.add(s[i]);
+        }
+        Collections.sort(list,new Comparator&amp;lt;Integer&amp;gt;(){
+            public int compare(Integer str1,Integer str2){
+                String s1=str1+&amp;quot;&amp;quot;+str2;
+                String s2=str2+&amp;quot;&amp;quot;+str1;
+                return s1.compareTo(s2);
+            }
+        });
+         for(int j:list){
+                s1+=j;
+             }
+        return s1;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;一般需要做比较的逻辑都可以使用的上Comparator，最常用的场景就是排序和分组，排序常使用Arrays和Collections的sort方法，而分组则可以使用提供的divider方法。&lt;/p&gt;
+&lt;p&gt;排序和分组的区别在于: 排序时，两个对象比较的结果有三种：大于，等于，小于。 分组时，两个对象比较的结果只有两种：等于(两个对象属于同一组)，不等于(两个对象属于不同组)&lt;/p&gt;
+&lt;h3 id=&#34;java8中使用lambda实现比较器&#34;&gt;Java8中使用lambda实现比较器&lt;/h3&gt;
+&lt;p&gt;今天先看看Lambda 表达式的简单使用： 首先：Lambda表达式的基本语法：(parameters) -&amp;gt; expression或（请注意语句的花括号） (parameters) -&amp;gt; { statements; }&lt;/p&gt;
+&lt;p&gt;第一感觉就是这个箭头感觉有点怪，不过多用几次习惯就好，它主要是为了把参数列表与Lambda主体分隔开，箭头左边的是参数列表，右边的是Lambda主体。注意：Lambda表达式可以包含多行语句。 在用Lambda 之前，我们先看看之前写比较器的写法&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Comparator&amp;lt;Developer&amp;gt; byName = new Comparator&amp;lt;Developer&amp;gt;() {
+    @Override
+    public int compare(Developer o1, Developer o2) {
+        return o1.getName().compareTo(o2.getName());
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;感觉也不是很复杂，没几行代码，再来看看Lambda 表达式的写法：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Comparator&amp;lt;Developer&amp;gt; byName =
+    (Developer o1, Developer o2)-&amp;gt;o1.getName().compareTo(o2.getName());
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;比之前要简单许多有木有。 下面再来看看排序功能示例： 先用Collections.sort如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TestSorting {
+    public static void main(String[] args) {
+        List&amp;lt;Developer&amp;gt; listDevs = getDevelopers();
+        System.out.println(&amp;quot;Before Sort&amp;quot;);
+        for (Developer developer : listDevs) {
+            System.out.println(developer);
+        }
+        //安照年龄排序
+        Collections.sort(listDevs, new Comparator&amp;lt;Developer&amp;gt;() {
+            @Override
+            public int compare(Developer o1, Developer o2) {
+                return o1.getAge() - o2.getAge();
+            }
+        });
+        System.out.println(&amp;quot;After Sort&amp;quot;);
+        for (Developer developer : listDevs) {
+            System.out.println(developer);
+        }
+    }
+    private static List&amp;lt;Developer&amp;gt; getDevelopers() {
+        List&amp;lt;Developer&amp;gt; result = new ArrayList&amp;lt;Developer&amp;gt;();
+        result.add(new Developer(&amp;quot;mkyong&amp;quot;, new BigDecimal(&amp;quot;70000&amp;quot;), 33));
+        result.add(new Developer(&amp;quot;alvin&amp;quot;, new BigDecimal(&amp;quot;80000&amp;quot;), 20));
+        result.add(new Developer(&amp;quot;jason&amp;quot;, new BigDecimal(&amp;quot;100000&amp;quot;), 10));
+        result.add(new Developer(&amp;quot;iris&amp;quot;, new BigDecimal(&amp;quot;170000&amp;quot;), 55));
+        return result;
+    }
+}
+
+输出结果：
+
+Before Sort
+Developer [name=mkyong, salary=70000, age=33]
+Developer [name=alvin, salary=80000, age=20]
+Developer [name=jason, salary=100000, age=10]
+Developer [name=iris, salary=170000, age=55]
+ 
+After Sort
+Developer [name=jason, salary=100000, age=10]
+Developer [name=alvin, salary=80000, age=20]
+Developer [name=mkyong, salary=70000, age=33]
+Developer [name=iris, salary=170000, age=55]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;看起来整个流程完全没毛病，下面再来看看Lambda的方式:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class TestSorting {
+    public static void main(String[] args) {
+        List&amp;lt;Developer&amp;gt; listDevs = getDevelopers();
+        System.out.println(&amp;quot;Before Sort&amp;quot;);
+        for (Developer developer : listDevs) {
+            System.out.println(developer);
+        }
+        System.out.println(&amp;quot;After Sort&amp;quot;);
+        //对比上面的代码
+        listDevs.sort((Developer o1, Developer o2)-&amp;gt;o1.getAge()-o2.getAge());
+        //这样打印感觉也不错
+        listDevs.forEach((developer)-&amp;gt;System.out.println(developer));
+    }
+    private static List&amp;lt;Developer&amp;gt; getDevelopers() {
+        List&amp;lt;Developer&amp;gt; result = new ArrayList&amp;lt;Developer&amp;gt;();
+        result.add(new Developer(&amp;quot;mkyong&amp;quot;, new BigDecimal(&amp;quot;70000&amp;quot;), 33));
+        result.add(new Developer(&amp;quot;alvin&amp;quot;, new BigDecimal(&amp;quot;80000&amp;quot;), 20));
+        result.add(new Developer(&amp;quot;jason&amp;quot;, new BigDecimal(&amp;quot;100000&amp;quot;), 10));
+        result.add(new Developer(&amp;quot;iris&amp;quot;, new BigDecimal(&amp;quot;170000&amp;quot;), 55));
+        return result;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Before Sort
+Developer [name=mkyong, salary=70000, age=33]
+Developer [name=alvin, salary=80000, age=20]
+Developer [name=jason, salary=100000, age=10]
+Developer [name=iris, salary=170000, age=55]
+
+After Sort
+Developer [name=jason, salary=100000, age=10]
+Developer [name=alvin, salary=80000, age=20]
+Developer [name=mkyong, salary=70000, age=33]
+Developer [name=iris, salary=170000, age=55]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;Java 中的两种排序方式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Comparable 自然排序。（实体类实现）
+Comparator 是定制排序。（无法修改实体类时，直接在调用方创建）
+同时存在时采用 Comparator（定制排序）的规则进行比较。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于一些普通的数据类型（比如 String, Integer, Double…），它们默认实现了Comparable 接口，实现了 compareTo 方法，我们可以直接使用。&lt;/p&gt;
+&lt;p&gt;而对于一些自定义类，它们可能在不同情况下需要实现不同的比较策略，我们可以新创建 Comparator 接口，然后使用特定的 Comparator 实现进行比较。&lt;/p&gt;
+&lt;p&gt;这就是 Comparable 和 Comparator 的区别。&lt;/p&gt;
+">Iterator，fail-fast机制与比较器</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/CountLatch/"" data-c="
+          &lt;h3 id=&#34;countdownlatch&#34;&gt;CountDownLatch&lt;/h3&gt;
+&lt;p&gt;CountDownLatch适用于在多线程的场景需要等待所有子线程全部执行完毕之后再做操作的场景。&lt;/p&gt;
+&lt;p&gt;举个例子，早上部门开会，有人在上厕所，这时候需要等待所有人从厕所回来之后才能开始会议。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class CountDownLatchTest {
+    private static int num = 3;
+    private static CountDownLatch countDownLatch = new CountDownLatch(num);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(num);
+    public static void main(String[] args) throws Exception{
+        executorService.submit(() -&amp;gt; {
+            System.out.println(&amp;quot;A在上厕所&amp;quot;);
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                countDownLatch.countDown();
+                System.out.println(&amp;quot;A上完了&amp;quot;);
+            }
+        });
+        executorService.submit(()-&amp;gt;{
+            System.out.println(&amp;quot;B在上厕所&amp;quot;);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                countDownLatch.countDown();
+                System.out.println(&amp;quot;B上完了&amp;quot;);
+            }
+        });
+        executorService.submit(()-&amp;gt;{
+            System.out.println(&amp;quot;C在上厕所&amp;quot;);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                countDownLatch.countDown();
+                System.out.println(&amp;quot;C上完了&amp;quot;);
+            }
+        });
+
+        System.out.println(&amp;quot;等待所有人从厕所回来开会...&amp;quot;);
+        countDownLatch.await();
+        System.out.println(&amp;quot;所有人都好了，开始开会...&amp;quot;);
+        executorService.shutdown();
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;代码执行结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;A在上厕所
+B在上厕所
+等待所有人从厕所回来开会...
+C在上厕所
+B上完了
+C上完了
+A上完了
+所有人都好了，开始开会...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;初始化一个CountDownLatch实例传参3，因为我们有3个子线程，每次子线程执行完毕之后调用countDown()方法给计数器-1，主线程调用await()方法后会被阻塞，直到最后计数器变为0，await()方法返回，执行完毕。他和join()方法的区别就是join会阻塞子线程直到运行结束，而CountDownLatch可以在任何时候让await()返回，而且用ExecutorService没法用join了，相比起来，CountDownLatch更灵活。&lt;/p&gt;
+&lt;p&gt;CountDownLatch基于AQS实现，volatile变量state维持倒数状态，多线程共享变量可见。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;CountDownLatch通过构造函数初始化传入参数实际为AQS的state变量赋值，维持计数器倒数状态&lt;/li&gt;
+&lt;li&gt;当主线程调用await()方法时，当前线程会被阻塞，当state不为0时进入AQS阻塞队列等待。&lt;/li&gt;
+&lt;li&gt;其他线程调用countDown()时，state值原子性递减，当state值为0的时候，唤醒所有调用await()方法阻塞的线程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;cyclicbarrier&#34;&gt;CyclicBarrier&lt;/h3&gt;
+&lt;p&gt;CyclicBarrier叫做回环屏障，它的作用是&lt;strong&gt;让一组线程全部达到一个状态之后再全部同时执行&lt;/strong&gt;，而且他有一个特点就是所有线程执行完毕之后是可以重用的。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class CyclicBarrierTest {
+    private static int num = 3;
+    private static CyclicBarrier cyclicBarrier = new CyclicBarrier(num, () -&amp;gt; {
+        System.out.println(&amp;quot;所有人都好了，开始开会...&amp;quot;);
+        System.out.println(&amp;quot;-------------------&amp;quot;);
+    });
+    private static ExecutorService executorService = Executors.newFixedThreadPool(num);
+    public static void main(String[] args) throws Exception{
+        executorService.submit(() -&amp;gt; {
+            System.out.println(&amp;quot;A在上厕所&amp;quot;);
+            try {
+                Thread.sleep(4000);
+                System.out.println(&amp;quot;A上完了&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;会议结束，A退出&amp;quot;);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+
+            }
+        });
+        executorService.submit(()-&amp;gt;{
+            System.out.println(&amp;quot;B在上厕所&amp;quot;);
+            try {
+                Thread.sleep(2000);
+                System.out.println(&amp;quot;B上完了&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;会议结束，B退出&amp;quot;);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+
+            }
+        });
+        executorService.submit(()-&amp;gt;{
+            System.out.println(&amp;quot;C在上厕所&amp;quot;);
+            try {
+                Thread.sleep(3000);
+                System.out.println(&amp;quot;C上完了&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;会议结束，C退出&amp;quot;);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+
+            }
+        });
+
+        executorService.shutdown();
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;A在上厕所
+B在上厕所
+C在上厕所
+B上完了
+C上完了
+A上完了
+所有人都好了，开始开会...
+-------------------
+会议结束，A退出
+会议结束，B退出
+会议结束，C退出
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从结果来看和CountDownLatch非常相似，初始化传入3个线程和一个任务，线程调用await()之后进入阻塞，计数器-1，当计数器为0时，就去执行CyclicBarrier中构造函数的任务，当任务执行完毕后，唤醒所有阻塞中的线程。这验证了CyclicBarrier&lt;strong&gt;让一组线程全部达到一个状态之后再全部同时执行&lt;/strong&gt;的效果。&lt;/p&gt;
+&lt;p&gt;再举个例子来验证CyclicBarrier可重用的效果。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class CyclicBarrierTest2 {
+    private static int num = 3;
+    private static CyclicBarrier cyclicBarrier = new CyclicBarrier(num, () -&amp;gt; {
+        System.out.println(&amp;quot;-------------------&amp;quot;);
+    });
+    private static ExecutorService executorService = Executors.newFixedThreadPool(num);
+
+    public static void main(String[] args) throws Exception {
+        executorService.submit(() -&amp;gt; {
+            System.out.println(&amp;quot;A在上厕所&amp;quot;);
+            try {
+                Thread.sleep(4000);
+                System.out.println(&amp;quot;A上完了&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;会议结束，A退出，开始撸代码&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;C工作结束，下班回家&amp;quot;);
+                cyclicBarrier.await();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        });
+        executorService.submit(() -&amp;gt; {
+            System.out.println(&amp;quot;B在上厕所&amp;quot;);
+            try {
+                Thread.sleep(2000);
+                System.out.println(&amp;quot;B上完了&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;会议结束，B退出，开始摸鱼&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;B摸鱼结束，下班回家&amp;quot;);
+                cyclicBarrier.await();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        });
+        executorService.submit(() -&amp;gt; {
+            System.out.println(&amp;quot;C在上厕所&amp;quot;);
+            try {
+                Thread.sleep(3000);
+                System.out.println(&amp;quot;C上完了&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;会议结束，C退出，开始摸鱼&amp;quot;);
+                cyclicBarrier.await();
+                System.out.println(&amp;quot;C摸鱼结束，下班回家&amp;quot;);
+                cyclicBarrier.await();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        });
+
+        executorService.shutdown();
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;A在上厕所
+B在上厕所
+C在上厕所
+B上完了
+C上完了
+A上完了
+-------------------
+会议结束，A退出，开始撸代码
+会议结束，B退出，开始摸鱼
+会议结束，C退出，开始摸鱼
+-------------------
+C摸鱼结束，下班回家
+C工作结束，下班回家
+B摸鱼结束，下班回家
+-------------------
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从结果来看，每个子线程调用await()计数器减为0之后才开始继续一起往下执行，会议结束之后一起进入摸鱼状态，最后一天结束一起下班，这就是&lt;strong&gt;可重用&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;CyclicBarrier还是基于AQS实现的，内部维护parties记录总线程数，count用于计数，最开始count=parties，调用await()之后count原子递减，当count为0之后，再次将parties赋值给count，这就是复用的原理。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当子线程调用await()方法时，获取独占锁，同时对count递减，进入阻塞队列，然后释放锁&lt;/li&gt;
+&lt;li&gt;当第一个线程被阻塞同时释放锁之后，其他子线程竞争获取锁，操作同1&lt;/li&gt;
+&lt;li&gt;直到最后count为0，执行CyclicBarrier构造函数中的任务，执行完毕之后子线程继续向下执行&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;semaphore&#34;&gt;Semaphore&lt;/h3&gt;
+&lt;p&gt;Semaphore叫做信号量，和前面两个不同的是，他的计数器是递增的。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class SemaphoreTest {
+    private static int num = 3;
+    private static int initNum = 0;
+    private static Semaphore semaphore = new Semaphore(initNum);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(num);
+    public static void main(String[] args) throws Exception{
+        executorService.submit(() -&amp;gt; {
+            System.out.println(&amp;quot;A在上厕所&amp;quot;);
+            try {
+                Thread.sleep(4000);
+                semaphore.release();
+                System.out.println(&amp;quot;A上完了&amp;quot;);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+
+            }
+        });
+        executorService.submit(()-&amp;gt;{
+            System.out.println(&amp;quot;B在上厕所&amp;quot;);
+            try {
+                Thread.sleep(2000);
+                semaphore.release();
+                System.out.println(&amp;quot;B上完了&amp;quot;);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+
+            }
+        });
+        executorService.submit(()-&amp;gt;{
+            System.out.println(&amp;quot;C在上厕所&amp;quot;);
+            try {
+                Thread.sleep(3000);
+                semaphore.release();
+                System.out.println(&amp;quot;C上完了&amp;quot;);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+
+            }
+        });
+
+        System.out.println(&amp;quot;等待所有人从厕所回来开会...&amp;quot;);
+        semaphore.acquire(num);
+        System.out.println(&amp;quot;所有人都好了，开始开会...&amp;quot;);
+
+        executorService.shutdown();
+
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;A在上厕所
+B在上厕所
+等待所有人从厕所回来开会...
+C在上厕所
+B上完了
+C上完了
+A上完了
+所有人都好了，开始开会...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;稍微和前两个有点区别，构造函数传入的初始值为0，当子线程调用release()方法时，计数器递增，主线程acquire()传参为3则说明主线程一直阻塞，直到计数器为3才会返回。&lt;/p&gt;
+&lt;p&gt;Semaphore还还还是基于AQS实现的，同时获取信号量有公平和非公平两种策略&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;主线程调用acquire()方法时，用当前信号量值-需要获取的值，如果小于0，则进入同步阻塞队列，大于0则通过CAS设置当前信号量为剩余值，同时返回剩余值&lt;/li&gt;
+&lt;li&gt;子线程调用release()给当前信号量值计数器+1(增加的值数量由传参决定)，同时不停的尝试因为调用acquire()进入阻塞的线程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;CountDownLatch通过计数器提供了比join更灵活的多线程控制方式，CyclicBarrier也可以达到CountDownLatch的效果，而且有可复用的特点，Semaphore则是采用信号量递增的方式，开始的时候并不需要关注需要同步的线程个数，并且提供获取信号的公平和非公平策略。&lt;/p&gt;
+">CountDownLatch</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/Jvm/"" data-c="
+          &lt;h2 id=&#34;说说jvm的内存布局&#34;&gt;说说JVM的内存布局？&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIdxx34IBCxK8JZLARaNrnvVpOMwS07FaicpOh5E0zEeLfAdT2AyroNdA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;Java虚拟机主要包含几个区域：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt;：堆Java虚拟机中最大的一块内存，是线程共享的内存区域，基本上所有的对象实例数组都是在堆上分配空间。堆区细分为Yound区年轻代和Old区老年代，其中年轻代又分为Eden、S0、S1 3个部分，他们默认的比例是8:1:1的大小。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;栈&lt;/strong&gt;：栈是线程私有的内存区域，每个方法执行的时候都会在栈创建一个栈帧，方法的调用过程就对应着栈的入栈和出栈的过程。每个栈帧的结构又包含局部变量表、操作数栈、动态连接、方法返回地址。&lt;/p&gt;
+&lt;p&gt;局部变量表用于存储方法参数和局部变量。当第一个方法被调用的时候，他的参数会被传递至从0开始的连续的局部变量表中。&lt;/p&gt;
+&lt;p&gt;操作数栈用于一些字节码指令从局部变量表中传递至操作数栈，也用来准备方法调用的参数以及接收方法返回结果。&lt;/p&gt;
+&lt;p&gt;动态连接用于将符号引用表示的方法转换为实际方法的直接引用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;元数据&lt;/strong&gt;：在Java1.7之前，包含方法区的概念，常量池就存在于方法区（永久代）中，而方法区本身是一个逻辑上的概念，在1.7之后则是把常量池移到了堆内，1.8之后移出了永久代的概念(方法区的概念仍然保留)，实现方式则是现在的元数据。它包含类的元信息和运行时常量池。&lt;/p&gt;
+&lt;p&gt;Class文件就是类和接口的定义信息。&lt;/p&gt;
+&lt;p&gt;运行时常量池就是类和接口的常量池运行时的表现形式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本地方法栈&lt;/strong&gt;：主要用于执行本地native方法的区域&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;程序计数器&lt;/strong&gt;：也是线程私有的区域，用于记录当前线程下虚拟机正在执行的字节码的指令地址&lt;/p&gt;
+&lt;h2 id=&#34;知道new一个对象的过程吗&#34;&gt;知道new一个对象的过程吗？&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIUCyy2VR6ZlqTx2Nr5muXb3kjsLYTVDbFibADcK2hict72nXb2RI9K0Wg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;当虚拟机遇见new关键字时候，实现判断当前类是否已经加载，如果类没有加载，首先执行类的加载机制，加载完成后再为对象分配空间、初始化等。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先校验当前类是否被加载，如果没有加载，执行类加载机制&lt;/li&gt;
+&lt;li&gt;加载：就是从字节码加载成二进制流的过程&lt;/li&gt;
+&lt;li&gt;验证：当然加载完成之后，当然需要校验Class文件是否符合虚拟机规范，跟我们接口请求一样，第一件事情当然是先做个参数校验了&lt;/li&gt;
+&lt;li&gt;准备：为静态变量、常量赋默认值&lt;/li&gt;
+&lt;li&gt;解析：把常量池中符号引用(以符号描述引用的目标)替换为直接引用(指向目标的指针或者句柄等)的过程&lt;/li&gt;
+&lt;li&gt;初始化：执行static代码块(cinit)进行初始化，如果存在父类，先对父类进行初始化&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;em&gt;Ps：静态代码块是绝对线程安全的，只能隐式被java虚拟机在类加载过程中初始化调用！&lt;/em&gt;(此处该有问题static代码块线程安全吗？)&lt;/p&gt;
+&lt;p&gt;当类加载完成之后，紧接着就是对象分配内存空间和初始化的过程&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先为对象分配合适大小的内存空间&lt;/li&gt;
+&lt;li&gt;接着为实例变量赋默认值&lt;/li&gt;
+&lt;li&gt;设置对象的头信息，对象hash码、GC分代年龄、元数据信息等&lt;/li&gt;
+&lt;li&gt;执行构造函数(init)初始化&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;知道双亲委派模型吗&#34;&gt;知道双亲委派模型吗？&lt;/h2&gt;
+&lt;p&gt;类加载器自顶向下分为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Bootstrap ClassLoader启动类加载器：默认会去加载JAVA_HOME/lib目录下的jar&lt;/li&gt;
+&lt;li&gt;Extention ClassLoader扩展类加载器：默认去加载JAVA_HOME/lib/ext目录下的jar&lt;/li&gt;
+&lt;li&gt;Application ClassLoader应用程序类加载器：比如我们的web应用，会加载web程序中ClassPath下的类&lt;/li&gt;
+&lt;li&gt;User ClassLoader用户自定义类加载器：由用户自己定义&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当我们在加载类的时候，首先都会向上询问自己的父加载器是否已经加载，如果没有则依次向上询问，如果没有加载，则从上到下依次尝试是否能加载当前类，直到加载成功。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIhXK8icwZjLzVpbmwghicmyhrcx4TXWjdTVZ8ONaxrND9HLkFdNkoTgZQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;说说有哪些垃圾回收算法&#34;&gt;说说有哪些垃圾回收算法？&lt;/h2&gt;
+&lt;h3 id=&#34;标记-清除&#34;&gt;标记-清除&lt;/h3&gt;
+&lt;p&gt;统一标记出需要回收的对象，标记完成之后统一回收所有被标记的对象，而由于标记的过程需要遍历所有的GC ROOT，清除的过程也要遍历堆中所有的对象，所以标记-清除算法的效率低下，同时也带来了内存碎片的问题。&lt;/p&gt;
+&lt;h3 id=&#34;复制算法&#34;&gt;复制算法&lt;/h3&gt;
+&lt;p&gt;为了解决性能的问题，复制算法应运而生，它将内存分为大小相等的两块区域，每次使用其中的一块，当一块内存使用完之后，将还存活的对象拷贝到另外一块内存区域中，然后把当前内存清空，这样性能和内存碎片的问题得以解决。但是同时带来了另外一个问题，可使用的内存空间缩小了一半！&lt;/p&gt;
+&lt;p&gt;因此，诞生了我们现在的常见的年轻代+老年代的内存结构：Eden+S0+S1组成，因为根据IBM的研究显示，98%的对象都是朝生夕死，所以实际上存活的对象并不是很多，完全不需要用到一半内存浪费，所以默认的比例是8:1:1。&lt;/p&gt;
+&lt;p&gt;这样，在使用的时候只使用Eden区和S0S1中的一个，每次都把存活的对象拷贝另外一个未使用的Survivor区，同时清空Eden和使用的Survivor，这样下来内存的浪费就只有10%了。&lt;/p&gt;
+&lt;p&gt;如果最后未使用的Survivor放不下存活的对象，这些对象就进入Old老年代了。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;PS：所以有一些初级点的问题会问你为什么要分为Eden区和2个Survior区？有什么作用？就是为了节省内存和解决内存碎片的问题，这些算法都是为了解决问题而产生的，如果理解原因你就不需要死记硬背了&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;标记-整理&#34;&gt;标记-整理&lt;/h3&gt;
+&lt;p&gt;针对老年代再用复制算法显然不合适，因为进入老年代的对象都存活率比较高了，这时候再频繁的复制对性能影响就比较大，而且也不会再有另外的空间进行兜底。所以针对老年代的特点，通过标记-整理算法，标记出所有的存活对象，让所有存活的对象都向一端移动，然后清理掉边界以外的内存空间。&lt;/p&gt;
+&lt;h2 id=&#34;那么什么是gc-root有哪些gc-root&#34;&gt;那么什么是GC ROOT？有哪些GC ROOT？&lt;/h2&gt;
+&lt;p&gt;上面提到的标记的算法，怎么标记一个对象是否存活？简单的通过引用计数法，给对象设置一个引用计数器，每当有一个地方引用他，就给计数器+1，反之则计数器-1，但是这个简单的算法无法解决循环引用的问题。&lt;/p&gt;
+&lt;p&gt;Java通过可达性分析算法来达到标记存活对象的目的，定义一系列的GC ROOT为起点，从起点开始向下开始搜索，搜索走过的路径称为引用链，当一个对象到GC ROOT没有任何引用链相连的话，则对象可以判定是可以被回收的。&lt;/p&gt;
+&lt;p&gt;而可以作为GC ROOT的对象包括：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;栈中引用的对象&lt;/li&gt;
+&lt;li&gt;静态变量、常量引用的对象&lt;/li&gt;
+&lt;li&gt;本地方法栈native方法引用的对象&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;垃圾回收器了解吗年轻代和老年代都有哪些垃圾回收器&#34;&gt;垃圾回收器了解吗？年轻代和老年代都有哪些垃圾回收器？&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIiaibccybJicW4m2ibAf9lLJNiaUzRC7BxcbwwI1bcuY3LiaTap9zaKebibJjg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;年轻代的垃圾收集器包含有Serial、ParNew、Parallell，老年代则包括Serial Old老年代版本、CMS、Parallel Old老年代版本和JDK11中的船新的G1收集器。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Serial&lt;/strong&gt;：单线程版本收集器，进行垃圾回收的时候会STW（Stop The World），也就是进行垃圾回收的时候其他的工作线程都必须暂停&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ParNew&lt;/strong&gt;：Serial的多线程版本，用于和CMS配合使用&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Parallel Scavenge&lt;/strong&gt;：可以并行收集的多线程垃圾收集器&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Serial Old&lt;/strong&gt;：Serial的老年代版本，也是单线程&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Parallel Old&lt;/strong&gt;：Parallel Scavenge的老年代版本&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CMS（Concurrent Mark Sweep）&lt;/strong&gt;：CMS收集器是以获取最短停顿时间为目标的收集器，相对于其他的收集器STW的时间更短暂，可以并行收集是他的特点，同时他基于标记-清除算法，整个GC的过程分为4步。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;初始标记：标记GC ROOT能关联到的对象，需要STW&lt;/li&gt;
+&lt;li&gt;并发标记：从GCRoots的直接关联对象开始遍历整个对象图的过程，不需要STW&lt;/li&gt;
+&lt;li&gt;重新标记：为了修正并发标记期间，因用户程序继续运作而导致标记产生改变的标记，需要STW&lt;/li&gt;
+&lt;li&gt;并发清除：清理删除掉标记阶段判断的已经死亡的对象，不需要STW&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;从整个过程来看，并发标记和并发清除的耗时最长，但是不需要停止用户线程，而初始标记和重新标记的耗时较短，但是需要停止用户线程，总体而言，整个过程造成的停顿时间较短，大部分时候是可以和用户线程一起工作的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;G1（Garbage First）&lt;/strong&gt;：G1收集器是JDK9的默认垃圾收集器，而且不再区分年轻代和老年代进行回收。&lt;/p&gt;
+&lt;h2 id=&#34;g1的原理了解吗&#34;&gt;G1的原理了解吗？&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIu1KwEcXMxlPbymIicIxbNOWpiav0a4kibkCgaz447ia1naa3EwefOUoe6g/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;G1作为JDK9之后的服务端默认收集器，且不再区分年轻代和老年代进行垃圾回收，他把内存划分为多个Region，每个Region的大小可以通过-XX：G1HeapRegionSize设置，大小为1~32M，对于大对象的存储则衍生出Humongous的概念，超过Region大小一半的对象会被认为是大对象，而超过整个Region大小的对象被认为是超级大对象，将会被存储在连续的N个Humongous Region中，G1在进行回收的时候会在后台维护一个优先级列表，每次根据用户设定允许的收集停顿时间优先回收收益最大的Region。&lt;/p&gt;
+&lt;p&gt;G1的回收过程分为以下四个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;初始标记：标记GC ROOT能关联到的对象，需要STW&lt;/li&gt;
+&lt;li&gt;并发标记：从GCRoots的直接关联对象开始遍历整个对象图的过程，扫描完成后还会重新处理并发标记过程中产生变动的对象&lt;/li&gt;
+&lt;li&gt;最终标记：短暂暂停用户线程，再处理一次，需要STW&lt;/li&gt;
+&lt;li&gt;筛选回收：更新Region的统计数据，对每个Region的回收价值和成本排序，根据用户设置的停顿时间制定回收计划。再把需要回收的Region中存活对象复制到空的Region，同时清理旧的Region。需要STW&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;总的来说除了并发标记之外，其他几个过程也还是需要短暂的STW，G1的目标是在停顿和延迟可控的情况下尽可能提高吞吐量。&lt;/p&gt;
+&lt;h2 id=&#34;什么时候会触发ygc和fgc对象什么时候会进入老年代&#34;&gt;什么时候会触发YGC和FGC？对象什么时候会进入老年代？&lt;/h2&gt;
+&lt;p&gt;当一个新的对象来申请内存空间的时候，如果Eden区无法满足内存分配需求，则触发YGC，使用中的Survivor区和Eden区存活对象送到未使用的Survivor区，如果YGC之后还是没有足够空间，则直接进入老年代分配，如果老年代也无法分配空间，触发FGC，FGC之后还是放不下则报出OOM异常。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIXa1JZZ3lzh5GpljeFmBp9IjE2qMa5iaNZbee1fibzSvkJtl97abxIHag/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;YGC之后，存活的对象将会被复制到未使用的Survivor区，如果S区放不下，则直接晋升至老年代。而对于那些一直在Survivor区来回复制的对象，通过-XX：MaxTenuringThreshold配置交换阈值，默认15次，如果超过次数同样进入老年代。&lt;/p&gt;
+&lt;p&gt;此外，还有一种动态年龄的判断机制，不需要等到MaxTenuringThreshold就能晋升老年代。如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代。&lt;/p&gt;
+&lt;h2 id=&#34;频繁fullgc怎么排查&#34;&gt;频繁FullGC怎么排查？&lt;/h2&gt;
+&lt;p&gt;这种问题最好的办法就是结合有具体的例子举例分析，如果没有就说一般的分析步骤。发生FGC有可能是内存分配不合理，比如Eden区太小，导致对象频繁进入老年代，这时候通过启动参数配置就能看出来，另外有可能就是存在内存泄露，可以通过以下的步骤进行排查：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;jstat -gcutil或者查看gc.log日志，查看内存回收情况&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuItDPgQsNbficMlvhh6kMYkrTzYrA9UyehPw7bjvoAFicCJZgez01AMmhg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;S0 S1 分别代表两个Survivor区占比&lt;/p&gt;
+&lt;p&gt;E代表Eden区占比，图中可以看到使用78%&lt;/p&gt;
+&lt;p&gt;O代表老年代，M代表元空间，YGC发生54次，YGCT代表YGC累计耗时，GCT代表GC累计耗时。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIEw6ltlU85ic71ibQjZC0HZ5kBs3jEccyZibILpUTO2FaibX2a3ibibPzhE9w/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;[GC [FGC 开头代表垃圾回收的类型&lt;/p&gt;
+&lt;p&gt;PSYoungGen: 6130K-&amp;gt;6130K(9216K)] 12274K-&amp;gt;14330K(19456K), 0.0034895 secs代表YGC前后内存使用情况&lt;/p&gt;
+&lt;p&gt;Times: user=0.02 sys=0.00, real=0.00 secs，user表示用户态消耗的CPU时间，sys表示内核态消耗的CPU时间，real表示各种墙时钟的等待时间&lt;/p&gt;
+&lt;p&gt;这两张图只是举例并没有关联关系，比如你从图里面看能到是否进行FGC，FGC的时间花费多长，GC后老年代，年轻代内存是否有减少，得到一些初步的情况来做出判断。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;dump出内存文件在具体分析，比如通过jmap命令jmap -dump:format=b,file=dumpfile pid，导出之后再通过&lt;strong&gt;Eclipse Memory Analyzer&lt;/strong&gt;等工具进行分析，定位到代码，修复&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这里还会可能存在一个提问的点，比如CPU飙高，同时FGC怎么办？办法比较类似&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;找到当前进程的pid，top -p pid -H 查看资源占用，找到线程&lt;/li&gt;
+&lt;li&gt;printf “%x\n” pid，把线程pid转为16进制，比如0x32d&lt;/li&gt;
+&lt;li&gt;jstack pid|grep -A 10 0x32d查看线程的堆栈日志，还找不到问题继续&lt;/li&gt;
+&lt;li&gt;dump出内存文件用MAT等工具进行分析，定位到代码，修复&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;jvm调优有什么经验吗&#34;&gt;JVM调优有什么经验吗？&lt;/h2&gt;
+&lt;p&gt;要明白一点，所有的调优的目的都是为了用更小的硬件成本达到更高的吞吐，JVM的调优也是一样，通过对垃圾收集器和内存分配的调优达到性能的最佳。&lt;/p&gt;
+&lt;h3 id=&#34;简单的参数含义&#34;&gt;简单的参数含义&lt;/h3&gt;
+&lt;p&gt;首先，需要知道几个主要的参数含义。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUl4lw1ia9WwR2bceFhiaLsKuIURPJpeCMd0m4KRa2qvL6rMEXchRkgdelvy5m1icKQTYXv8XahTTeJgQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ol&gt;
+&lt;li&gt;-Xms设置初始堆的大小，-Xmx设置最大堆的大小&lt;/li&gt;
+&lt;li&gt;-XX:NewSize年轻代大小，-XX:MaxNewSize年轻代最大值，-Xmn则是相当于同时配置-XX:NewSize和-XX:MaxNewSize为一样的值&lt;/li&gt;
+&lt;li&gt;-XX:NewRatio设置年轻代和年老代的比值，如果为3，表示年轻代与老年代比值为1:3，默认值为2&lt;/li&gt;
+&lt;li&gt;-XX:SurvivorRatio年轻代和两个Survivor的比值，默认8，代表比值为8:1:1&lt;/li&gt;
+&lt;li&gt;-XX:PretenureSizeThreshold 当创建的对象超过指定大小时，直接把对象分配在老年代。&lt;/li&gt;
+&lt;li&gt;-XX:MaxTenuringThreshold设定对象在Survivor复制的最大年龄阈值，超过阈值转移到老年代&lt;/li&gt;
+&lt;li&gt;-XX:MaxDirectMemorySize当Direct ByteBuffer分配的堆外内存到达指定大小后，即触发Full GC&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;调优&#34;&gt;调优&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;为了打印日志方便排查问题最好开启GC日志，开启GC日志对性能影响微乎其微，但是能帮助我们快速排查定位问题。-XX:+PrintGCTimeStamps -XX:+PrintGCDetails -Xloggc:gc.log&lt;/li&gt;
+&lt;li&gt;一般设置-Xms=-Xmx，这样可以获得固定大小的堆内存，减少GC的次数和耗时，可以使得堆相对稳定&lt;/li&gt;
+&lt;li&gt;-XX:+HeapDumpOnOutOfMemoryError让JVM在发生内存溢出的时候自动生成内存快照，方便排查问题&lt;/li&gt;
+&lt;li&gt;-Xmn设置新生代的大小，太小会增加YGC，太大会减小老年代大小，一般设置为整个堆的1/4到1/3&lt;/li&gt;
+&lt;li&gt;设置-XX:+DisableExplicitGC禁止系统System.gc()，防止手动误触发FGC造成问题&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;- END -&lt;/p&gt;
+">JVM</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/daliuliang/"" data-c="
+          &lt;h2 id=&#34;微服务架构演化&#34;&gt;微服务架构演化&lt;/h2&gt;
+&lt;p&gt;在互联网早期的时候，单体架构就足以支撑起日常的业务需求，大家的所有业务服务都在一个项目里，部署在一台物理机器上。所有的业务包括你的交易系统、会员信息、库存、商品等等都夹杂在一起，当流量一旦起来之后，单体架构的问题就暴露出来了，机器挂了所有的业务全部无法使用了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kk0ialF0DVYbtzN2mqZPMwHIq0h6YiaKegLJWGoO96QM1hlicibxM67D1aSw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;于是，集群架构的架构开始出现，单机无法抗住的压力，最简单的办法就是水平拓展横向扩容了，这样，通过负载均衡把压力流量分摊到不同的机器上，暂时是解决了单点导致服务不可用的问题。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkcsLoebo42vcUWFAalAMmDINrf7AW0aiaDe74gCOyF6eSsZd8DtbVasA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;但是随着业务的发展，在一个项目里维护所有的业务场景使开发和代码维护变得越来越困难，一个简单的需求改动都需要发布整个服务，代码的合并冲突也会变得越来越频繁，同时线上故障出现的可能性越大。微服务的架构模式就诞生了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkUxmEr8iasnsfBicbNCSkEIpHr8Ep2yCwvLic6uhSeRR3aceVicUIeXF8GA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;把每个独立的业务拆分开独立部署，开发和维护的成本降低，集群能承受的压力也提高了，再也不会出现一个小小的改动点需要牵一发而动全身了。&lt;/p&gt;
+&lt;p&gt;以上的点从高并发的角度而言，似乎都可以归类为通过服务拆分和集群物理机器的扩展提高了整体的系统抗压能力，那么，随之拆分而带来的问题也就是高并发系统需要解决的问题。&lt;/p&gt;
+&lt;h2 id=&#34;rpc&#34;&gt;RPC&lt;/h2&gt;
+&lt;p&gt;微服务化的拆分带来的好处和便利性是显而易见的，但是与此同时各个微服务之间的通信就需要考虑了。传统HTTP的通信方式对性能是极大的浪费，这时候就需要引入诸如Dubbo类的RPC框架，基于TCP长连接的方式提高整个集群通信的效率。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkPRsicIDaiaLgFzlL3DSxcwTSzTgffDOCvpuIuvw0VvXs0P41BuUI4L2Q/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;我们假设原来来自客户端的QPS是9000的话，那么通过负载均衡策略分散到每台机器就是3000，而HTTP改为RPC之后接口的耗时缩短了，单机和整体的QPS就提升了。而RPC框架本身一般都自带负载均衡、熔断降级的机制，可以更好的维护整个系统的高可用性。&lt;/p&gt;
+&lt;p&gt;那么说完RPC，作为基本上国内普遍的选择Dubbo的一些基本原理就是接下来的问题。&lt;/p&gt;
+&lt;h3 id=&#34;dubbo工作原理&#34;&gt;Dubbo工作原理&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;服务启动的时候，provider和consumer根据配置信息，连接到注册中心register，分别向注册中心注册和订阅服务&lt;/li&gt;
+&lt;li&gt;register根据服务订阅关系，返回provider信息到consumer，同时consumer会把provider信息缓存到本地。如果信息有变更，consumer会收到来自register的推送&lt;/li&gt;
+&lt;li&gt;consumer生成代理对象，同时根据负载均衡策略，选择一台provider，同时定时向monitor记录接口的调用次数和时间信息&lt;/li&gt;
+&lt;li&gt;拿到代理对象之后，consumer通过代理对象发起接口调用&lt;/li&gt;
+&lt;li&gt;provider收到请求后对数据进行反序列化，然后通过代理调用具体的接口实现&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kk41rxicIt92CwqJb5ba5n79lXLuwt4HsUuqGE5WbqoiaibMCFyJ1JKichbA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;dubbo负载均衡策略&#34;&gt;Dubbo负载均衡策略&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;加权随机：假设我们有一组服务器 servers = [A, B, C]，他们对应的权重为 weights = [5, 3, 2]，权重总和为10。现在把这些权重值平铺在一维坐标值上，[0, 5) 区间属于服务器 A，[5, 8) 区间属于服务器 B，[8, 10) 区间属于服务器 C。接下来通过随机数生成器生成一个范围在 [0, 10) 之间的随机数，然后计算这个随机数会落到哪个区间上就可以了。&lt;/li&gt;
+&lt;li&gt;最小活跃数：每个服务提供者对应一个活跃数 active，初始情况下，所有服务提供者活跃数均为0。每收到一个请求，活跃数加1，完成请求后则将活跃数减1。在服务运行一段时间后，性能好的服务提供者处理请求的速度更快，因此活跃数下降的也越快，此时这样的服务提供者能够优先获取到新的服务请求。&lt;/li&gt;
+&lt;li&gt;一致性hash：通过hash算法，把provider的invoke和随机节点生成hash，并将这个 hash 投射到 [0, 2^32 - 1] 的圆环上，查询的时候根据key进行md5然后进行hash，得到第一个节点的值大于等于当前hash的invoker。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kk1QVvVs2sxZrJeEPQJ4icjpsPET1KdeItR7IGdRcXFSD1lCS0eIIJKlA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;图片来自dubbo官方&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;加权轮询：比如服务器 A、B、C 权重比为 5:2:1，那么在8次请求中，服务器 A 将收到其中的5次请求，服务器 B 会收到其中的2次请求，服务器 C 则收到其中的1次请求。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;集群容错&#34;&gt;集群容错&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Failover Cluster失败自动切换：dubbo的默认容错方案，当调用失败时自动切换到其他可用的节点，具体的重试次数和间隔时间可用通过引用服务的时候配置，默认重试次数为1也就是只调用一次。&lt;/li&gt;
+&lt;li&gt;Failback Cluster快速失败：在调用失败，记录日志和调用信息，然后返回空结果给consumer，并且通过定时任务每隔5秒对失败的调用进行重试&lt;/li&gt;
+&lt;li&gt;Failfast Cluster失败自动恢复：只会调用一次，失败后立刻抛出异常&lt;/li&gt;
+&lt;li&gt;Failsafe Cluster失败安全：调用出现异常，记录日志不抛出，返回空结果&lt;/li&gt;
+&lt;li&gt;Forking Cluster并行调用多个服务提供者：通过线程池创建多个线程，并发调用多个provider，结果保存到阻塞队列，只要有一个provider成功返回了结果，就会立刻返回结果&lt;/li&gt;
+&lt;li&gt;Broadcast Cluster广播模式：逐个调用每个provider，如果其中一台报错，在循环调用结束后，抛出异常。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;消息队列&#34;&gt;消息队列&lt;/h2&gt;
+&lt;p&gt;对于MQ的作用大家都应该很了解了，削峰填谷、解耦。依赖消息队列，同步转异步的方式，可以降低微服务之间的耦合。&lt;/p&gt;
+&lt;p&gt;对于一些不需要同步执行的接口，可以通过引入消息队列的方式异步执行以提高接口响应时间。在交易完成之后需要扣库存，然后可能需要给会员发放积分，本质上，发积分的动作应该属于履约服务，对实时性的要求也不高，我们只要保证最终一致性也就是能履约成功就行了。对于这种同类性质的请求就可以走MQ异步，也就提高了系统抗压能力了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkFWU0aHOicpRW060Dia8mcMrKmkmZn55GsdYzHNS3xVDRhMopSZAjiaRIA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;对于消息队列而言，怎么在使用的时候保证消息的可靠性、不丢失？&lt;/p&gt;
+&lt;h3 id=&#34;消息可靠性&#34;&gt;消息可靠性&lt;/h3&gt;
+&lt;p&gt;消息丢失可能发生在生产者发送消息、MQ本身丢失消息、消费者丢失消息3个方面。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;生产者丢失&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;生产者丢失消息的可能点在于程序发送失败抛异常了没有重试处理，或者发送的过程成功但是过程中网络闪断MQ没收到，消息就丢失了。&lt;/p&gt;
+&lt;p&gt;由于同步发送的一般不会出现这样使用方式，所以我们就不考虑同步发送的问题，我们基于异步发送的场景来说。&lt;/p&gt;
+&lt;p&gt;异步发送分为两个方式：&lt;strong&gt;异步有回调和异步无回调&lt;/strong&gt;，无回调的方式，生产者发送完后不管结果可能就会造成消息丢失，而通过异步发送+回调通知+本地消息表的形式我们就可以做出一个解决方案。以下单的场景举例。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;下单后先保存本地数据和MQ消息表，这时候消息的状态是发送中，如果本地事务失败，那么下单失败，事务回滚。&lt;/li&gt;
+&lt;li&gt;下单成功，直接返回客户端成功，异步发送MQ消息&lt;/li&gt;
+&lt;li&gt;MQ回调通知消息发送结果，对应更新数据库MQ发送状态&lt;/li&gt;
+&lt;li&gt;JOB轮询超过一定时间（时间根据业务配置）还未发送成功的消息去重试&lt;/li&gt;
+&lt;li&gt;在监控平台配置或者JOB程序处理超过一定次数一直发送不成功的消息，告警，人工介入。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kk9gGB29FSkPy3JjePL6unswd8kLcZPk29SjNNOgjems7SMkbHpRIUrQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;一般而言，对于大部分场景来说异步回调的形式就可以了，只有那种需要完全保证不能丢失消息的场景我们做一套完整的解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MQ丢失&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果生产者保证消息发送到MQ，而MQ收到消息后还在内存中，这时候宕机了又没来得及同步给从节点，就有可能导致消息丢失。&lt;/p&gt;
+&lt;p&gt;比如RocketMQ：&lt;/p&gt;
+&lt;p&gt;RocketMQ分为同步刷盘和异步刷盘两种方式，默认的是异步刷盘，就有可能导致消息还未刷到硬盘上就丢失了，可以通过设置为同步刷盘的方式来保证消息可靠性，这样即使MQ挂了，恢复的时候也可以从磁盘中去恢复消息。&lt;/p&gt;
+&lt;p&gt;比如Kafka也可以通过配置做到：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;acks=all 只有参与复制的所有节点全部收到消息，才返回生产者成功。这样的话除非所有的节点都挂了，消息才会丢失。
+replication.factor=N,设置大于1的数，这会要求每个partion至少有2个副本
+min.insync.replicas=N，设置大于1的数，这会要求leader至少感知到一个follower还保持着连接
+retries=N，设置一个非常大的值，让生产者发送失败一直重试
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;虽然我们可以通过配置的方式来达到MQ本身高可用的目的，但是都对性能有损耗，怎样配置需要根据业务做出权衡。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;消费者丢失&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;消费者丢失消息的场景：消费者刚收到消息，此时服务器宕机，MQ认为消费者已经消费，不会重复发送消息，消息丢失。&lt;/p&gt;
+&lt;p&gt;RocketMQ默认是需要消费者回复ack确认，而kafka需要手动开启配置关闭自动offset。&lt;/p&gt;
+&lt;p&gt;消费方不返回ack确认，重发的机制根据MQ类型的不同发送时间间隔、次数都不尽相同，如果重试超过次数之后会进入死信队列，需要手工来处理了。（Kafka没有这些）&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkYciaSwqSeS3ibo1ZQ81cQcPd5X9F5Hejic40iaREib8Z0YgCBUtNR6SEibzw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;消息的最终一致性&#34;&gt;消息的最终一致性&lt;/h3&gt;
+&lt;p&gt;事务消息可以达到分布式事务的最终一致性，事务消息就是MQ提供的类似XA的分布式事务能力。&lt;/p&gt;
+&lt;p&gt;半事务消息就是MQ收到了生产者的消息，但是没有收到二次确认，不能投递的消息。&lt;/p&gt;
+&lt;p&gt;实现原理如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;生产者先发送一条半事务消息到MQ&lt;/li&gt;
+&lt;li&gt;MQ收到消息后返回ack确认&lt;/li&gt;
+&lt;li&gt;生产者开始执行本地事务&lt;/li&gt;
+&lt;li&gt;如果事务执行成功发送commit到MQ，失败发送rollback&lt;/li&gt;
+&lt;li&gt;如果MQ长时间未收到生产者的二次确认commit或者rollback，MQ对生产者发起消息回查&lt;/li&gt;
+&lt;li&gt;生产者查询事务执行最终状态&lt;/li&gt;
+&lt;li&gt;根据查询事务状态再次提交二次确认&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;最终，如果MQ收到二次确认commit，就可以把消息投递给消费者，反之如果是rollback，消息会保存下来并且在3天后被删除。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kk5740GsBgdC0hibChyUFECjFkGI1Egk2B7003iauZQtcWTl605rbbeFMA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;数据库&#34;&gt;数据库&lt;/h2&gt;
+&lt;p&gt;对于整个系统而言，最终所有的流量的查询和写入都落在数据库上，数据库是支撑系统高并发能力的核心。怎么降低数据库的压力，提升数据库的性能是支撑高并发的基石。主要的方式就是通过读写分离和分库分表来解决这个问题。&lt;/p&gt;
+&lt;p&gt;对于整个系统而言，流量应该是一个漏斗的形式。比如我们的日活用户DAU有20万，实际可能每天来到提单页的用户只有3万QPS，最终转化到下单支付成功的QPS只有1万。那么对于系统来说读是大于写的，这时候可以通过读写分离的方式来降低数据库的压力。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkjJm1HxOHS75FLwFmNAXmNqhkwbCeBcUok16Kmr4a4M9rXF93sN1IHQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;读写分离也就相当于数据库集群的方式降低了单节点的压力。而面对数据的急剧增长，原来的单库单表的存储方式已经无法支撑整个业务的发展，这时候就需要对数据库进行分库分表了。针对微服务而言垂直的分库本身已经是做过的，剩下大部分都是分表的方案了。&lt;/p&gt;
+&lt;h3 id=&#34;水平分表&#34;&gt;水平分表&lt;/h3&gt;
+&lt;p&gt;首先根据业务场景来决定使用什么字段作为分表字段(sharding_key)，比如我们现在日订单1000万，我们大部分的场景来源于C端，我们可以用user_id作为sharding_key，数据查询支持到最近3个月的订单，超过3个月的做归档处理，那么3个月的数据量就是9亿，可以分1024张表，那么每张表的数据大概就在100万左右。&lt;/p&gt;
+&lt;p&gt;比如用户id为100，那我们都经过hash(100)，然后对1024取模，就可以落到对应的表上了。&lt;/p&gt;
+&lt;h3 id=&#34;分表后的id唯一性&#34;&gt;分表后的ID唯一性&lt;/h3&gt;
+&lt;p&gt;因为我们主键默认都是自增的，那么分表之后的主键在不同表就肯定会有冲突了。有几个办法考虑：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;设定步长，比如1-1024张表我们分别设定1-1024的基础步长，这样主键落到不同的表就不会冲突了。&lt;/li&gt;
+&lt;li&gt;分布式ID，自己实现一套分布式ID生成算法或者使用开源的比如雪花算法这种&lt;/li&gt;
+&lt;li&gt;分表后不使用主键作为查询依据，而是每张表单独新增一个字段作为唯一主键使用，比如订单表订单号是唯一的，不管最终落在哪张表都基于订单号作为查询依据，更新也一样。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;主从同步原理&#34;&gt;主从同步原理&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;master提交完事务后，写入binlog&lt;/li&gt;
+&lt;li&gt;slave连接到master，获取binlog&lt;/li&gt;
+&lt;li&gt;master创建dump线程，推送binglog到slave&lt;/li&gt;
+&lt;li&gt;slave启动一个IO线程读取同步过来的master的binlog，记录到relay log中继日志中&lt;/li&gt;
+&lt;li&gt;slave再开启一个sql线程读取relay log事件并在slave执行，完成同步&lt;/li&gt;
+&lt;li&gt;slave记录自己的binglog&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkqOMKE6hHYp3ia5JSQ92SwMdMeXYkzWSA5WAWjABhckice6Th8dvPo0aQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;由于mysql默认的复制方式是异步的，主库把日志发送给从库后不关心从库是否已经处理，这样会产生一个问题就是假设主库挂了，从库处理失败了，这时候从库升为主库后，日志就丢失了。由此产生两个概念。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;全同步复制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;主库写入binlog后强制同步日志到从库，所有的从库都执行完成后才返回给客户端，但是很显然这个方式的话性能会受到严重影响。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;半同步复制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;和全同步不同的是，半同步复制的逻辑是这样，从库写入日志成功后返回ACK确认给主库，主库收到至少一个从库的确认就认为写操作完成。&lt;/p&gt;
+&lt;h2 id=&#34;缓存&#34;&gt;缓存&lt;/h2&gt;
+&lt;p&gt;缓存作为高性能的代表，在某些特殊业务可能承担90%以上的热点流量。对于一些活动比如秒杀这种并发QPS可能几十万的场景，引入缓存事先预热可以大幅降低对数据库的压力，10万的QPS对于单机的数据库来说可能就挂了，但是对于如redis这样的缓存来说就完全不是问题。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkeOicPzVFSOSE8eeVYOhBkyBO6HgibpicKt4Wjp3XMW4Ribe9tJK8C1Dibsw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;以秒杀系统举例，活动预热商品信息可以提前缓存提供查询服务，活动库存数据可以提前缓存，下单流程可以完全走缓存扣减，秒杀结束后再异步写入数据库，数据库承担的压力就小的太多了。当然，引入缓存之后就还要考虑缓存击穿、雪崩、热点一系列的问题了。&lt;/p&gt;
+&lt;h3 id=&#34;热key问题&#34;&gt;热key问题&lt;/h3&gt;
+&lt;p&gt;所谓热key问题就是，突然有几十万的请求去访问redis上的某个特定key，那么这样会造成流量过于集中，达到物理网卡上限，从而导致这台redis的服务器宕机引发雪崩。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkzjJYCCmzPnU7tf0I6ssJeqJkShUfdKv9ASaFZ6ImncF639rV53Mu2A/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;针对热key的解决方案：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;提前把热key打散到不同的服务器，降低压力&lt;/li&gt;
+&lt;li&gt;加入二级缓存，提前加载热key数据到内存中，如果redis宕机，走内存查询&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;缓存击穿&#34;&gt;缓存击穿&lt;/h3&gt;
+&lt;p&gt;缓存击穿的概念就是单个key并发访问过高，过期时导致所有请求直接打到db上，这个和热key的问题比较类似，只是说的点在于过期导致请求全部打到DB上而已。&lt;/p&gt;
+&lt;p&gt;解决方案：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;加锁更新，比如请求查询A，发现缓存中没有，对A这个key加锁，同时去数据库查询数据，写入缓存，再返回给用户，这样后面的请求就可以从缓存中拿到数据了。&lt;/li&gt;
+&lt;li&gt;将过期时间组合写在value中，通过异步的方式不断的刷新过期时间，防止此类现象。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkKzFXwdvpY1HiaeiacNQdsPanPTDZF73DqwwnKaWr7a5R1IeXxlthEsxQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;缓存穿透&#34;&gt;缓存穿透&lt;/h3&gt;
+&lt;p&gt;缓存穿透是指查询不存在缓存中的数据，每次请求都会打到DB，就像缓存不存在一样。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkxbQefhxQibFG1Wmk7jcYJNzia6R8XsQ5QETibvzGyrYibeWYHl9tnFO0Wg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;针对这个问题，加一层布隆过滤器。布隆过滤器的原理是在你存入数据的时候，会通过散列函数将它映射为一个位数组中的K个点，同时把他们置为1。&lt;/p&gt;
+&lt;p&gt;这样当用户再次来查询A，而A在布隆过滤器值为0，直接返回，就不会产生击穿请求打到DB了。&lt;/p&gt;
+&lt;p&gt;显然，使用布隆过滤器之后会有一个问题就是误判，因为它本身是一个数组，可能会有多个值落到同一个位置，那么理论上来说只要我们的数组长度够长，误判的概率就会越低，这种问题就根据实际情况来就好了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkpxLCYZLDQHHy52F7AlQTZGuFahFqMLtTqEjjgYo24e52oGuxLVk0BQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;缓存雪崩&#34;&gt;缓存雪崩&lt;/h3&gt;
+&lt;p&gt;当某一时刻发生大规模的缓存失效的情况，比如你的缓存服务宕机了，会有大量的请求进来直接打到DB上，这样可能导致整个系统的崩溃，称为雪崩。雪崩和击穿、热key的问题不太一样的是，他是指大规模的缓存都过期失效了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkTib3vhuAVcwaDHfQQj1PA1O4Bvy8xZVkEaxaS2hvxqN6LPzWoKq9hCg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;针对雪崩几个解决方案：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;针对不同key设置不同的过期时间，避免同时过期&lt;/li&gt;
+&lt;li&gt;限流，如果redis宕机，可以限流，避免同时刻大量请求打崩DB&lt;/li&gt;
+&lt;li&gt;二级缓存，同热key的方案。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;稳定性&#34;&gt;稳定性&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUkwmXhPxzDG71Qc6UYXF5kkwUOehXezU8lZVvC8b9bicpSrymMbJ3niccYoknhboeMoA6AmxkxVRDdA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;熔断&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;比如营销服务挂了或者接口大量超时的异常情况，不能影响下单的主链路，涉及到积分的扣减一些操作可以在事后做补救。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;限流&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对突发如大促秒杀类的高并发，如果一些接口不做限流处理，可能直接就把服务打挂了，针对每个接口的压测性能的评估做出合适的限流尤为重要。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;降级&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;熔断之后实际上可以说就是降级的一种，以熔断的举例来说营销接口熔断之后降级方案就是短时间内不再调用营销的服务，等到营销恢复之后再调用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;预案&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;一般来说，就算是有统一配置中心，在业务的高峰期也是不允许做出任何的变更的，但是通过配置合理的预案可以在紧急的时候做一些修改。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核对&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;针对各种分布式系统产生的分布式事务一致性或者受到攻击导致的数据异常，非常需要核对平台来做最后的兜底的数据验证。比如下游支付系统和订单系统的金额做核对是否正确，如果收到中间人攻击落库的数据是否保证正确性。&lt;/p&gt;
+&lt;hr&gt;
+">千万流量</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/fenkufenbiao/"" data-c="
@@ -1302,6 +3265,102 @@ set global log_output=&#39;table&#39;;
       </div>
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/miaosha/"" data-c="
+          &lt;h2 id=&#34;系统架构&#34;&gt;系统架构&lt;/h2&gt;
+&lt;p&gt;假设今年的双11预估峰值QPS将会有50万(我随便扯的)，而根据我们平时的经验单机8C8G的机器可以达到1000左右的QPS，那么从理论上来说我们只要500台机器就可以抗住了，就有钱任性不行？这么设计的话只能出门右转不送了。&lt;/p&gt;
+&lt;h3 id=&#34;流量过滤&#34;&gt;流量过滤&lt;/h3&gt;
+&lt;p&gt;本质上，参与秒杀的用户很多，但是商品的数量是有限的，真正能抢到的用户并不多，那么第一步就是要过滤掉大部分无效的流量。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;活动开始前前端页面的Button置灰，防止活动未开始无效的点击产生流量&lt;/li&gt;
+&lt;li&gt;前端添加验证码或者答题，防止瞬间产生超高的流量，可以很好的起到错峰的效果，现在的验证码花样繁多，题库有的还要做个小学题，而且题库更新频繁，想暴力破解怕是很难。当然我知道的还有一种人工打码的方式，不过这个也是需要时间的，不像机器无限刷你的接口。&lt;/li&gt;
+&lt;li&gt;活动校验，既然是活动，那么活动的参与用户，参加条件，用户白名单之类的要首先做一层校验拦截，还有其他的比如用户终端、IP地址、参与活动次数、黑名单用户的校验。比如活动主要针对APP端的用户校验，那么根据参数其他端的用户将被拦截，针对IP、mac地址、设备ID和用户ID可以对用户参与活动的次数做校验，黑名单根据平时的活动经验拦截掉一部分羊毛党等异常用户。&lt;/li&gt;
+&lt;li&gt;非法请求拦截，做了以上拦截如果还有用户能绕过限制，那不得不说太牛X了。比如双11零点开始还做了答题限制，那么正常人怎么也需要1秒的时间来答题吧，就算单身30年手速我想也不能超过0.5秒了，那么针对刚好0点或者在0.5秒以内的请求就可以完全拦截掉。&lt;/li&gt;
+&lt;li&gt;限流，假设秒杀10000件商品，我们有10台服务器，单机的QPS在1000，那么理论上1秒就可以抢完，针对微服务就可以做限流配置，避免后续无效的流量打到数据库造成不必要的压力。针对限流还有另外一种栅栏方式限流，这是一种纯靠运气的限流方式，就是在系统约定的请求开始的时间内随机偏移一段时间，针对每个请求的偏移量不同，如果在偏移时间之内就会被拦截，反之通过。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUliapRxGg2WNiciacicz1h72sfRSo37G91OA0AxKJCCiccGtvaBcfPl0mWYmetaUfxuMHGKdHVBL8W6crg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;性能优化&#34;&gt;性能优化&lt;/h3&gt;
+&lt;p&gt;做完无效流量的过滤，那么可能你的无效请求已经过滤掉了90%，剩下的有效流量会大大的降低系统的压力。之后就是需要针对系统的性能做出优化了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;页面静态化，参与秒杀活动的商品一般都是已知的，可以针对活动页面做静态化处理，缓存到CDN。假设我们一个页面300K大小，1千万用户的流量是多少？这些请求要请求后端服务器、数据库，压力可想而知，缓存到CDN用户请求不经过服务器，大大减小了服务器的压力。&lt;/li&gt;
+&lt;li&gt;活动预热，针对活动的活动库存可以独立出来，不和普通的商品库存共享服务，活动库存活动开始前提前加载到redis，查询全部走缓存，最后扣减库存再视情况而定。&lt;/li&gt;
+&lt;li&gt;独立部署，资源充足的情况下可以考虑针对秒杀活动单独部署一套环境，这套环境中可以剥离一些可能无用的逻辑，比如不用考虑使用优惠券、红包、下单后赠送积分的一些场景，或者这些场景可以活动结束后异步的统一发放。这只是一个举例，实际上单独针对秒杀活动的话你肯定有很多无用的业务代码是可以剥离的，这样可以提高不少性能。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;经过这两步之后，最终我们的流量应该是呈漏斗状。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUliapRxGg2WNiciacicz1h72sfRJA3ib69FS9OvfforpzZtWU2DWmSlGCiaVc3c9eurFBibEMU6fUbSeufpQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;超卖&#34;&gt;超卖&lt;/h2&gt;
+&lt;p&gt;秒杀除开高并发高流量下的服务稳定性之外，剩下的核心大概就是怎么保证库存不超卖了，也可以说要保证的是最终一致性。一般来说，针对下单和库存有两种方式:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;下单即扣库存，这是最常规的大部分的做法。但是可能在活动中会碰到第二点说到的情况。&lt;/li&gt;
+&lt;li&gt;支付完成扣库存，这种设计我碰到过就是酒店行业，廉价房放出来之后被黄牛下单抢占库存导致正常用户无法下单，然后黄牛可以用稍高的价格再售卖给用户从中牟利，所以会有在一些活动的时候采取支付成功后才占用库存的做法。&lt;strong&gt;不过这种方式实现起来比较复杂，可能造成大量的无效订单，在秒杀的场景中不太适用&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;针对秒杀建议选择下单扣库存的方式，实现相对简单而且是常规做法。&lt;/p&gt;
+&lt;h3 id=&#34;方案&#34;&gt;方案&lt;/h3&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUliapRxGg2WNiciacicz1h72sfRwrwSKwg5bia2tHY45C1UKgRJ2qxUnVEFiaY0rASibNLQwHqLWuoOVObXA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ol&gt;
+&lt;li&gt;首先查询redis缓存库存是否充足&lt;/li&gt;
+&lt;li&gt;先扣库存再落订单数据，可以防止订单生成了没有库存的超卖问题&lt;/li&gt;
+&lt;li&gt;扣库存的时候先扣数据库库存，再扣减redis库存，保证在同一个事务里，无论两者哪一个发生了异常都会回滚。有一个问题是可能redis扣成功了由于网络问题返回失败，事务回滚，导致数据库和缓存不一致，这样实际少卖了，可以放到下轮秒杀去。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这种做法能一定程度上解决问题，但是也有可能会有其他问题。比如当大量请求落在同一条库存记录上去做update时，行锁导致大量的锁竞争会使得数据库的tps急剧下降，性能无法满足要求。&lt;/p&gt;
+&lt;p&gt;另外一种做法就是排队，在服务层进行排队，针对同一个商品ID的也就是数据库是一条库存记录的做一个内存队列，串行化去扣减库存，可以一定程度上缓解数据库的并发压力。&lt;/p&gt;
+&lt;h2 id=&#34;质量保障&#34;&gt;质量保障&lt;/h2&gt;
+&lt;p&gt;为了保证系统的稳定性，防止你的系统被秒杀，一些质量监控就不得不做。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;熔断限流降级，老生常谈，根据压测情况进行限流，可以使用sentinel或者hystrix。另外前端后端都该有降级开关。&lt;/li&gt;
+&lt;li&gt;监控，该上的都上，QPS监控、容器监控、CPU、缓存、IO监控等等。&lt;/li&gt;
+&lt;li&gt;演练，大型秒杀事前演练少不了，不能冒冒失失的就上了吧。&lt;/li&gt;
+&lt;li&gt;核对、预案，事后库存订单 金额、数量核对，是否发生超卖了?金额是否正常？都是必须的。预案可以在紧急情况下进行降级。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;数据统计&#34;&gt;数据统计&lt;/h2&gt;
+&lt;p&gt;活动做完了，数据该怎么统计？&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;前端埋点&lt;/li&gt;
+&lt;li&gt;数据大盘，通过后台服务的打点配合监控系统可以通过大盘直观的看到一些活动的监控和数据&lt;/li&gt;
+&lt;li&gt;离线数据分析，事后活动的数据可以同步到离线数仓做进一步的分析统计&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;总的来说，面对巨量的流量我们的方式就是首先通过各种条件先筛选掉无效流量，进行流量错峰，然后再对现有的系统性能做出优化，比如页面静态化，库存商品预热，也可以通过独立部署的方式和其他的环境做隔离，最后还要解决高并发下缓存一致性、库存不能超卖的问题，防止大量的并发打爆你的数据库。&lt;/p&gt;
+&lt;p&gt;一个完整的活动从前端到后端是一个完整的链路，中间有事前的演练工作，事后的数据分析等都是必不可少的环节。&lt;/p&gt;
+&lt;h3 id=&#34;吞吐量&#34;&gt;吞吐量&lt;/h3&gt;
+&lt;p&gt;在了解qps、tps、rt、并发数之前，首先我们应该明确一个系统的吞吐量到底代表什么含义，一般来说，系统吞吐量指的是系统的抗压、负载能力，代表一个系统每秒钟能承受的最大用户访问量。&lt;/p&gt;
+&lt;p&gt;一个系统的吞吐量通常由qps（tps）、并发数来决定，每个系统对这两个值都有一个相对极限值，只要某一项达到最大值，系统的吞吐量就上不去了。&lt;/p&gt;
+&lt;h3 id=&#34;qps&#34;&gt;QPS&lt;/h3&gt;
+&lt;p&gt;Queries Per Second，每秒查询数，即是每秒能够响应的查询次数，注意这里的查询是指用户发出请求到服务器做出响应成功的次数，简单理解可以认为查询=请求request。&lt;/p&gt;
+&lt;p&gt;qps=每秒钟request数量&lt;/p&gt;
+&lt;h3 id=&#34;tps&#34;&gt;TPS&lt;/h3&gt;
+&lt;p&gt;Transactions Per Second 的缩写，每秒处理的事务数。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。&lt;/p&gt;
+&lt;p&gt;针对单接口而言，TPS可以认为是等价于QPS的，比如访问一个页面/index.html，是一个TPS，而访问/index.html页面可能请求了3次服务器比如css、js、index接口，产生了3个QPS。&lt;/p&gt;
+&lt;p&gt;tps=每秒钟事务数量&lt;/p&gt;
+&lt;h3 id=&#34;rt&#34;&gt;RT&lt;/h3&gt;
+&lt;p&gt;Response Time缩写，简单理解为系统从输入到输出的时间间隔，宽泛的来说，他代表从客户端发起请求到服务端接受到请求并响应所有数据的时间差。一般取平均响应时间。&lt;/p&gt;
+&lt;h3 id=&#34;并发数&#34;&gt;并发数&lt;/h3&gt;
+&lt;p&gt;简而言之，系统能同时处理的请求/事务数量。&lt;/p&gt;
+&lt;h3 id=&#34;计算方式&#34;&gt;计算方式&lt;/h3&gt;
+&lt;p&gt;QPS=并发数/RT 或者 并发数=QPS*RT&lt;/p&gt;
+&lt;p&gt;举个栗子：&lt;/p&gt;
+&lt;p&gt;假设公司每天早上9点到10点1个小时内都有员工要上厕所，公司有3600个员工，平均每个员工上厕所时间为10分钟，我们来计算一下。&lt;/p&gt;
+&lt;p&gt;QPS  = 3600/60*60  1&lt;/p&gt;
+&lt;p&gt;RT   = 10*60    600秒&lt;/p&gt;
+&lt;p&gt;并发数 = 1 * 600    600&lt;/p&gt;
+&lt;p&gt;这样就意味着如果想达到最好的蹲坑体验，公司需要600个坑位来满足员工需求，否则的话上厕所就要排队等待了。&lt;/p&gt;
+&lt;h3 id=&#34;性能思考&#34;&gt;性能思考&lt;/h3&gt;
+&lt;p&gt;按照QPS=并发数/RT公式，假设我们现在是单线程的场景，那么QPS公式应该是这样：QPS=1/RT，实际上RT应该=CPU time + CPU wait time，如果将线程数提高到2，那么QPS=2/(CPU time + CPU wait time)，那么是否意味着我们只要单纯提高线程数就能提高QPS呢？&lt;/p&gt;
+&lt;h3 id=&#34;最佳线程数计算&#34;&gt;最佳线程数计算&lt;/h3&gt;
+&lt;p&gt;假设CPU time是49ms，CPU wait time是200ms，那么QPS=1000ms/249ms=4.01，这里200ms的wait时间我们可以认为CPU一直处于等待状态啥也没干，理论上来说200ms还可以接受200/49≈4个请求，不考虑上下文切换和其他开销的话，可以认为总线程数=(200+49)/49=5，如果再考虑上CPU多核和利用率的问题，我们大致可以认为：&lt;strong&gt;最佳线程数=RT/CPUTime * CPU核心数 * CPU利用率&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;那么最大QPS公式推导为：&lt;/p&gt;
+&lt;p&gt;最大QPS=最佳线程数*单线程QPS=（&lt;strong&gt;RT/CPU Time * CPU核心数 * CPU利用率）*（1/RT) = CPU核心数*CPU利用率/CPUTime&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;那么这样是否意味着我们只要不停增加CPU核心数就能无限提高QPS呢？&lt;/p&gt;
+&lt;h3 id=&#34;阿姆达尔定律amdahl&#34;&gt;阿姆达尔定律Amdahl&lt;/h3&gt;
+&lt;p&gt;G.M.Amdahl在1967年提出了Amdahl’s law，针对并行处理的scalability给出了一个模型，指出使用并行处理的提速由问题的可并行的部分所决定。我们可以简单理解为程序通过额外的计算资源，理论上能获得的加速值。&lt;/p&gt;
+&lt;p&gt;par为并行计算所占的比例，p为并行处理节点个数&lt;/p&gt;
+&lt;p&gt;假设你想从望京去顺义，坐一辆车需要3小时，虽然现在有3辆车，你也不能1小时就到。这里无法并行，所有Par=0%，p=3，加速比还是等于1，并没有提高速度。&lt;/p&gt;
+&lt;h3 id=&#34;古斯塔夫森定律gustafson&#34;&gt;古斯塔夫森定律Gustafson&lt;/h3&gt;
+&lt;p&gt;斯塔夫森定律又被称为扩展的加速比(scaled speedup)，他说明处理器个数、串行比例和加速比之间的关系，只是和阿姆达尔定律侧重角度有所不同。&lt;/p&gt;
+&lt;p&gt;按照阿姆达尔定律和QPS计算公式，在CPUtime 和 CPU利用率不变的情况下，增加CPU核心数就能增加最大QPS，在par不为0即并行的时候，增加并行数量p就能提升效率，但是实际上随着请求数量的增加，带来大量的上下文的切换、gc和锁变化。qps更高，产生对象越多，gc越频繁，cpu time和利用率都受到影响，尤其在串行的时候，锁自旋、自适应、偏向等等也成为影响par的因素。&lt;/p&gt;
+">秒杀系统</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/mybatis/"" data-c="
           &lt;p&gt;&lt;strong&gt;1、#{}和${}的区别是什么？&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;答：&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mrow&gt;&lt;/mrow&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;是&lt;/mi&gt;&lt;mi&gt;P&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;文&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;件&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;中&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;的&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;变&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;量&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;占&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;位&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;符&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;，&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;它&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;可&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;以&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;用&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;于&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;标&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;签&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;属&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;性&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;值&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;和&lt;/mi&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi&gt;q&lt;/mi&gt;&lt;mi&gt;l&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;内&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;部&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;，&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;属&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;于&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;静&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;态&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;文&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;本&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;替&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;换&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;，&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;比&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;如&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;{}是Properties文件中的变量占位符，它可以用于标签属性值和sql内部，属于静态文本替换，比如&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.8888799999999999em;vertical-align:-0.19444em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;是&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.13889em;&#34;&gt;P&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.02778em;&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.02778em;&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;文&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;件&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;中&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;的&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;变&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;量&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;占&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;位&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;符&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;，&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;它&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;可&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;以&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;用&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;于&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;标&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;签&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;属&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;性&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;值&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;和&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.03588em;&#34;&gt;q&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.01968em;&#34;&gt;l&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;内&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;部&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;，&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;属&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;于&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;静&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;态&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;文&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;本&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;替&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;换&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;，&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;比&lt;/span&gt;&lt;span class=&#34;mord cjk_fallback&#34;&gt;如&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;{driver}会被静态替换为com.mysql.jdbc.Driver。#{}是sql的参数占位符，Mybatis会将sql中的#{}替换为?号，在sql执行前会使用PreparedStatement的参数设置方法，按序给sql的?号占位符设置参数值，比如ps.setInt(0, parameterValue)，#{item.name}的取值方式为使用反射从参数对象中获取item对象的name属性值，相当于param.getItem().getName()。&lt;/p&gt;
@@ -1369,6 +3428,695 @@ set global log_output=&#39;table&#39;;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;../$%7Bimages%7D/cl11%E6%97%A5ipboard.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;../$%7Bimages%7D/clipboa131231rd.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">7、mybatis</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://jboone1989.github.io/post/redis/"" data-c="
+          &lt;h1 id=&#34;1-为什么要使用redis&#34;&gt;1、为什么要使用&lt;code&gt;Redis&lt;/code&gt;&lt;/h1&gt;
+&lt;h2 id=&#34;一性能&#34;&gt;（一）性能&lt;/h2&gt;
+&lt;p&gt;我们在碰到需要执行耗时特别久，且结果&lt;strong&gt;不频繁变动&lt;/strong&gt;的SQL，就特别适合将运行结果放入缓存。这样，后面的请求就去缓存中读取，使得请求能够迅速响应。&lt;/p&gt;
+&lt;h2 id=&#34;二并发&#34;&gt;（二）并发&lt;/h2&gt;
+&lt;p&gt;在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用&lt;code&gt;redis&lt;/code&gt;做一个缓冲操作，让请求先访问到&lt;code&gt;redis&lt;/code&gt;，而不是直接访问数据库。&lt;/p&gt;
+&lt;h2 id=&#34;为什么要用redis而不用mapguava做缓存&#34;&gt;为什么要用&lt;code&gt;redis&lt;/code&gt;而不用map/guava做缓存？&lt;/h2&gt;
+&lt;p&gt;缓存分为本地缓存和分布式缓存。&lt;/p&gt;
+&lt;p&gt;以 Java 为例，使用自带的 map 或者 guava 实现的是本地缓存，最主要的特点是轻量以及快速，生命周期随着 &lt;code&gt;jvm&lt;/code&gt;的销毁而结束，没有远程交互开销，性能最好，但是受限于单机容量，一般缓存较小且无法扩展，并且在多实例的情况下，每个实例都需要各自保存一份缓存，&lt;strong&gt;缓存不具有一致性&lt;/strong&gt;。&lt;br&gt;
+使用 &lt;code&gt;redis&lt;/code&gt;或 &lt;code&gt;memcached&lt;/code&gt;之类的称为分布式缓存，在多实例的情况下，各实例共用一份缓存数据，缓存具有一致性。分布式缓存一般都具有良好的水平扩展能力，对较大数据量的场景也能应付自如。缺点就是需要进行远程请求，性能不如本地缓存。&lt;/p&gt;
+&lt;p&gt;为了平衡这种情况，实际业务中一般采用&lt;strong&gt;多级缓存&lt;/strong&gt;，本地缓存只保存访问频率最高的部分热点数据，其他的热点数据放在分布式缓存中。&lt;/p&gt;
+&lt;h2 id=&#34;你了解最经典的kv-db读写模式么&#34;&gt;你了解最经典的KV、DB读写模式么？&lt;/h2&gt;
+&lt;p&gt;最经典的缓存+数据库读写的模式，就是 &lt;strong&gt;Cache Aside Pattern&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。&lt;/li&gt;
+&lt;li&gt;更新的时候，&lt;strong&gt;先更新数据库，然后再删除缓存&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;为什么是删除缓存而不是更新缓存&#34;&gt;为什么是删除缓存，而不是更新缓存？&lt;/h2&gt;
+&lt;p&gt;原因很简单，很多时候，在复杂点的缓存场景，缓存不单单是数据库中直接取出来的值。比如可能更新了某个表的一个字段，然后其对应的缓存，是需要查询另外两个表的数据并进行运算，才能计算出缓存最新的值的。删除缓存，而不是更新缓存，就是一个 Lazy 计算的思想，不要每次都重新做复杂的计算，不管它会不会用到，而是让它到需要被使用的时候再重新计算&lt;/p&gt;
+&lt;h1 id=&#34;2-redis数据类型&#34;&gt;2、&lt;code&gt;Redis&lt;/code&gt;数据类型&lt;/h1&gt;
+&lt;h2 id=&#34;21-redis数据类型实现&#34;&gt;2.1 Redis数据类型实现&lt;/h2&gt;
+&lt;p&gt;###1、动态字符串SDS&lt;/p&gt;
+&lt;p&gt;Redis 是用 C 语言写的，但是对于Redis的字符串，却不是 C 语言中的字符串，它是自己构建了一种名为简单动态字符串（simple dynamic string,SDS）的抽象类型，并将 SDS 作为 Redis的默认字符串表示，它的特点就是预先分配内存，记录字符串长度，在原字符串数组buf[]中新增一串字符串。优点就是当清空时，并没有真正释放内存，而是将长度字段len值为0，当再次使用时，避免重新分配内存，从而提高效率。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clip_image002-1583381828514.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;2-链表linkedlist&#34;&gt;2、链表linkedlist&lt;/h3&gt;
+&lt;p&gt;redis链表是一个双向无环链表结构，很多发布订阅、慢查询、监视器功能都是使用到了链表来实现，每个链表的节点由一个listNode结构来表示，每个节点都有指向前置节点和后置节点的指针，同时表头节点的前置和后置节点都指向NULL。&lt;/p&gt;
+&lt;h3 id=&#34;3-整数集合intset&#34;&gt;3、整数集合intset&lt;/h3&gt;
+&lt;p&gt;用于保存整数值的集合抽象数据结构，不会出现重复元素，底层实现为数组。&lt;/p&gt;
+&lt;p&gt;###4、压缩列表ziplist&lt;/p&gt;
+&lt;p&gt;压缩列表是为节约内存而开发的顺序性数据结构，他可以包含多个节点，每个节点可以保存一个字节数组或者整数值。&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clip_image004.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;5-字典hashtable&#34;&gt;5、字典hashtable&lt;/h3&gt;
+&lt;p&gt;用于保存键值对的抽象数据结构。redis使用hash表作为底层实现，每个字典带有两个hash表，供平时使用和rehash时使用，hash表使用链地址法来解决键冲突，被分配到同一个索引位置的多个键值对会形成一个单向链表，在对hash表进行扩容或者缩容的时候，为了服务的可用性，rehash的过程不是一次性完成的，而是渐进式的。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clip_image006.png&#34; alt=&#34;图片包含 文字  描述已自动生成&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;6-跳跃表skiplist&#34;&gt;6、跳跃表skiplist&lt;/h3&gt;
+&lt;p&gt;跳跃表是有序集合的底层实现之一，redis中在实现有序集合键和集群节点的内部结构中都是用到了跳跃表。redis跳跃表由zskiplist和zskiplistNode组成，zskiplist用于保存跳跃表信息（表头、表尾节点、长度等），zskiplistNode用于表示表跳跃节点，每个跳跃表的层高都是1-32的随机数，在同一个跳跃表中，多个节点可以包含相同的分值，但是每个节点的成员对象必须是唯一的，节点按照分值大小排序，如果分值相同，则按照成员对象的大小排序。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clip_image010.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clip_image012.png&#34; alt=&#34;图片包含 文字  描述已自动生成&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;如上图中，左侧L5层高为3，所在表中位置为5，所以level为5&lt;/p&gt;
+&lt;p&gt;基于这些基础的数据结构，redis封装了自己的对象系统，包含字符串对象string、列表对象list、哈希对象hash、集合对象set、有序集合对象zset，每种对象都用到了至少一种基础的数据结构。&lt;/p&gt;
+&lt;p&gt;redis通过encoding属性设置对象的编码形式来提升灵活性和效率，基于不同的场景redis会自动做出优化。不同对象的编码如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;字符串对象string：int整数、embstr编码的简单动态字符串、raw简单动态字符串&lt;/li&gt;
+&lt;li&gt;列表对象list：ziplist、linkedlist&lt;/li&gt;
+&lt;li&gt;哈希对象hash：ziplist、hashtable&lt;/li&gt;
+&lt;li&gt;集合对象set：intset、hashtable&lt;/li&gt;
+&lt;li&gt;有序集合对象zset：ziplist、skiplist&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;22-redis数据类型应用&#34;&gt;2.2 Redis数据类型应用&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20200305121455058.png&#34; alt=&#34;image-20200305121455058&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;Key-Value结构查询速度更快，时间复杂度为O(1)，但会消耗更多内存，相比之下，Hash更优于Set、String结构，如果单纯的存储和查询，不做集合、排序处理，优先选择Hash结构。List不适合做检索，SortSet为有序集合，采用skiplist结构，检索速度比哈希略慢。&lt;/p&gt;
+&lt;h3 id=&#34;1-string字符串&#34;&gt;1、String（字符串）&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;String&lt;/strong&gt;的实际应用场景比较广泛的有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;缓存功能：String&lt;/strong&gt;字符串是最常用的数据类型，不仅仅是**&lt;code&gt;Redis&lt;/code&gt;&lt;strong&gt;，各个语言都是最基本类型，因此，利用&lt;/strong&gt;&lt;code&gt;Redis&lt;/code&gt;&lt;strong&gt;作为缓存，配合其它数据库作为存储层，利用&lt;/strong&gt;&lt;code&gt;Redis&lt;/code&gt;**支持高并发的特点，可以大大加快系统的读写速度、以及降低后端数据库的压力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;计数器：&lt;strong&gt;许多系统都会使用&lt;/strong&gt;&lt;code&gt;Redis&lt;/code&gt;&lt;strong&gt;作为系统的实时计数器，可以&lt;/strong&gt;快速实现计数和查询&lt;/strong&gt;的功能。而且最终的数据结果可以按照特定的时间落地到数据库或者其它存储介质当中进行永久保存。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;共享用户Session：&lt;strong&gt;用户重新刷新一次界面，可能需要访问一下数据进行重新登录，或者访问页面缓存&lt;/strong&gt;Cookie&lt;/strong&gt;，但是可以利用**&lt;code&gt;Redis&lt;/code&gt;&lt;strong&gt;将用户的&lt;/strong&gt;Session&lt;strong&gt;集中管理，在这种模式只需要保证&lt;/strong&gt;&lt;code&gt;Redis&lt;/code&gt;&lt;strong&gt;的高可用，每次用户&lt;/strong&gt;Session**的更新和获取都可以快速完成。大大提高效率。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;自增序列生成&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;实现类似于RDBMS的Sequence功能，生成一系列唯一的序列号，直接将返回值作为序列使用即可。&lt;/p&gt;
+&lt;p&gt;获取一批（如100个）序列值：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;INCRBY sequence 100
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;假设返回值为N，那么[N - 99 ~ N]的数值都是可用的序列值。&lt;/p&gt;
+&lt;p&gt;当多个客户端同时向Redis申请自增序列时，Redis能够确保每个客户端得到的序列值或序列范围都是全局唯一的，绝对不会出现不同客户端得到了重复的序列值的情况。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;string 类型是二进制安全的。意思是 &lt;code&gt;redis&lt;/code&gt;的 string 可以包含任何数据。比如jpg图片或者序列化的对象。&lt;br&gt;
+string 类型是 &lt;code&gt;Redis&lt;/code&gt;最基本的数据类型，string 类型的值最大能存储 512MB。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SET key value [EX seconds] [PX milliseconds] [NX|XX]
+如果 key 已经持有其他值， SET 就覆写旧值， 无视类型。当SET命令对一个带有生存时间（TTL）的键进行设置之后， 该键原有的TTL将被清除。
+EX seconds ： 将键的过期时间设置为 seconds 秒。 执行 SET key value EX seconds 的效果等同于执行 SETEX key seconds value 。
+PX milliseconds ： 将键的过期时间设置为 milliseconds 毫秒。 执行 SET key value PX milliseconds 的效果等同于执行 PSETEX key milliseconds value 。
+NX ： 只在键不存在时， 才对键进行设置操作。 执行 SET key value NX 的效果等同于执行 SETNX key value 
+XX ： 只在键已经存在时， 才对键进行设置操作。
+
+GET：获取某个key对应的value，时间复杂度O(1)
+GETSET：为一个key设置value，并返回该key的原value，时间复杂度O(1)
+MSET：为多个key设置value，时间复杂度O(N)
+MSETNX：同MSET，如果指定的key中有任意一个已存在，则不进行任何操作，时间复杂度O(N)
+MGET：获取多个key对应的value，时间复杂度O(N)
+Redis的基本数据类型只有String，但Redis可以把String作为整型或浮点型数字来使用，主要体现在INCR、DECR类的命令上：
+
+INCR：将key对应的value值自增1，并返回自增后的值。只对可以转换为整型的String数据起作用。时间复杂度O(1)
+INCRBY：将key对应的value值自增指定的整型数值，并返回自增后的值。只对可以转换为整型的String数据起作用。时间复杂度O(1)
+DECR/DECRBY：同INCR/INCRBY，自增改为自减。
+
+INCR/DECR系列命令要求操作的value类型为String，并可以转换为64位带符号的整型数字，否则会返回错误。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;2-hash哈希&#34;&gt;2、Hash（哈希）&lt;/h3&gt;
+&lt;p&gt;Redis hash 是一个string类型的 field 和 value 的映射表，hash 特别适合用于存储对象，不支持数据类型的嵌套。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;HSET：将key对应的Hash中的field设置为value。如果该Hash不存在，会自动创建一个。时间复杂度O(1)
+HGET：返回指定Hash中field字段的值，时间复杂度O(1)
+HMSET/HMGET：同HSET和HGET，可以批量操作同一个key下的多个field，时间复杂度：O(N)，N为一次操作的field数量
+HSETNX：同HSET，但如field已经存在，HSETNX不会进行任何操作，时间复杂度O(1)
+HEXISTS：判断指定Hash中field是否存在，存在返回1，不存在返回0，时间复杂度O(1)
+HDEL：删除指定Hash中的field（1个或多个），时间复杂度：O(N)，N为操作的field数量
+HINCRBY：同INCRBY命令，对指定Hash中的一个field进行INCRBY，时间复杂度O(1)
+
+应谨慎使用的Hash相关命令：
+HGETALL：返回指定Hash中所有的field-value对。返回结果为数组，数组中field和value交替出现。时间复杂度O(N)
+HKEYS/HVALS：返回指定Hash中所有的field/value，时间复杂度O(N)
+上述三个命令都会对Hash进行完整遍历，Hash中的field数量与命令的耗时线性相关。对于尺寸不可预知的Hash，应严格避免使用上面三个命令，而改为使用HSCAN命令进行游标式的遍历
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;3-list列表&#34;&gt;3、List（列表）&lt;/h3&gt;
+&lt;p&gt;Redis 列表是简单的&lt;strong&gt;字符串列表&lt;/strong&gt;，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边），可以用作异步队列。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;消息队列：Redis&lt;/strong&gt;的链表结构，可以轻松实现阻塞队列，可以使用左进右出的命令组成来完成队列的设计。比如：数据的生产者可以通过**&lt;code&gt;Lpush&lt;/code&gt;&lt;strong&gt;命令从左边插入数据，多个数据消费者，可以使用&lt;/strong&gt;&lt;code&gt;BRpop&lt;/code&gt;**命令阻塞的“抢”列表尾部的数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;文章列表或者数据分页展示的应用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;比如，我们常用的博客网站的文章列表，当用户量越来越多时，而且每一个用户都有自己的文章列表，而且当文章多时，都需要分页展示，这时可以考虑使用&lt;strong&gt;Redis&lt;/strong&gt;的列表，列表不但有序同时还支持按照范围内获取元素，可以完美解决分页查询功能。大大提高查询效率。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;LPUSH：向指定List的左侧（即头部）插入1个或多个元素，返回插入后的List长度。时间复杂度O(N)，N为插入元素的数量
+RPUSH：同LPUSH，向指定List的右侧（即尾部）插入1或多个元素
+LPOP：从指定List的左侧（即头部）移除一个元素并返回，时间复杂度O(1)
+RPOP：同LPOP，从指定List的右侧（即尾部）移除1个元素并返回
+LPUSHX/RPUSHX：与LPUSH/RPUSH类似，区别在于，LPUSHX/RPUSHX操作的key如果不存在，则不会进行任何操作
+LLEN：返回指定List的长度，时间复杂度O(1)
+LRANGE：返回指定List中指定范围的元素（双端包含，即LRANGE key 0 10会返回11个元素），时间复杂度O(N)。
+LPOP/RPOP : 取数据，当lpop没有消息的时候，要适当sleep一会再重试。
+BLPOP/BRPOP 是列表的阻塞式(blocking)弹出原语。它是 LPOP/RPOP key 命令的阻塞版本，当给定列表内没有任何元素可供弹出的时候，连接将被 BLPOP 命令阻塞，直到等待超时或发现可弹出元素为止。当给定多个 key 参数时，按参数 key 的先后顺序依次检查各个列表，弹出第一个非空列表的头元素。
+
+应谨慎使用的List相关命令：
+
+LINDEX：返回指定List指定index上的元素，如果index越界，返回nil。index数值是回环的，即-1代表List最后一个位置，-2代表List倒数第二个位置。时间复杂度O(N)
+LSET：将指定List指定index上的元素设置为value，如果index越界则返回错误，时间复杂度O(N)，如果操作的是头/尾部的元素，则时间复杂度为O(1)
+LINSERT：向指定List中指定元素之前/之后插入一个新元素，并返回操作后的List长度。如果指定的元素不存在，返回-1。如果指定key不存在，不会进行任何操作，时间复杂度O(N)
+由于Redis的List是链表结构的，上述的三个命令的算法效率较低，需要对List进行遍历，命令的耗时无法预估，在List长度大的情况下耗时会明显增加，应谨慎使用。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;4-set集合&#34;&gt;4、Set（集合）&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Set&lt;/strong&gt; 是无序集合，会自动去重的那种。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SADD：向指定Set中添加1个或多个member，如果指定Set不存在，会自动创建一个。时间复杂度O(N)，N为添加的member个数
+SREM：从指定Set中移除1个或多个member，时间复杂度O(N)，N为移除的member个数
+SRANDMEMBER：从指定Set中随机返回1个或多个member，时间复杂度O(N)，N为返回的member个数
+SPOP：从指定Set中随机移除并返回count个member，时间复杂度O(N)，N为移除的member个数
+SCARD：返回指定Set中的member个数，时间复杂度O(1)
+SISMEMBER：判断指定的value是否存在于指定Set中，时间复杂度O(1)
+SMOVE：将指定member从一个Set移至另一个Set
+
+慎用的Set相关命令：
+
+SMEMBERS：返回指定Hash中所有的member，时间复杂度O(N)
+SUNION/SUNIONSTORE：计算多个Set的并集并返回/存储至另一个Set中，时间复杂度O(N)，N为参与计算的所有集合的总member数
+SINTER/SINTERSTORE：计算多个Set的交集并返回/存储至另一个Set中，时间复杂度O(N)，N为参与计算的所有集合的总member数
+SDIFF/SDIFFSTORE：计算1个Set与1或多个Set的差集并返回/存储至另一个Set中，时间复杂度O(N)，N为参与计算的所有集合的总member数
+上述几个命令涉及的计算量大，应谨慎使用，特别是在参与计算的Set尺寸不可知的情况下，应严格避免使用。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;5-zsetsorted-set有序集合&#34;&gt;5、&lt;code&gt;zset&lt;/code&gt;(sorted set：有序集合)&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Redis zset&lt;/code&gt;和 set 一样也是string类型元素的集合,且不允许重复的成员。不同的是每个元素都会关联一个double类型的分数。&lt;code&gt;redis&lt;/code&gt;正是通过分数来为集合中的成员进行从小到大的排序。&lt;code&gt;zset&lt;/code&gt;的成员是唯一的,但分数(score)却可以重复。如果多个member拥有相同的score，则以字典序进行升序排序。Sorted Set非常适合用于实现排名。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;排行榜：有序集合经典使用场景。例如视频网站需要对用户上传的视频做排行榜，榜单维护可能是多方面：按照时间、按照播放量、按照获得的赞数等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;用&lt;strong&gt;Sorted Sets&lt;/strong&gt;来做&lt;strong&gt;带权重的队列&lt;/strong&gt;，比如普通消息的score为1，重要消息的score为2，然后工作线程可以选择按score的倒序来获取工作任务。让重要的任务优先执行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;ZADD：向指定Sorted Set中添加1个或多个member，时间复杂度O(Mlog(N))，M为添加的member数量，N为Sorted Set中的member数量
+ZREM：从指定Sorted Set中删除1个或多个member，时间复杂度O(Mlog(N))，M为删除的member数量，N为Sorted Set中的member数量
+ZCOUNT：返回指定Sorted Set中指定score范围内的member数量，时间复杂度：O(log(N))
+ZCARD：返回指定Sorted Set中的member数量，时间复杂度O(1)
+ZSCORE：返回指定Sorted Set中指定member的score，时间复杂度O(1)
+ZRANK/ZREVRANK：返回指定member在Sorted Set中的排名，ZRANK返回按升序排序的排名，ZREVRANK则返回按降序排序的排名。时间复杂度O(log(N))
+ZINCRBY：同INCRBY，对指定Sorted Set中的指定member的score进行自增，时间复杂度O(log(N))
+
+慎用的Sorted Set相关命令：
+
+ZRANGE/ZREVRANGE：返回指定Sorted Set中指定排名范围内的所有member，ZRANGE为按score升序排序，ZREVRANGE为按score降序排序，时间复杂度O(log(N)+M)，M为本次返回的member数
+ZRANGEBYSCORE/ZREVRANGEBYSCORE：返回指定Sorted Set中指定score范围内的所有member，返回结果以升序/降序排序，min和max可以指定为-inf和+inf，代表返回所有的member。时间复杂度O(log(N)+M)
+ZREMRANGEBYRANK/ZREMRANGEBYSCORE：移除Sorted Set中指定排名范围/指定score范围内的所有member。时间复杂度O(log(N)+M)
+
+上述几个命令，应尽量避免传递[0 -1]或[-inf +inf]这样的参数，来对Sorted Set做一次性的完整遍历，特别是在Sorted Set的尺寸不可预知的情况下。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;6-hyperloglog&#34;&gt;6、&lt;code&gt;HyperLogLog&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;供不精确的&lt;strong&gt;去重计数功能&lt;/strong&gt;，比较适合用来做大规模数据的去重统计，例如统计 UV；&lt;/p&gt;
+&lt;p&gt;是用来做基数统计的算法，&lt;code&gt;HyperLogLog&lt;/code&gt;的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定 的、并且是很小的。&lt;/p&gt;
+&lt;p&gt;比如数据集 {1, 3, 5, 7, 5, 7, 8}， 那么这个数据集的基数集为 {1, 3, 5 ,7, 8}, 基数(不重复元素)为5。 基数估计就是在误差可接受的范围内，快速计算基数。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;PFADD key element [element ...\]添加指定元素到 HyperLogLog 中。 
+PFCOUNT key [key ...\] 返回给定 HyperLogLog 的基数估算值。 
+PFMERGE destkey sourcekey [sourcekey ...\] 将多个 HyperLogLog 合并为一个 HyperLogLog 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;7-geo&#34;&gt;7、Geo&lt;/h3&gt;
+&lt;p&gt;可以用来保存地理位置，并作&lt;strong&gt;位置距离计算&lt;/strong&gt;或者根据&lt;strong&gt;半径计算位置&lt;/strong&gt;等。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GEOADD key longitude latitude member
+将给定的空间元素（纬度、经度、名字）添加到指定的键里面。 这些数据会以有序集合的形式被储存在键里面， 从而使得像 GEORADIUS 和 GEORADIUSBYMEMBER 这样的命令可以在之后通过位置查询取得这些元素。
+
+GEOPOS key member 
+从键里面返回所有给定位置元素的位置（经度和纬度）。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;8-bitmap&#34;&gt;8、&lt;code&gt;BitMap&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;位图是支持按 bit 位来存储信息，可以用来实现 &lt;strong&gt;布隆过滤器（&lt;code&gt;BloomFilter&lt;/code&gt;）&lt;/strong&gt;；&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SETBIT key offset value
+对 key 所储存的字符串值，设置或清除指定偏移量上的位(bit)。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;3-其他命令&#34;&gt;3、其他命令&lt;/h1&gt;
+&lt;h2 id=&#34;1-pubsub&#34;&gt;1、Pub/Sub&lt;/h2&gt;
+&lt;p&gt;Redis 发布订阅(pub/sub)是一种消息通信模式：发送者(pub)发送消息，订阅者(sub)接收消息，可以实现 1:N 的消息队列。在消费者下线的情况下，生产的消息会丢失，得使用专业的消息队列如**&lt;code&gt;RocketMQ&lt;/code&gt;**等。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SUBSCRIBE redisChat
+
+PUBLISH redisChat &amp;quot;Redis is a great caching technique&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;2-pipeline&#34;&gt;&lt;strong&gt;2、Pipeline：&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Redis提供许多批量操作的命令，如MSET/MGET/HMSET/HMGET等等，这些命令存在的意义是减少维护网络连接和传输数据所消耗的资源和时间。例如连续使用5次SET命令设置5个不同的key，比起使用一次MSET命令设置5个不同的key，效果是一样的，但前者会消耗更多的RTT(Round Trip Time)时长，永远应优先使用后者。&lt;/p&gt;
+&lt;p&gt;然而，如果客户端要连续执行的多次操作无法通过Redis命令组合在一起，此时便可以使用Redis提供的pipelining功能来实现在一次交互中执行多条命令。&lt;/p&gt;
+&lt;p&gt;使用pipelining时，只需要从客户端一次向Redis发送多条命令（以\r\n）分隔，Redis就会依次执行这些命令，并且把每个命令的返回按顺序组装在一起一次返回，比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ (printf &amp;quot;PING\r\nPING\r\nPING\r\n&amp;quot;; sleep 1) | nc localhost 6379
++PONG
++PONG
++PONG
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;大部分的Redis客户端都对Pipelining提供支持，所以开发者通常并不需要自己手工拼装命令列表。&lt;/p&gt;
+&lt;h5 id=&#34;pipelining的局限性&#34;&gt;Pipelining的局限性&lt;/h5&gt;
+&lt;p&gt;Pipelining只能用于执行&lt;strong&gt;连续且无相关性&lt;/strong&gt;的命令，当某个命令的生成需要依赖于前一个命令的返回时，就无法使用Pipelining了。通过Scripting功能，可以规避这一局限性&lt;/p&gt;
+&lt;p&gt;##3、 &lt;code&gt;Redis&lt;/code&gt;键(key)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;DEL key 该命令用于在 key 存在时删除 key。如果键被删除成功，命令执行后输出 (integer) 1，否则将输出 (integer) 0
+
+EXISTS key 检查给定 key 是否存在。
+
+EXPIRE key seconds 为给定 key 设置过期时间
+ttl key 获得key的过期时间
+type key 去获得这个key的数据结构类型
+
+keys pattern 查找所有符合给定模式 pattern 的 key 
+keys指令会导致线程阻塞一段时间，线上服务会停顿，直到指令执行完毕，服务才能恢复。这个时候可以使用scan指令，scan指令可以无阻塞的提取出指定模式的key列表，但是会有一定的重复概率，在客户端做一次去重就可以了，但是整体所花费的时间会比直接用keys指令长。
+
+SCAN cursor ：SCAN 命令是一个基于游标的迭代器（cursor based iterator）： SCAN 命令每次被调用之后， 都会向用户返回一个新的游标， 用户在下次迭代时需要使用这个新游标作为 SCAN 命令的游标参数， 以此来延续之前的迭代过程。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;4-redis事务命令&#34;&gt;4、Redis事务命令&lt;/h2&gt;
+&lt;p&gt;Redis 通过 MULTI、EXEC、WATCH 等命令来实现事务(transaction)功能。事务提供了一种将多个命令请求打包，然后一次性、按顺序地执行多个命令的机制，并且在事务执行期间，&lt;strong&gt;服务器不会中断事务而改去执行其他客户端的命令请求&lt;/strong&gt;，它会将事务中的所有命令都执行完毕，然后才去处理其他客户端的命令请求。同一个事务中如果有一条命令执行失败，其后的命令仍然会被执行，没有回滚。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;服务端收到客户端请求，事务以MULTI开始&lt;/li&gt;
+&lt;li&gt;如果客户端正处于事务状态，则会把事务放入队列同时返回给客户端QUEUED，反之则直接执行这个命令&lt;/li&gt;
+&lt;li&gt;当收到客户端EXEC命令时，WATCH命令监视整个事务中的key是否有被修改，如果有则返回空回复到客户端表示失败，否则redis会遍历整个事务队列，执行队列中保存的所有命令，最后返回结果给客户端&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在 Redis 中，事务总是具有原子性（Atomicity）、一致性（Consistency）和隔离性（Isolation），并且当 Redis 运行在某种特定的持久化模式下时，事务也具有持久性（Durability）。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MULTI 标记一个事务块的开始。
+EXEC 执行所有事务块内的命令
+可以使用DISCARD命令放弃当前的事务，将保存的命令队列清空。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Redis不提供事务回滚的功能，所以只能通过其他方法进行数据的回滚。&lt;/p&gt;
+&lt;h3 id=&#34;通过事务实现cas&#34;&gt;通过事务实现CAS&lt;/h3&gt;
+&lt;p&gt;Redis提供了WATCH命令与事务搭配使用，实现CAS乐观锁的机制。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;WATCH的机制是&lt;/strong&gt;：被监视的key会被保存到一个链表中。在事务EXEC命令执行时，Redis会检查被WATCH的key，只有被WATCH的key从WATCH起始时至今没有发生过变更，EXEC才会被执行。如果某个key被修改，那么REDIS_DIRTY_CAS标志将会被打开，这时服务器会拒绝执行事务，则EXEC命令会返回失败。&lt;/p&gt;
+&lt;p&gt;假设要实现将某个商品的状态改为已售：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if(exec(HGET stock:1001 state) == &amp;quot;in stock&amp;quot;)
+    exec(HSET stock:1001 state &amp;quot;sold&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这一伪代码执行时，无法确保并发安全性，有可能多个客户端都获取到了&amp;quot;in stock&amp;quot;的状态，导致一个库存被售卖多次。&lt;/p&gt;
+&lt;p&gt;使用WATCH命令和事务可以解决这一问题：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;exec(WATCH stock:1001);
+if(exec(HGET stock:1001 state) == &amp;quot;in stock&amp;quot;) {
+    exec(MULTI);
+    exec(HSET stock:1001 state &amp;quot;sold&amp;quot;);
+    exec(EXEC);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;scripting&#34;&gt;Scripting&lt;/h3&gt;
+&lt;p&gt;通过EVAL与EVALSHA命令，可以让Redis执行LUA脚本。这就类似于RDBMS的存储过程一样，可以把客户端与Redis之间密集的读/写交互放在服务端进行，避免过多的数据交互，提升性能。&lt;/p&gt;
+&lt;p&gt;Scripting功能是作为事务功能的替代者诞生的，事务提供的所有能力Scripting都可以做到。Redis官方推荐使用LUA Script来代替事务，前者的效率和便利性都超过了事务。&lt;/p&gt;
+&lt;h1 id=&#34;4-redis-的线程模型&#34;&gt;4、redis 的线程模型&lt;/h1&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://i.loli.net/2020/03/01/jPaFHioVCWIKdz1.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;redis&lt;/code&gt;内部使用文件事件处理器 &lt;code&gt;fileeventhandler&lt;/code&gt;，这个文件事件处理器是单线程的，所以 &lt;code&gt;redis&lt;/code&gt;才叫做单线程的模型。它采用 IO多路复用机制同时监听多个 socket，根据 socket 上的事件来选择对应的事件处理器进行处理。&lt;br&gt;
+文件事件处理器的结构包含 4 个部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;多个-socket&#34;&gt;多个 socket&lt;/h5&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;io-多路复用程序&#34;&gt;IO 多路复用程序&lt;/h5&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;文件事件分派器&#34;&gt;文件事件分派器&lt;/h5&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;事件处理器连接应答处理器-命令请求处理器-命令回复处理器&#34;&gt;事件处理器（连接应答处理器、命令请求处理器、命令回复处理器）&lt;/h5&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;多个 socket 可能会并发产生不同的操作，每个操作对应不同的文件事件，但是 IO 多路复用程序会监听多个 socket，会将 socket 产生的事件放入队列中排队，事件分派器每次从队列中取出一个事件，把该事件交给对应的事件处理器进行处理。&lt;/p&gt;
+&lt;h2 id=&#34;单线程的redis为什么这么快&#34;&gt;单线程的redis为什么这么快？&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/eeeee&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;Redis&lt;/strong&gt;采用的是基于内存的采用的是单进程单线程模型的 KV 数据库，由C语言编写，官方提供的数据是可以达到100000+的&lt;strong&gt;QPS（每秒内查询次数）&lt;/strong&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;mark&gt;完全基于内存&lt;/mark&gt;，绝大部分请求是纯粹的内存操作，非常快速。它的，数据存在内存中，类似于&lt;strong&gt;HashMap&lt;/strong&gt;，&lt;strong&gt;HashMap&lt;/strong&gt;的优势就是查找和操作的时间复杂度都是O(1)；&lt;/li&gt;
+&lt;li&gt;C语言实现，优化过的数据结构，基于几种基础的数据结构，redis做了大量的优化，性能极高；&lt;/li&gt;
+&lt;li&gt;采用单线程避免了不必要的上下文切换和竞争条件，也不存在多进程或者多线程导致的切换而消耗 &lt;strong&gt;CPU&lt;/strong&gt;，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗；&lt;/li&gt;
+&lt;li&gt;使用多路I/O复用模型，非阻塞IO；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;那为什么redis60之后又改用多线程呢&#34;&gt;那为什么Redis6.0之后又改用多线程呢?&lt;/h4&gt;
+&lt;p&gt;redis使用多线程并非是完全摒弃单线程，redis还是使用单线程模型来处理客户端的请求，只是使用多线程来处理数据的读写和协议解析，执行命令还是使用单线程。&lt;/p&gt;
+&lt;p&gt;这样做的目的是因为redis的性能瓶颈在于网络IO而非CPU，使用多线程能提升IO读写的效率，从而整体提高redis的性能。&lt;/p&gt;
+&lt;h1 id=&#34;5-redis的过期策略以及内存淘汰机制&#34;&gt;5、redis的过期策略以及内存淘汰机制&lt;/h1&gt;
+&lt;h2 id=&#34;最大内存设置&#34;&gt;最大内存设置&lt;/h2&gt;
+&lt;p&gt;默认情况下，在32位OS中，Redis最大使用3GB的内存，在64位OS中则没有限制。在使用Redis时，应该对数据占用的最大空间有一个基本准确的预估，并为Redis设定最大使用的内存。否则在64位OS中Redis会无限制地占用内存（当物理内存被占满后会使用swap空间），容易引发各种各样的问题。通过如下配置控制Redis使用的最大内存：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;maxmemory 100mb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在内存占用达到了maxmemory后，再向Redis写入数据时，Redis会：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;根据配置的数据淘汰策略尝试淘汰数据，释放空间&lt;/li&gt;
+&lt;li&gt;如果没有数据可以淘汰，或者没有配置数据淘汰策略，那么Redis会对所有写请求返回错误，但读请求仍然可以正常执行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在为Redis设置maxmemory时，需要注意：&lt;/p&gt;
+&lt;p&gt;如果采用了Redis的主从同步，主节点向从节点同步数据时，会占用掉一部分内存空间&lt;/p&gt;
+&lt;p&gt;如果maxmemory过于接近主机的可用内存，会导致数据同步时内存不足。&lt;/p&gt;
+&lt;p&gt;所以设置的maxmemory不要过于接近主机可用的内存，留出一部分预留用作主从同步。&lt;/p&gt;
+&lt;h3 id=&#34;redis的过期策略有哪些&#34;&gt;Redis的过期策略有哪些？&lt;/h3&gt;
+&lt;p&gt;redis主要有2种过期删除策略&lt;/p&gt;
+&lt;h4 id=&#34;惰性删除&#34;&gt;惰性删除&lt;/h4&gt;
+&lt;p&gt;惰性删除指的是当我们查询key的时候才对key进行检测，如果已经达到过期时间，则删除。显然，他有一个缺点就是如果这些过期的key没有被访问，那么他就一直无法被删除，而且一直占用内存。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotTUJJNic94cee1OKFlibBEJpiazwQu2YRicbyicicpYiboFYicnDETibNddYdO7A/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h4 id=&#34;定期删除&#34;&gt;定期删除&lt;/h4&gt;
+&lt;p&gt;定期删除指的是redis每隔一段时间对数据库做一次检查，删除里面的过期key。由于不可能对所有key去做轮询来删除，所以redis会每次随机取一些key去做检查和删除。&lt;/p&gt;
+&lt;h4 id=&#34;为什么不用定时删除策略&#34;&gt;为什么不用定时删除策略?&lt;/h4&gt;
+&lt;p&gt;定时删除,用一个定时器来负责监视key,过期则自动删除。虽然内存及时释放，但是十分消耗CPU资源。在大并发请求下，CPU要将时间应用在处理请求，而不是删除key,因此没有采用这一策略.&lt;/p&gt;
+&lt;h2 id=&#34;采用定期删除惰性删除就没其他问题了么&#34;&gt;采用定期删除+惰性删除就没其他问题了么?&lt;/h2&gt;
+&lt;p&gt;不是的，如果定期删除没删除key。然后你也没即时去请求key，也就是说惰性删除也没生效。这样，redis的内存会越来越高。那么就应该采用内存淘汰机制。&lt;br&gt;
+在&lt;code&gt;redis.con&lt;/code&gt;f中有一行配置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;axmemory-policy allkeys-lru
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;1. volatile-lru：从已设置过期时间的key中，移出最近最少使用的key进行淘汰
+2. volatile-ttl：从已设置过期时间的key中，移出将要过期的key
+3. volatile-random：从已设置过期时间的key中随机选择key淘汰
+4. allkeys-lru：从key中选择最近最少使用的进行淘汰
+5. allkeys-random：从key中随机选择key进行淘汰
+6. noeviction：当内存达到阈值的时候，新写入操作报错
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用LinkedHashMap实现LRU&lt;br&gt;
+LinkedHashMap底层就是用的HashMap加双链表实现的，而且本身已经实现了按照访问顺序的存储。此外，LinkedHashMap中本身就实现了一个方法&lt;code&gt;removeEldestEntry&lt;/code&gt;用于判断是否需要移除最不常读取的数，方法默认是直接返回false，不会移除元素，所以需要重写该方法。即当缓存满后就移除最不常用的数。这个方法会在put的时候调用。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/1232&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h1 id=&#34;6-redis和数据库双写一致性问题&#34;&gt;6、redis和数据库双写一致性问题&lt;/h1&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboard-1577014101951.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;1.如果删除了缓存Redis，还没有来得及写库MySQL，另一个线程就来读取，发现缓存为空，则去数据库中读取数据写入缓存，此时缓存中为脏数据&lt;/p&gt;
+&lt;p&gt;2.如果先写了库，在删除缓存前，则也会出现数据不一致情况。&lt;/p&gt;
+&lt;p&gt;数据库和缓存双写，就必然会存在不一致的问题。答这个问题，先明白一个前提。就是如果对数据有强一致性要求，不能放缓存。我们所做的一切，只能保证最终一致性。另外，我们所做的方案其实从根本上来说，只能说降低不一致发生的概率，无法完全避免。&lt;br&gt;
+缓存和数据库一致性解决方案&lt;/p&gt;
+&lt;h2 id=&#34;1第一种方案采用延时双删策略&#34;&gt;1.第一种方案：采用延时双删策略&lt;/h2&gt;
+&lt;p&gt;在写库前后都进行&lt;code&gt;redis.del(key)&lt;/code&gt;操作，并且设定合理的超时时间。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public void write( String key, Object data )
+{
+    redis.delKey( key );
+    db.updateData( data );
+    Thread.sleep( 500 );//确保数据库写完
+    redis.delKey( key );
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;需要评估自己的项目的读数据业务逻辑的耗时。这么做的目的，就是&lt;strong&gt;确保读请求结束&lt;/strong&gt;，&lt;strong&gt;写请求可以删除读请求造成的缓存脏数据&lt;/strong&gt;。&lt;br&gt;
+从理论上来说，给缓存设置过期时间，是保证最终一致性的解决方案。所有的写操作以数据库为准，只要到达缓存过期时间，则后面的读请求自然会从数据库中读取新值然后回填缓存。&lt;br&gt;
+该方案的弊端：结合双删策略+缓存超时设置，这样最差的情况就是在超时时间内数据存在不一致，而且又增加了写请求的耗时。&lt;/p&gt;
+&lt;h2 id=&#34;2-第二种方案异步更新缓存基于订阅binlog的同步机制&#34;&gt;2、第二种方案：异步更新缓存(基于订阅&lt;code&gt;binlog&lt;/code&gt;的同步机制)&lt;/h2&gt;
+&lt;p&gt;MySQL &lt;code&gt;binlog&lt;/code&gt;增量订阅消费+消息队列+增量数据更新到redis&lt;/p&gt;
+&lt;p&gt;读取&lt;code&gt;binlog&lt;/code&gt;后分析 ，利用消息队列,推送更新各台的redis缓存数据。&lt;br&gt;
+这样一旦MySQL中产生了新的写入、更新、删除等操作，就可以把&lt;code&gt;binlog&lt;/code&gt;相关的消息推送至Redis，Redis再根据&lt;code&gt;binlog&lt;/code&gt;中的记录，对Redis进行更新。其实这种机制，很类似MySQL的主从备份机制，因为MySQL的主备也是通过&lt;code&gt;binlog&lt;/code&gt;来实现的数据一致性。&lt;/p&gt;
+&lt;h1 id=&#34;7-如何应对缓存穿透和缓存雪崩问题&#34;&gt;7、如何应对缓存穿透和缓存雪崩问题&lt;/h1&gt;
+&lt;h2 id=&#34;1-缓存穿透&#34;&gt;1、缓存穿透&lt;/h2&gt;
+&lt;p&gt;缓存穿透是指查询不存在缓存中的数据，每次请求都会打到DB，就像缓存不存在一样。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotfyfg1VfmxRiaxwqyukuox5QNiazUlicn7FJ9Anicbl8bPGf25VMYNYhKuQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;解决方案:&lt;br&gt;
+(一)利用互斥锁，缓存失效的时候，先去获得锁，&lt;strong&gt;得到锁了再去请求数据库&lt;/strong&gt;。没得到锁，则休眠一段时间重试；&lt;br&gt;
+(二)采用异步更新策略，无论key是否取到值，都直接返回，不再去读数据库。value值中维护一个缓存失效时间，缓存如果过期，&lt;strong&gt;异步起一个线程去读数据库，更新缓存&lt;/strong&gt;。需要做缓存预热(项目启动前，先加载缓存)操作。&lt;br&gt;
+(三)提供一个能迅速判断请求是否有效的拦截机制，比如，利用&lt;strong&gt;布隆过滤器&lt;/strong&gt;，内部维护一系列合法有效的key。迅速判断出，请求所携带的Key是否合法有效。如果不合法，则直接返回。&lt;/p&gt;
+&lt;p&gt;显然，使用布隆过滤器之后会有一个问题就是误判，因为它本身是一个数组，可能会有多个值落到同一个位置，那么理论上来说只要我们的数组长度够长，误判的概率就会越低，这种问题就根据实际情况来就好了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotwmfeKnHQeeQqYdkcqnYV61WpN3SKnJCxqpAZ1XauEAz6WyooC542KA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;2-缓存雪崩&#34;&gt;2、缓存雪崩&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot0TVVVSI3kCN5mQIUwIU0jZeaZylKHeFRibbf473TNs9fF1Ut0Gg3rAg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;即&lt;strong&gt;缓存同一时间大面积的失效&lt;/strong&gt;，新缓存未到期间，这个时候又来了一波请求，结果请求都怼到数据库上，从而导致数据库连接异常而对数据库CPU和内存造成巨大压力，严重的会造成数据库宕机。从而形成一系列连锁反应，造成整个系统崩溃。&lt;br&gt;
+解决方案:&lt;br&gt;
+(一)给缓存的失效时间，加上一个随机值，避免集体失效。&lt;br&gt;
+(二)使用互斥锁，获取锁后才能去&lt;strong&gt;读数据库&lt;/strong&gt;，但是该方案吞吐量明显下降了。&lt;br&gt;
+(三)双缓存。我们有两个缓存，缓存A和缓存B。缓存A的失效时间为20分钟，缓存B不设失效时间。自己做缓存预热操作。然后细分以下几个小点&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从缓存A读数据库，有则直接返回&lt;/li&gt;
+&lt;li&gt;A没有数据，直接从B读数据，直接返回，并且异步启动一个更新线程。&lt;/li&gt;
+&lt;li&gt;更新线程同时更新缓存A和缓存B。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-缓存击穿&#34;&gt;&lt;strong&gt;3、缓存击穿&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;缓存击穿&lt;/strong&gt;是指一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，就像在一个完好无损的桶上凿开了一个洞。这个和热key的问题比较类似，只是说的点在于&lt;strong&gt;过期导致请求全部打到DB上而已&lt;/strong&gt;。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot15ia9NJVxN1r9QDltntLmqC5MxBBlIOOBDvnvNBiciaYXFcOut4ZD5p1g/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;解决方案：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;加锁更新，比如请求查询A，发现缓存中没有，对A这个key加锁，同时去数据库查询数据，写入缓存，再返回给用户，这样后面的请求就可以从缓存中拿到数据了。&lt;/li&gt;
+&lt;li&gt;将过期时间组合写在value中，通过异步的方式不断的刷新过期时间，防止此类现象。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;设置热点数据永远不过期&lt;/strong&gt;。或者加上互斥锁就能搞定了&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;4-缓存预热&#34;&gt;4、缓存预热&lt;/h2&gt;
+&lt;p&gt;缓存预热这个应该是一个比较常见的概念，缓存预热就是&lt;strong&gt;系统上线后，将相关的缓存数据直接加载到缓存系统&lt;/strong&gt;。这样就可以避免在用户请求的时候，先查询数据库，然后再将数据缓存的问题！用户直接查询事先被预热的缓存数据！&lt;br&gt;
+解决思路：&lt;br&gt;
+1、直接写个缓存刷新页面，上线时手工操作下；&lt;br&gt;
+2、数据量不大，可以在项目启动的时候自动进行加载；&lt;br&gt;
+3、定时刷新缓存；&lt;/p&gt;
+&lt;h2 id=&#34;5-自定义的缓存淘汰&#34;&gt;5、自定义的缓存淘汰&lt;/h2&gt;
+&lt;p&gt;除了缓存服务器自带的缓存失效策略之外（Redis默认的有6中策略可供选择），我们还可以根据具体的业务需求进行自定义的缓存淘汰，常见的策略有两种：&lt;br&gt;
+（1）定时去清理过期的缓存；&lt;br&gt;
+（2）当有用户请求过来时，再判断这个请求所用到的缓存是否过期，过期的话就去底层系统得到新数据并更新缓存。&lt;br&gt;
+两者各有优劣，第一种的缺点是维护大量缓存的key是比较麻烦的，第二种的缺点就是每次用户请求过来都要判断缓存失效，逻辑相对比较复杂&lt;/p&gt;
+&lt;h2 id=&#34;6-缓存降级&#34;&gt;6、缓存降级&lt;/h2&gt;
+&lt;p&gt;当访问量剧增、服务出现问题（如响应时间慢或不响应）或非核心服务影响到核心流程的性能时，仍然需要保证服务还是可用的，即使是有损服务。也就是在高并发高负载情况下，选择&lt;strong&gt;动态的关闭一下不重要的服务，拒绝访问等，来为重要的服务节省资源&lt;/strong&gt;&lt;br&gt;
+（1）一般：比如有些服务偶尔因为网络抖动或者服务正在上线而超时，可以自动降级；&lt;br&gt;
+（2）警告：有些服务在一段时间内成功率有波动（如在95~100%之间），可以自动降级或人工降级，并发送告警；&lt;br&gt;
+（3）错误：比如可用率低于90%，或者数据库连接池被打爆了，或者访问量突然猛增到系统能承受的最大阀值，此时可以根据情况自动降级或者人工降级；&lt;br&gt;
+（4）严重错误：比如因为特殊原因数据错误了，此时需要紧急人工降级。&lt;/p&gt;
+&lt;h1 id=&#34;8-如何解决redis的并发竞争key问题&#34;&gt;8、如何解决redis的并发竞争key问题&lt;/h1&gt;
+&lt;p&gt;同时有多个子系统去set一个key。&lt;br&gt;
+(1)如果对这个key操作，不要求顺序&lt;br&gt;
+这种情况下，准备一个&lt;strong&gt;Zookeeper&lt;/strong&gt; 分布式锁，大家去抢锁，抢到锁就做set操作即可，比较简单。&lt;br&gt;
+(2)如果对这个key操作，要求顺序&lt;br&gt;
+假设有一个key1,系统A需要将key1设置为&lt;code&gt;valueA&lt;/code&gt;,系统B需要将key1设置为&lt;code&gt;valueB&lt;/code&gt;,系统C需要将key1设置为&lt;code&gt;valueC&lt;/code&gt;.&lt;br&gt;
+期望按照key1的value值按照 &lt;code&gt;valueA&lt;/code&gt;--&amp;gt;&lt;code&gt;valueB&lt;/code&gt;--&amp;gt;&lt;code&gt;valueC&lt;/code&gt;的顺序变化。这种时候我们在数据写入数据库的时候，需要保存一个时间戳。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;系统A key 1 {valueA 3:00}
+系统B key 1 {valueB 3:05}
+系统C key 1 {valueC 3:10}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;假设这会系统B先抢到锁，将key1设置为{&lt;code&gt;valueB&lt;/code&gt;3:05}。接下来系统A抢到锁，发现自己的&lt;code&gt;valueA&lt;/code&gt;的时间戳早于缓存中的时间戳，那就不做set操作了。&lt;/p&gt;
+&lt;h1 id=&#34;9-redis-和-memcached的区别&#34;&gt;9、redis 和 &lt;code&gt;memcached&lt;/code&gt;的区别&lt;/h1&gt;
+&lt;p&gt;1、redis支持更丰富的数据类型（支持更复杂的应用场景）：Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，&lt;code&gt;zset&lt;/code&gt;，hash等数据结构的存储。&lt;code&gt;memcache&lt;/code&gt;支持简单的数据类型，String。&lt;br&gt;
+2、Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用,而&lt;code&gt;Memecache&lt;/code&gt;把数据全部存在内存之中。&lt;br&gt;
+3、集群模式：&lt;code&gt;memcached&lt;/code&gt;没有原生的集群模式，需要依靠客户端来实现往集群中分片写入数据；但是 redis 目前是原生支持 cluster 模式的.&lt;br&gt;
+4、&lt;code&gt;Memcached&lt;/code&gt;是多线程，非阻塞IO复用的网络模型；Redis使用单线程的多路 IO 复用模型。&lt;/p&gt;
+&lt;h1 id=&#34;10-redis-持久化机制&#34;&gt;10、redis 持久化机制&lt;/h1&gt;
+&lt;h2 id=&#34;1-快照持久化rdb&#34;&gt;1、快照持久化（RDB）&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;RDB&lt;/strong&gt; 持久化机制，是对 &lt;strong&gt;Redis&lt;/strong&gt; 中的数据执行&lt;strong&gt;周期性&lt;/strong&gt;的持久化。采用RDB持久方式，Redis会定期保存数据快照至一个rbd文件中，并在启动时自动加载rdb文件，恢复之前保存的数据。&lt;/p&gt;
+&lt;p&gt;可以通过SAVE或者BGSAVE来生成RDB文件。&lt;/p&gt;
+&lt;p&gt;SAVE命令会阻塞redis进程，直到RDB文件生成完毕，在进程阻塞期间，redis不能处理任何命令请求，这显然是不合适的。&lt;/p&gt;
+&lt;p&gt;BGSAVE则是会fork出一个子进程，然后由子进程去负责生成RDB文件，父进程还可以继续处理命令请求，不会阻塞进程。&lt;/p&gt;
+&lt;h4 id=&#34;优点&#34;&gt;优点：&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;对性能影响最小。如前文所述，Redis在保存RDB快照时会fork出子进程进行，几乎不影响Redis处理客户端请求的效率。&lt;/li&gt;
+&lt;li&gt;每次快照会生成一个完整的数据快照文件，所以可以辅以其他手段保存多个时间点的快照（例如把每天0点的快照备份至其他存储媒介中），作为非常可靠的灾难恢复手段。&lt;/li&gt;
+&lt;li&gt;使用RDB文件进行数据恢复比使用AOF要快很多。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;缺点&#34;&gt;缺点：&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;快照是定期生成的，所以在Redis crash时或多或少会丢失一部分数据。&lt;/li&gt;
+&lt;li&gt;如果数据集非常大且CPU不够强（比如单核CPU），Redis在fork子进程时可能会消耗相对较长的时间（长至1秒），影响这期间的客户端请求。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-aof持久化&#34;&gt;2、AOF持久化&lt;/h2&gt;
+&lt;p&gt;采用AOF持久方式时，Redis会把每一个写请求都记录在一个日志文件里。在Redis重启时，会把AOF文件中记录的所有写操作顺序执行一遍，确保数据恢复到最新。&lt;/p&gt;
+&lt;p&gt;AOF默认是关闭的，如要开启，进行如下配置：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;appendonly yes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;AOF通过追加、写入、同步三个步骤来实现持久化机制。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当AOF持久化处于激活状态，服务器执行完写命令之后，写命令将会被追加append到aof_buf缓冲区的末尾&lt;/li&gt;
+&lt;li&gt;在服务器每结束一个事件循环之前，将会调用flushAppendOnlyFile函数决定是否要将aof_buf的内容保存到AOF文件中，可以通过配置appendfsync来决定。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;AOF提供了三种fsync配置，always/everysec/no，通过配置项[appendfsync]指定：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;appendfsync no&lt;/strong&gt;：不进行fsync，将flush文件的时机交给OS决定，速度最快&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;appendfsync always&lt;/strong&gt;：每写入一条日志就进行一次fsync操作，数据安全性最高，但速度最慢&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;appendfsync everysec&lt;/strong&gt;：折中的做法，交由后台线程每秒fsync一次&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;随着AOF不断地记录写操作日志，必定会出现一些无用的日志，例如某个时间点执行了命令&lt;strong&gt;SET key1 &amp;quot;abc&amp;quot;&lt;/strong&gt;，在之后某个时间点又执行了&lt;strong&gt;SET key1 &amp;quot;bcd&amp;quot;&lt;/strong&gt;，那么第一条命令很显然是没有用的。大量的无用日志会让AOF文件过大，也会让数据恢复的时间过长。&lt;/p&gt;
+&lt;p&gt;所以Redis提供了&lt;strong&gt;AOF rewrite&lt;/strong&gt;功能，可以重写AOF文件，只保留能够把数据恢复到最新状态的最小写操作集。&lt;/p&gt;
+&lt;p&gt;AOF rewrite可以通过&lt;strong&gt;BGREWRITEAOF&lt;/strong&gt;命令触发，也可以配置Redis定期自动进行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面两行配置的含义是，Redis在每次AOF rewrite时，会记录完成rewrite后的AOF日志大小，当AOF日志大小在该基础上增长了100%后，自动进行AOF rewrite。同时如果增长的大小没有达到64mb，则不会进行rewrite。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AOF的优点：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最安全，在启用appendfsync always时，任何已写入的数据都不会丢失，使用在启用appendfsync everysec也至多只会丢失1秒的数据。&lt;/li&gt;
+&lt;li&gt;AOF文件在发生断电等问题时也不会损坏，即使出现了某条日志只写入了一半的情况，也可以使用redis-check-aof工具轻松修复。&lt;/li&gt;
+&lt;li&gt;AOF文件易读，可修改，在进行了某些错误的数据清除操作后，只要AOF文件没有rewrite，就可以把AOF文件备份出来，把错误的命令删除，然后恢复数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;AOF的缺点：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AOF文件通常比RDB文件更大&lt;/li&gt;
+&lt;li&gt;性能消耗比RDB高&lt;/li&gt;
+&lt;li&gt;数据恢复速度比RDB慢&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;11-怎么实现redis的高可用&#34;&gt;11、怎么实现Redis的高可用？&lt;/h1&gt;
+&lt;p&gt;要想实现高可用，一台机器肯定是不够的，而redis要保证高可用，有2个可选方案。&lt;/p&gt;
+&lt;h2 id=&#34;主从架构&#34;&gt;主从架构&lt;/h2&gt;
+&lt;p&gt;主从模式是最简单的实现高可用的方案，核心就是主从同步。主从同步的原理如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;slave发送sync命令到master&lt;/li&gt;
+&lt;li&gt;master收到sync之后，执行bgsave，生成RDB全量文件&lt;/li&gt;
+&lt;li&gt;master把slave的写命令记录到缓存&lt;/li&gt;
+&lt;li&gt;bgsave执行完毕之后，发送RDB文件到slave，slave执行&lt;/li&gt;
+&lt;li&gt;master发送缓存中的写命令到slave，slave执行&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotdopLgAB9KKiah8qqA71ZkztXrn885zDVCyFSnricEAPyWdo9w9lxG6icg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;这里我写的这个命令是sync，但是在redis2.8版本之后已经使用psync来替代sync了，原因是sync命令非常消耗系统资源，而psync的效率更高。&lt;/p&gt;
+&lt;h2 id=&#34;哨兵&#34;&gt;哨兵&lt;/h2&gt;
+&lt;p&gt;基于主从方案的缺点还是很明显的，假设master宕机，那么就不能写入数据，那么slave也就失去了作用，整个架构就不可用了，除非你手动切换，主要原因就是因为没有自动故障转移机制。而哨兵(sentinel)的功能比单纯的主从架构全面的多了，它具备自动故障转移、集群监控、消息通知等功能。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotgVjlOy0uURyKRueXhar16F3ndHj2sQOme4tLbAGwg4Pia5dzcucWhXA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;哨兵可以同时监视多个主从服务器，并且在被监视的master下线时，自动将某个slave提升为master，然后由新的master继续接收命令。整个过程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;初始化sentinel，将普通的redis代码替换成sentinel专用代码&lt;/li&gt;
+&lt;li&gt;初始化masters字典和服务器信息，服务器信息主要保存ip:port，并记录实例的地址和ID&lt;/li&gt;
+&lt;li&gt;创建和master的两个连接，命令连接和订阅连接，并且订阅sentinel:hello频道&lt;/li&gt;
+&lt;li&gt;每隔10秒向master发送info命令，获取master和它下面所有slave的当前信息&lt;/li&gt;
+&lt;li&gt;当发现master有新的slave之后，sentinel和新的slave同样建立两个连接，同时每个10秒发送info命令，更新master信息&lt;/li&gt;
+&lt;li&gt;sentinel每隔1秒向所有服务器发送ping命令，如果某台服务器在配置的响应时间内连续返回无效回复，将会被标记为下线状态&lt;/li&gt;
+&lt;li&gt;选举出领头sentinel，领头sentinel需要半数以上的sentinel同意&lt;/li&gt;
+&lt;li&gt;领头sentinel从已下线的的master所有slave中挑选一个，将其转换为master&lt;/li&gt;
+&lt;li&gt;让所有的slave改为从新的master复制数据&lt;/li&gt;
+&lt;li&gt;将原来的master设置为新的master的从服务器，当原来master重新回复连接时，就变成了新master的从服务器&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;sentinel会每隔1秒向所有实例（包括主从服务器和其他sentinel）发送ping命令，并且根据回复判断是否已经下线，这种方式叫做主观下线。当判断为主观下线时，就会向其他监视的sentinel询问，如果超过半数的投票认为已经是下线状态，则会标记为客观下线状态，同时触发故障转移。&lt;/p&gt;
+&lt;p&gt;主从复制，是指将一台&lt;code&gt;Redis&lt;/code&gt;服务器的数据，复制到其他的&lt;code&gt;Redis&lt;/code&gt;服务器。前者称为主节点(master)，后者称为从节点(slave)；数据的复制是单向的，只能由主节点到从节点。默认情况下，每台Redis服务器都是主节点；且一个主节点可以有多个从节点(或没有从节点)，但一个从节点只能有一个主节点。借助Redis的主从复制，可以实现读写分离和高可用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实时性要求不是特别高的读请求，可以在Slave上完成，提升效率。特别是一些周期性执行的统计任务，这些任务可能需要执行一些长耗时的Redis命令，可以专门规划出1个或几个Slave用于服务这些统计任务&lt;/li&gt;
+&lt;li&gt;借助Redis Sentinel可以实现高可用，当Master crash后，Redis Sentinel能够自动将一个Slave晋升为Master，继续提供服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;集群&#34;&gt;集群&lt;/h2&gt;
+&lt;p&gt;为何要做集群分片：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Redis中存储的数据量大，一台主机的物理内存已经无法容纳&lt;/li&gt;
+&lt;li&gt;Redis的写请求并发量大，一个Redis实例以无法承载&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当上述两个问题出现时，就必须要对Redis进行分片了。Redis的分片方案有很多种，例如很多Redis的客户端都自行实现了分片功能，也有像Twemproxy这样的以代理方式实现的Redis分片方案。然而首选的方案还应该是Redis官方在3.0版本中推出的Redis Cluster分片方案。&lt;/p&gt;
+&lt;h3 id=&#34;redis-cluster的能力&#34;&gt;Redis Cluster的能力&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;能够自动将数据分散在多个节点上&lt;/li&gt;
+&lt;li&gt;当访问的key不在当前分片上时，能够自动将请求转发至&lt;strong&gt;正确的分片&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;当集群中部分节点失效时仍能提供服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中第三点是基于主从复制来实现的，Redis Cluster的每个数据分片都采用了主从复制的结构，原理和前文所述的主从复制完全一致。唯一的区别是省去了Redis Sentinel这一额外的组件，由Redis Cluster负责进行一个分片内部的节点监控和自动failover。&lt;/p&gt;
+&lt;h3 id=&#34;节点&#34;&gt;节点&lt;/h3&gt;
+&lt;p&gt;一个redis集群由多个节点node组成，而多个node之间通过cluster meet命令来进行连接，节点的握手过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;节点A收到客户端的cluster meet命令&lt;/li&gt;
+&lt;li&gt;A根据收到的IP地址和端口号，向B发送一条meet消息&lt;/li&gt;
+&lt;li&gt;节点B收到meet消息返回pong&lt;/li&gt;
+&lt;li&gt;A知道B收到了meet消息，返回一条ping消息，握手成功&lt;/li&gt;
+&lt;li&gt;最后，节点A将会通过gossip协议把节点B的信息传播给集群中的其他节点，其他节点也将和B进行握手&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot333fTiaaCA3ibxfwpnZ8VbzLkaM4cxHs23REHZVCibGUF4GdZmLNviaPYQ/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h4 id=&#34;redis-cluster分片原理&#34;&gt;Redis Cluster分片原理&lt;/h4&gt;
+&lt;p&gt;Redis Cluster中共有16384个&lt;strong&gt;hash slot&lt;/strong&gt;，Redis会计算每个key的&lt;strong&gt;CRC16，将结果与16384取模&lt;/strong&gt;，来决定该key存储在哪一个hash slot中，同时需要指定Redis Cluster中每个数据分片负责的Slot数，Slot的分配在任何时间点都可以进行重新分配。&lt;/p&gt;
+&lt;p&gt;当数据库16384个slot都有节点在处理时，集群处于上线状态，反之只要有一个slot没有得到处理都会处理下线状态。通过cluster addslots命令可以将slot指派给对应节点处理。&lt;/p&gt;
+&lt;p&gt;slot是一个位数组，数组的长度是16384/8=2048，而数组的每一位用1表示被节点处理，0表示不处理，如图所示的话表示A节点处理0-7的slot。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAot9WNKa3CWnMYFY4JK5MKCOdcUZYmsYtpa7RNofu11gamgcRibyU14y0g/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;客户端在对key进行读写操作时，可以连接Cluster中的任意一个分片，如果操作的key不在此分片负责的Slot范围内，则会返回一个MOVED命令到客户端指引客户端转向正确的节点。（MOVED过程是自动的）&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/mmbiz_jpg/ibBMVuDfkZUmIwmSMLlrCHEj66HjJlAotRea7czTYia2kyQric4rkZOdnbfD7U4WHLErfu6BjU4jvTGicGZFLVTaicA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;如果增加或者移出节点，对于slot的重新分配也是非常方便的，redis提供了工具帮助实现slot的迁移，整个过程是完全在线的，不需要停止服务。&lt;/p&gt;
+&lt;h4 id=&#34;hash-tags&#34;&gt;hash tags&lt;/h4&gt;
+&lt;p&gt;在基础的分片原则上，Redis还支持hash tags功能，以hash tags要求的格式明明的key，将会确保进入&lt;strong&gt;同一个Slot中&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;例如：{uiv}user:1000和{uiv}user:1001拥有同样的hash tag {uiv}，会保存在同一个Slot中。&lt;/p&gt;
+&lt;p&gt;使用Redis Cluster时，pipelining、事务和LUA Script功能涉及的key必须在同一个数据分片上，否则将会返回错误。&lt;/p&gt;
+&lt;p&gt;如要在Redis Cluster中使用上述功能，就必须通过hash tags来确保一个pipeline或&lt;strong&gt;一个事务中操作的所有key都位于同一个Slot中&lt;/strong&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有一些客户端（如Redisson）实现了集群化的pipelining操作，可以自动将一个pipeline里的命令按key所在的分片进行分组，分别发到不同的分片上执行。&lt;/p&gt;
+&lt;p&gt;但是Redis不支持跨分片的事务，事务和LUA Script还是必须遵循所有key在一个分片上的规则要求。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;故障转移&#34;&gt;故障转移&lt;/h3&gt;
+&lt;p&gt;如果节点A向节点B发送ping消息，节点B没有在规定的时间内响应pong，那么节点A会标记节点B为pfail疑似下线状态，同时把B的状态通过消息的形式发送给其他节点，如果超过半数以上的节点都标记B为pfail状态，B就会被标记为fail下线状态，此时将会发生故障转移，优先从复制数据较多的从节点选择一个成为主节点，并且接管下线节点的slot，整个过程和哨兵非常类似，都是基于Raft协议做选举。&lt;/p&gt;
+&lt;h3 id=&#34;主从复制-vs-集群分片&#34;&gt;主从复制 vs 集群分片&lt;/h3&gt;
+&lt;p&gt;在设计软件架构时，要如何在主从复制和集群分片两种部署方案中取舍呢？&lt;/p&gt;
+&lt;p&gt;从各个方面看，Redis Cluster都是优于主从复制的方案&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Redis Cluster能够解决单节点上&lt;strong&gt;数据量过大&lt;/strong&gt;的问题&lt;/li&gt;
+&lt;li&gt;Redis Cluster能够解决单节点&lt;strong&gt;访问压力过大&lt;/strong&gt;的问题&lt;/li&gt;
+&lt;li&gt;Redis Cluster包含了&lt;strong&gt;主从复制的能力&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;软件架构永远不是越复杂越好，复杂的架构在带来显著好处的同时，一定也会带来相应的弊端。采用Redis Cluster的弊端包括：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1、维护难度增加&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;在使用Redis Cluster时，需要维护的Redis实例数倍增，需要监控的主机数量也相应增加，数据备份/持久化的复杂度也会增加。同时在进行分片的增减操作时，还需要进行reshard操作，远比主从模式下增加一个Slave的复杂度要高。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2、客户端资源消耗增加&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;当客户端使用连接池时，需要为每一个数据分片维护一个连接池，客户端同时需要保持的连接数成倍增多，加大了客户端本身和操作系统资源的消耗。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3、性能优化难度增加&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你可能需要在多个分片上查看Slow Log和Swap日志才能定位性能问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4、事务和LUA Script的使用成本增加&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在Redis Cluster中使用事务和LUA Script特性有严格的限制条件&lt;/p&gt;
+&lt;p&gt;事务和Script中操作的key必须位于同一个分片上，这就使得在开发时必须对相应场景下涉及的key进行额外的规划和规范要求。&lt;/p&gt;
+&lt;p&gt;如果应用的场景中大量涉及事务和Script的使用，如何在保证这两个功能的正常运作前提下把数据平均分到多个数据分片中就会成为难点。&lt;/p&gt;
+&lt;p&gt;所以，在主从复制和集群分片两个方案中做出选择时，应该从应用软件的功能特性、数据和访问量级、未来发展规划等方面综合考虑，只在&lt;strong&gt;确实有必要&lt;/strong&gt;引入数据分片时再使用Redis Cluster。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;下面是一些建议：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;需要在Redis中存储的数据有多大？未来2年内可能发展为多大？这些数据是否都需要长期保存？是否可以使用LRU算法进行非热点数据的淘汰？综合考虑前面几个因素，评估出Redis需要使用的物理内存。&lt;/li&gt;
+&lt;li&gt;用于部署Redis的主机物理内存有多大？有多少可以分配给Redis使用？对比(1)中的内存需求评估，是否足够用？&lt;/li&gt;
+&lt;li&gt;Redis面临的并发写压力会有多大？在不使用pipelining时，Redis的写性能可以超过10万次/秒（更多的benchmark可以参考 https://redis.io/topics/benchmarks ）&lt;/li&gt;
+&lt;li&gt;在使用Redis时，是否会使用到pipelining和事务功能？使用的场景多不多？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;综合上面几点考虑，如果单台主机的可用物理内存完全足以支撑对Redis的容量需求，且Redis面临的并发写压力距离Benchmark值还尚有距离，建议采用主从复制的架构，可以省去很多不必要的麻烦。&lt;/p&gt;
+&lt;p&gt;同时，如果应用中大量使用pipelining和事务，也建议尽可能选择主从复制架构，可以减少设计和开发时的复杂度。&lt;/p&gt;
+&lt;h1 id=&#34;12-热点缓存&#34;&gt;12、&lt;strong&gt;热点缓存&lt;/strong&gt;&lt;/h1&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;20&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226191608229.png&#34; alt=&#34;image-20191226191608229&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;所谓热key问题就是，突然有几十万的请求去访问redis上的某个特定key，那么这样会造成流量过于集中，达到物理网卡上限，导致缓存机器会过度操劳而宕机的，那么如果缓存集群开始出现机器的宕机，读请求发现读不到数据，会从数据库里提取原始数据，然后放入剩余的其他缓存机器里去。但是接踵而来的每秒20万请求，会再次压垮其他的缓存机器。以此类推，最终导致缓存集群全盘崩溃，引发系统整体宕机。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;21&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226191809323.png&#34; alt=&#34;image-20191226191809323&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;​	针对热key的解决方案：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;提前把热key打散到不同的服务器，降低压力&lt;/li&gt;
+&lt;li&gt;加入二级缓存，提前加载热key数据到内存中，如果redis宕机，走内存查询&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;基于流式计算技术的缓存热点自动发现&#34;&gt;&lt;strong&gt;基于流式计算技术的缓存热点自动发现&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;就是对于这种热点缓存，你的系统需要能够在热点缓存突然发生的时候，直接发现他，然后瞬间立马实现毫秒级的自动负载均衡。&lt;/p&gt;
+&lt;h3 id=&#34;如何自动发现热点缓存问题&#34;&gt;如何自动发现热点缓存问题？&lt;/h3&gt;
+&lt;p&gt;此时完全可以基于大数据领域的流式计算技术来进行实时数据访问次数的统计，比如spark streaming，这些技术都是可以的。&lt;/p&gt;
+&lt;p&gt;然后一旦在实时数据访问次数统计的过程中，比如发现一秒之内，某条数据突然访问次数超过了1000，就直接立马把这条数据判定为是热点数据，可以将这个发现出来的热点数据写入比如zookeeper中。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;22&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192117134.png&#34; alt=&#34;image-20191226192117134&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;热点缓存自动加载为jvm本地缓存&#34;&gt;&lt;strong&gt;热点缓存自动加载为JVM本地缓存&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;我们自己的系统可以对&lt;strong&gt;zookeeper&lt;/strong&gt;指定的热点缓存对应的&lt;strong&gt;znode&lt;/strong&gt;进行监听，如果有变化他立马就可以感知到了。&lt;/p&gt;
+&lt;p&gt;此时系统层就可以立马把相关的缓存数据从数据库加载出来，然后直接放在自己系统内部的本地缓存里即可。那么每个机器本地都会有一份热点缓存的副本。&lt;/p&gt;
+&lt;p&gt;然后接下来对热点缓存的读操作，直接系统本地缓存读出来就给返回了，不用再走缓存集群了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;23&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192254878.png&#34; alt=&#34;image-20191226192254878&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;限流熔断保护&#34;&gt;&lt;strong&gt;限流熔断保护&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;在每个系统内部，其实还应该专门加一个对热点数据访问的限流熔断保护措施。每个系统实例内部，都可以加一个熔断保护机制，假设缓存集群最多每秒承载4万读请求，那么你一共有100个系统实例。你自己就该限制好，每个系统实例每秒最多请求缓存集群读操作不超过400次，一超过就可以熔断掉，不让请求缓存集群，直接返回一个空白信息，然后用户稍后会自行再次重新刷新页面之类的。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;24&#34;&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/image-20191226192409935.png&#34; alt=&#34;image-20191226192409935&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h1 id=&#34;13-redis性能调优&#34;&gt;13、Redis性能调优&lt;/h1&gt;
+&lt;p&gt;尽管Redis是一个非常快速的内存数据存储媒介，也并不代表Redis不会产生性能问题。前文中提到过，Redis采用单线程模型，所有的命令都是由一个线程串行执行的。所以当某个命令执行耗时较长时，会拖慢其后的所有命令，这使得Redis对每个任务的执行效率更加敏感。&lt;/p&gt;
+&lt;h3 id=&#34;长耗时命令&#34;&gt;长耗时命令&lt;/h3&gt;
+&lt;p&gt;Redis绝大多数读写命令的时间复杂度都在O(1)到O(N)之间，O(1)的命令是安全的，O(N)命令在使用时需要注意，如果N的数量级不可预知，则应避免使用。&lt;/p&gt;
+&lt;p&gt;例如对一个field数未知的Hash数据执行HGETALL/HKEYS/HVALS命令，通常来说这些命令执行的很快，但如果这个Hash中的field数量极多，耗时就会成倍增长。又如使用SUNION对两个Set执行Union操作，或使用SORT对List/Set执行排序操作等时，都应该严加注意。&lt;/p&gt;
+&lt;p&gt;避免在使用这些O(N)命令时发生问题主要有几个办法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;不要把List当做列表使用，仅当做队列来使用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通过机制严格控制Hash、Set、Sorted Set的大小&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可能的话，将排序、并集、交集等操作放在客户端执行&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;绝对禁止使用KEYS命令&lt;/p&gt;
+&lt;p&gt;避免一次性遍历集合类型的所有成员，而应使用SCAN类的命令进行分批的，游标式的遍历。Redis提供了SCAN命令，可以对Redis中存储的所有key进行游标式的遍历，避免使用KEYS命令带来的性能问题。同时还有SSCAN/HSCAN/ZSCAN等命令，分别用于对Set/Hash/Sorted Set中的元素进行游标式遍历。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Redis提供了Slow Log功能，可以自动记录耗时较长的命令。相关的配置参数有两个：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;slowlog-log-slower-than xxxms  #执行时间慢于xxx毫秒的命令计入Slow Log
+slowlog-max-len xxx  #Slow Log的长度，即最大纪录多少条Slow Log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用&lt;strong&gt;SLOWLOG GET [number]&lt;strong&gt;命令，可以输出最近进入Slow Log的number条命令。&lt;br&gt;
+使用&lt;/strong&gt;SLOWLOG RESET&lt;/strong&gt;命令，可以重置Slow Log&lt;/p&gt;
+&lt;h3 id=&#34;网络引发的延迟&#34;&gt;网络引发的延迟&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;尽可能使用长连接或连接池，避免频繁创建销毁连接&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;客户端进行的批量数据操作，应使用Pipeline特性在一次交互中完成。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;数据持久化引发的延迟&#34;&gt;数据持久化引发的延迟&lt;/h3&gt;
+&lt;p&gt;Redis的数据持久化工作本身就会带来延迟，需要根据数据的安全级别和性能要求制定合理的持久化策略：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AOF + fsync always的设置虽然能够绝对确保数据安全，但每个操作都会触发一次fsync，会对Redis的性能有比较明显的影响。&lt;/li&gt;
+&lt;li&gt;AOF + fsync every second是比较好的折中方案，每秒fsync一次&lt;/li&gt;
+&lt;li&gt;AOF + fsync never会提供AOF持久化方案下的最优性能&lt;/li&gt;
+&lt;li&gt;使用RDB持久化通常会提供比使用AOF更高的性能，但需要注意RDB的策略配置&lt;/li&gt;
+&lt;li&gt;每一次RDB快照和AOF Rewrite都需要Redis主进程进行fork操作。fork操作本身可能会产生较高的耗时，与CPU和Redis占用的内存大小有关。根据具体的情况合理配置RDB快照和AOF Rewrite时机，避免过于频繁的fork带来的延迟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;swap引发的延迟&#34;&gt;Swap引发的延迟&lt;/h3&gt;
+&lt;p&gt;当Linux将Redis所用的内存分页移至swap空间时，将会阻塞Redis进程，导致Redis出现不正常的延迟。&lt;/p&gt;
+&lt;p&gt;Swap通常在物理内存不足或一些进程在进行大量I/O操作时发生，应尽可能避免上述两种情况的出现。&lt;/p&gt;
+&lt;h3 id=&#34;数据淘汰引发的延迟&#34;&gt;数据淘汰引发的延迟&lt;/h3&gt;
+&lt;p&gt;当同一秒内有大量key过期时，也会引发Redis的延迟。在使用时应尽量将key的失效时间错开。&lt;/p&gt;
+&lt;h3 id=&#34;引入读写分离机制&#34;&gt;引入读写分离机制&lt;/h3&gt;
+&lt;p&gt;Redis的主从复制能力可以实现一主多从的多节点架构，在这一架构下，主节点接收所有写请求，并将数据同步给多个从节点。&lt;br&gt;
+在这一基础上，我们可以让从节点提供对实时性要求不高的读请求服务，以减小主节点的压力。尤其是针对一些使用了长耗时命令的统计类任务，完全可以指定在一个或多个从节点上执行，避免这些长耗时命令影响其他请求的响应。&lt;/p&gt;
+&lt;h1 id=&#34;14-redis-java客户端的选择&#34;&gt;14、Redis Java客户端的选择&lt;/h1&gt;
+&lt;p&gt;Redis的Java客户端很多，官方推荐的有三种：Jedis、Redisson和lettuce。&lt;/p&gt;
+&lt;h2 id=&#34;jedis&#34;&gt;Jedis：&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量，简洁，便于集成和改造&lt;/li&gt;
+&lt;li&gt;支持连接池&lt;/li&gt;
+&lt;li&gt;支持pipelining、事务、LUA Scripting、Redis Sentinel、Redis Cluster&lt;/li&gt;
+&lt;li&gt;不支持读写分离，需要自己实现&lt;/li&gt;
+&lt;li&gt;文档差（真的很差，几乎没有……）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;redisson&#34;&gt;Redisson：&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;基于Netty实现，采用非阻塞IO，性能高&lt;/li&gt;
+&lt;li&gt;支持异步请求&lt;/li&gt;
+&lt;li&gt;支持连接池&lt;/li&gt;
+&lt;li&gt;支持pipelining、LUA Scripting、Redis Sentinel、Redis Cluster&lt;/li&gt;
+&lt;li&gt;不支持事务，官方建议以LUA Scripting代替事务&lt;/li&gt;
+&lt;li&gt;支持在Redis Cluster架构下使用pipelining&lt;/li&gt;
+&lt;li&gt;支持读写分离，支持读负载均衡，在主从复制和Redis Cluster架构下都可以使用&lt;/li&gt;
+&lt;li&gt;内建Tomcat Session Manager，为Tomcat 6/7/8提供了会话共享功能&lt;/li&gt;
+&lt;li&gt;可以与Spring Session集成，实现基于Redis的会话共享&lt;/li&gt;
+&lt;li&gt;文档较丰富，有中文文档&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;对于Jedis和Redisson的选择，同样应遵循前述的原理，尽管Jedis比起Redisson有各种各样的不足，但也应该在需要使用Redisson的高级特性时再选用Redisson，避免造成不必要的程序复杂度提升。&lt;/p&gt;
+">redis</a>
       </div>
       
       <div class="item">
@@ -1687,6 +4435,302 @@ new_id= thread_id_counter++;&lt;br&gt;
 &lt;p&gt;2.left join,在两张表进行连接查询时，会返回左表所有的行，即使在右表中没有匹配的记录。&lt;/p&gt;
 &lt;p&gt;3.right join,在两张表进行连接查询时，会返回右表所有的行，即使在左表中没有匹配的记录。&lt;/p&gt;
 &lt;p&gt;4.full join,在两张表进行连接查询时，返回左表和右表中所有没有匹配的行。&lt;/p&gt;
+&lt;h3 id=&#34;1-能说下myisam-和-innodb的区别吗&#34;&gt;1. 能说下myisam 和 innodb的区别吗？&lt;/h3&gt;
+&lt;p&gt;myisam引擎是5.1版本之前的默认引擎，支持全文检索、压缩、空间函数等，但是不支持事务和行级锁，所以一般用于有大量查询少量插入的场景来使用，而且myisam不支持外键，并且索引和数据是分开存储的。&lt;/p&gt;
+&lt;p&gt;innodb是基于聚簇索引建立的，和myisam相反它支持事务、外键，并且通过MVCC来支持高并发，索引和数据存储在一起。&lt;/p&gt;
+&lt;h3 id=&#34;2-说下mysql的索引有哪些吧聚簇和非聚簇索引又是什么&#34;&gt;2. 说下mysql的索引有哪些吧，聚簇和非聚簇索引又是什么？&lt;/h3&gt;
+&lt;p&gt;索引按照数据结构来说主要包含B+树和Hash索引。&lt;/p&gt;
+&lt;p&gt;假设我们有张表，结构如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;create table user(
+ id int(11) not null,
+  age int(11) not null,
+  primary key(id),
+  key(age)
+);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;B+树是左小右大的顺序存储结构，节点只包含id索引列，而叶子节点包含索引列和数据，这种数据和索引在一起存储的索引方式叫做聚簇索引，一张表只能有一个聚簇索引。假设没有定义主键，InnoDB会选择一个唯一的非空索引代替，如果没有的话则会隐式定义一个主键作为聚簇索引。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485UNAyaZCiad9IZyfFcMfMt8CogYojcicbYW5QlqqrrQg9w7osRKEGUP9lw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;这是主键聚簇索引存储的结构，那么非聚簇索引的结构是什么样子呢？非聚簇索引(二级索引)保存的是主键id值，这一点和myisam保存的是数据地址是不同的。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485U5M1te7Go4icEIby6ft9UXYoicNjIiaEP6tJ5OqDnAMX8Nd52uib8PXOibGg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;最终，我们一张图看看InnoDB和Myisam聚簇和非聚簇索引的区别&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485USVnE4tGnV2JQtwibibRib1wt5q01ibiaWibDG2d7UZwdbSJOEzIbT0U691mA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;3-那你知道什么是覆盖索引和回表吗&#34;&gt;3. 那你知道什么是覆盖索引和回表吗？&lt;/h3&gt;
+&lt;p&gt;覆盖索引指的是在一次查询中，如果一个索引包含或者说覆盖所有需要查询的字段的值，我们就称之为覆盖索引，而不再需要回表查询。&lt;/p&gt;
+&lt;p&gt;而要确定一个查询是否是覆盖索引，我们只需要explain sql语句看Extra的结果是否是“Using index”即可。&lt;/p&gt;
+&lt;p&gt;以上面的user表来举例，我们再增加一个name字段，然后做一些查询试试。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;explain select * from user where age=1; //查询的name无法从索引数据获取
+explain select id,age from user where age=1; //可以直接从索引获取
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;4-锁的类型有哪些呢&#34;&gt;4. 锁的类型有哪些呢&lt;/h3&gt;
+&lt;p&gt;mysql锁分为&lt;strong&gt;共享锁&lt;/strong&gt;和&lt;strong&gt;排他锁&lt;/strong&gt;，也叫做读锁和写锁。&lt;/p&gt;
+&lt;p&gt;读锁是共享的，可以通过lock in share mode实现，这时候只能读不能写。&lt;/p&gt;
+&lt;p&gt;写锁是排他的，它会阻塞其他的写锁和读锁。从颗粒度来区分，可以分为&lt;strong&gt;表锁&lt;/strong&gt;和&lt;strong&gt;行锁&lt;/strong&gt;两种。&lt;/p&gt;
+&lt;p&gt;表锁会锁定整张表并且阻塞其他用户对该表的所有读写操作，比如alter修改表结构的时候会锁表。&lt;/p&gt;
+&lt;p&gt;行锁又可以分为&lt;strong&gt;乐观锁&lt;/strong&gt;和&lt;strong&gt;悲观锁&lt;/strong&gt;，悲观锁可以通过for update实现，乐观锁则通过版本号实现。&lt;/p&gt;
+&lt;h3 id=&#34;5-你能说下事务的基本特性和隔离级别吗&#34;&gt;5. 你能说下事务的基本特性和隔离级别吗？&lt;/h3&gt;
+&lt;p&gt;事务基本特性ACID分别是：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原子性&lt;/strong&gt;指的是一个事务中的操作要么全部成功，要么全部失败。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;一致性&lt;/strong&gt;指的是数据库总是从一个一致性的状态转换到另外一个一致性的状态。比如A转账给B100块钱，假设中间sql执行过程中系统崩溃A也不会损失100块，因为事务没有提交，修改也就不会保存到数据库。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;隔离性&lt;/strong&gt;指的是一个事务的修改在最终提交前，对其他事务是不可见的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;持久性&lt;/strong&gt;指的是一旦事务提交，所做的修改就会永久保存到数据库中。&lt;/p&gt;
+&lt;p&gt;而隔离性有4个隔离级别，分别是：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;read uncommit&lt;/strong&gt; 读未提交，可能会读到其他事务未提交的数据，也叫做脏读。&lt;/p&gt;
+&lt;p&gt;用户本来应该读取到id=1的用户age应该是10，结果读取到了其他事务还没有提交的事务，结果读取结果age=20，这就是脏读。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485UADTzKMibJwb1picAytaqIIyWLQM0UeocSSKymzm6e8ChYlI3tVzialCicA/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;read commit&lt;/strong&gt; 读已提交，两次读取结果不一致，叫做不可重复读。&lt;/p&gt;
+&lt;p&gt;不可重复读解决了脏读的问题，他只会读取已经提交的事务。&lt;/p&gt;
+&lt;p&gt;用户开启事务读取id=1用户，查询到age=10，再次读取发现结果=20，在同一个事务里同一个查询读取到不同的结果叫做不可重复读。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485UeiaLx7HFnfbuiaTUlrib9k9117AQ2noW6Q10iaefPG3OxXSviakGjqiaTVMw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;repeatable read&lt;/strong&gt; 可重复复读，这是mysql的默认级别，就是每次读取结果都一样，但是有可能产生幻读。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;serializable&lt;/strong&gt; 串行，一般是不会使用的，他会给每一行读取的数据加锁，会导致大量超时和锁竞争的问题。&lt;/p&gt;
+&lt;h3 id=&#34;6-那acid靠什么保证的呢&#34;&gt;6. 那ACID靠什么保证的呢？&lt;/h3&gt;
+&lt;p&gt;A原子性由undo log日志保证，它记录了需要回滚的日志信息，事务回滚时撤销已经执行成功的sql&lt;/p&gt;
+&lt;p&gt;C一致性一般由代码层面来保证&lt;/p&gt;
+&lt;p&gt;I隔离性由MVCC来保证&lt;/p&gt;
+&lt;p&gt;D持久性由内存+redo log来保证，mysql修改数据同时在内存和redo log记录这次操作，事务提交的时候通过redo log刷盘，宕机的时候可以从redo log恢复&lt;/p&gt;
+&lt;h3 id=&#34;7-那你说说什么是幻读什么是mvcc&#34;&gt;7. 那你说说什么是幻读，什么是MVCC？&lt;/h3&gt;
+&lt;p&gt;要说幻读，首先要了解MVCC，MVCC叫做多版本并发控制，实际上就是保存了数据在某个时间节点的快照。&lt;/p&gt;
+&lt;p&gt;我们每行数实际上隐藏了两列，创建时间版本号，过期(删除)时间版本号，每开始一个新的事务，版本号都会自动递增。&lt;/p&gt;
+&lt;p&gt;还是拿上面的user表举例子，假设我们插入两条数据，他们实际上应该长这样。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;id&lt;/th&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;create_version&lt;/th&gt;
+&lt;th&gt;delete_version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;张三&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;李四&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这时候假设小明去执行查询，此时current_version=3&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from user where id&amp;lt;=3;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;同时，小红在这时候开启事务去修改id=1的记录，current_version=4&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;update user set name=&#39;张三三&#39; where id=1;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行成功后的结果是这样的&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;id&lt;/th&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;create_version&lt;/th&gt;
+&lt;th&gt;delete_version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;张三&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;李四&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;张三三&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;如果这时候还有小黑在删除id=2的数据，current_version=5，执行后结果是这样的。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;id&lt;/th&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;create_version&lt;/th&gt;
+&lt;th&gt;delete_version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;张三&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;李四&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;张三三&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;由于MVCC的原理是查找创建版本小于或等于当前事务版本，删除版本为空或者大于当前事务版本，小明的真实的查询应该是这样&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from user where id&amp;lt;=3 and create_version&amp;lt;=3 and (delete_version&amp;gt;3 or delete_version is null);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;所以小明最后查询到的id=1的名字还是&#39;张三&#39;，并且id=2的记录也能查询到。这样做是&lt;strong&gt;为了保证事务读取的数据是在事务开始前就已经存在的，要么是事务自己插入或者修改的&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;明白MVCC原理，我们来说什么是幻读就简单多了。举一个常见的场景，用户注册时，我们先查询用户名是否存在，不存在就插入，假定用户名是唯一索引。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;小明开启事务current_version=6查询名字为&#39;王五&#39;的记录，发现不存在。&lt;/li&gt;
+&lt;li&gt;小红开启事务current_version=7插入一条数据，结果是这样：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;id&lt;/th&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;create_version&lt;/th&gt;
+&lt;th&gt;delete_version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;张三&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;李四&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;王五&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ol&gt;
+&lt;li&gt;小明执行插入名字&#39;王五&#39;的记录，发现唯一索引冲突，无法插入，这就是幻读。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;8-那你知道什么是间隙锁吗&#34;&gt;8. 那你知道什么是间隙锁吗？&lt;/h3&gt;
+&lt;p&gt;间隙锁是可重复读级别下才会有的锁，结合MVCC和间隙锁可以解决幻读的问题。我们还是以user举例，假设现在user表有几条记录&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;id&lt;/th&gt;
+&lt;th&gt;Age&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;当我们执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;begin;
+select * from user where age=20 for update;
+
+begin;
+insert into user(age) values(10); #成功
+insert into user(age) values(11); #失败
+insert into user(age) values(20); #失败
+insert into user(age) values(21); #失败
+insert into user(age) values(30); #失败
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只有10可以插入成功，那么因为表的间隙mysql自动帮我们生成了区间(左开右闭)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(negative infinity，10],(10,20],(20,30],(30,positive infinity)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;由于20存在记录，所以(10,20]，(20,30]区间都被锁定了无法插入、删除。&lt;/p&gt;
+&lt;p&gt;如果查询21呢？就会根据21定位到(20,30)的区间(都是开区间)。&lt;/p&gt;
+&lt;p&gt;需要注意的是唯一索引是不会有间隙索引的。&lt;/p&gt;
+&lt;h3 id=&#34;9-你们数据量级多大分库分表怎么做的&#34;&gt;9. 你们数据量级多大？分库分表怎么做的？&lt;/h3&gt;
+&lt;p&gt;首先分库分表分为垂直和水平两个方式，一般来说我们拆分的顺序是先垂直后水平。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;垂直分库&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;基于现在微服务拆分来说，都是已经做到了垂直分库了&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485Ub7GrOacc0Pr1CE9NTjg0XDyLOLhQ8A7rslyKvRW42QLTib3cjqSP1Uw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;垂直分表&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果表字段比较多，将不常用的、数据较大的等等做拆分&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485Uk3OKhn3leSJuRg7X6tIU8LvHM0v5N5yCF2JeiagD1q19pvvliaxLteXg/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;水平分表&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先根据业务场景来决定使用什么字段作为分表字段(sharding_key)，比如我们现在日订单1000万，我们大部分的场景来源于C端，我们可以用user_id作为sharding_key，数据查询支持到最近3个月的订单，超过3个月的做归档处理，那么3个月的数据量就是9亿，可以分1024张表，那么每张表的数据大概就在100万左右。&lt;/p&gt;
+&lt;p&gt;比如用户id为100，那我们都经过hash(100)，然后对1024取模，就可以落到对应的表上了。&lt;/p&gt;
+&lt;h3 id=&#34;10-那分表后的id怎么保证唯一性的呢&#34;&gt;10. 那分表后的ID怎么保证唯一性的呢？&lt;/h3&gt;
+&lt;p&gt;因为我们主键默认都是自增的，那么分表之后的主键在不同表就肯定会有冲突了。有几个办法考虑：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;设定步长，比如1-1024张表我们设定1024的基础步长，这样主键落到不同的表就不会冲突了。&lt;/li&gt;
+&lt;li&gt;分布式ID，自己实现一套分布式ID生成算法或者使用开源的比如雪花算法这种&lt;/li&gt;
+&lt;li&gt;分表后不使用主键作为查询依据，而是每张表单独新增一个字段作为唯一主键使用，比如订单表订单号是唯一的，不管最终落在哪张表都基于订单号作为查询依据，更新也一样。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;11-分表后非sharding_key的查询怎么处理呢&#34;&gt;11. 分表后非sharding_key的查询怎么处理呢？&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;可以做一个mapping表，比如这时候商家要查询订单列表怎么办呢？不带user_id查询的话你总不能扫全表吧？所以我们可以做一个映射关系表，保存商家和用户的关系，查询的时候先通过商家查询到用户列表，再通过user_id去查询。&lt;/li&gt;
+&lt;li&gt;打宽表，一般而言，商户端对数据实时性要求并不是很高，比如查询订单列表，可以把订单表同步到离线（实时）数仓，或者基于其他如es提供查询服务。&lt;/li&gt;
+&lt;li&gt;数据量不是很大的话，比如后台的一些查询之类的，也可以通过多线程扫表，然后再聚合结果的方式来做。或者异步的形式也是可以的。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;List&amp;lt;Callable&amp;lt;List&amp;lt;User&amp;gt;&amp;gt;&amp;gt; taskList = Lists.newArrayList();
+for (int shardingIndex = 0; shardingIndex &amp;lt; 1024; shardingIndex++) {
+    taskList.add(() -&amp;gt; (userMapper.getProcessingAccountList(shardingIndex)));
+}
+List&amp;lt;ThirdAccountInfo&amp;gt; list = null;
+try {
+    list = taskExecutor.executeTask(taskList);
+} catch (Exception e) {
+    //do something
+}
+
+public class TaskExecutor {
+    public &amp;lt;T&amp;gt; List&amp;lt;T&amp;gt; executeTask(Collection&amp;lt;? extends Callable&amp;lt;T&amp;gt;&amp;gt; tasks) throws Exception {
+        List&amp;lt;T&amp;gt; result = Lists.newArrayList();
+        List&amp;lt;Future&amp;lt;T&amp;gt;&amp;gt; futures = ExecutorUtil.invokeAll(tasks);
+        for (Future&amp;lt;T&amp;gt; future : futures) {
+            result.add(future.get());
+        }
+        return result;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;12-说说mysql主从同步怎么做的吧&#34;&gt;12. 说说mysql主从同步怎么做的吧？&lt;/h3&gt;
+&lt;p&gt;首先先了解mysql主从同步的原理&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;master提交完事务后，写入binlog&lt;/li&gt;
+&lt;li&gt;slave连接到master，获取binlog&lt;/li&gt;
+&lt;li&gt;master创建dump线程，推送binglog到slave&lt;/li&gt;
+&lt;li&gt;slave启动一个IO线程读取同步过来的master的binlog，记录到relay log中继日志中&lt;/li&gt;
+&lt;li&gt;slave再开启一个sql线程读取relay log事件并在slave执行，完成同步&lt;/li&gt;
+&lt;li&gt;slave记录自己的binglog&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://mmbiz.qpic.cn/sz_mmbiz_jpg/IaIwEngZ4c1icho1EzwGZawVIXic9r485U1uHePukqQsKN6zKibICaRz1Zj3msDFIjNrFX4lkCVjYoibbib6LaU2XKw/640?wx_fmt=jpeg&amp;amp;tp=webp&amp;amp;wxfrom=5&amp;amp;wx_lazy=1&amp;amp;wx_co=1&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;由于mysql默认的复制方式是异步的，主库把日志发送给从库后不关心从库是否已经处理，这样会产生一个问题就是假设主库挂了，从库处理失败了，这时候从库升为主库后，日志就丢失了。由此产生两个概念。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;全同步复制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;主库写入binlog后强制同步日志到从库，所有的从库都执行完成后才返回给客户端，但是很显然这个方式的话性能会受到严重影响。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;半同步复制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;和全同步不同的是，半同步复制的逻辑是这样，从库写入日志成功后返回ACK确认给主库，主库收到至少一个从库的确认就认为写操作完成。&lt;/p&gt;
+&lt;h3 id=&#34;13-那主从的延迟怎么解决呢&#34;&gt;13. 那主从的延迟怎么解决呢？&lt;/h3&gt;
+&lt;p&gt;这个问题貌似真的是个无解的问题，只能是说自己来判断了，需要走主库的强制走主库查询。&lt;/p&gt;
 ">mysql面试</a>
       </div>
       

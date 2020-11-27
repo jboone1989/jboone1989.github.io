@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="君子终日乾乾，夕惕若，厉，无咎。">
 <meta name="theme-color" content="#000">
-<title>9、Mysql调优 | 异见</title>
+<title>HashMap与HashTable | 异见</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1606469147165">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="9、Mysql调优" />
-  <meta name="keywords" content="Mysql" />
+  <meta name="description" content="HashMap与HashTable" />
+  <meta name="keywords" content="Collection" />
 </head>
 
 <body>
@@ -190,39 +190,26 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%AD%97%E6%AE%B5">字段</a></li>
-<li><a href="#%E7%B4%A2%E5%BC%95">索引</a></li>
-<li><a href="#%E6%9F%A5%E8%AF%A2sql">查询SQL</a></li>
-<li><a href="#%E5%BC%95%E6%93%8E">引擎</a>
+<li><a href="#hashmap">HashMap</a>
 <ul>
-<li><a href="#myisam">MyISAM</a></li>
-<li><a href="#innodb">InnoDB</a></li>
+<li><a href="#%E5%AE%9A%E4%B9%89">定义</a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0">构造函数</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a></li>
+<li><a href="#%E5%AD%98%E5%82%A8%E5%AE%9E%E7%8E%B0putkeyvlaue">存储实现：put(key,vlaue)</a></li>
+<li><a href="#jdk18%E7%9A%84hashmapput%E6%96%B9%E6%B3%95">JDK1.8的hashmap：put方法</a></li>
+<li><a href="#%E6%89%A9%E5%AE%B9">扩容</a></li>
+<li><a href="#%E8%AF%BB%E5%8F%96%E5%AE%9E%E7%8E%B0getkey">读取实现：get(key)</a></li>
 </ul>
 </li>
-<li><a href="#%E5%88%9B%E5%BB%BA%E5%BF%85%E8%A6%81%E7%9A%84%E7%B4%A2%E5%BC%95">创建必要的索引</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E9%A2%84%E7%BC%96%E8%AF%91%E6%9F%A5%E8%AF%A2">使用预编译查询</a></li>
-<li><a href="#%E8%B0%83%E6%95%B4where%E5%AD%97%E5%8F%A5%E4%B8%AD%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%A1%BA%E5%BA%8F">调整Where字句中的连接顺序</a></li>
-<li><a href="#index-condition-pushdownicp%E4%BC%98%E5%8C%96">Index Condition Pushdown（ICP)优化</a></li>
-<li><a href="#%E5%B0%BD%E9%87%8F%E5%B0%86%E5%A4%9A%E6%9D%A1sql%E8%AF%AD%E5%8F%A5%E5%8E%8B%E7%BC%A9%E5%88%B0%E4%B8%80%E5%8F%A5">尽量将多条SQL语句压缩到一句</a></li>
-<li><a href="#%E7%94%A8where%E5%AD%97%E5%8F%A5%E6%9B%BF%E6%8D%A2having%E5%AD%97%E5%8F%A5">用where字句替换HAVING字句</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E8%A1%A8%E7%9A%84%E5%88%AB%E5%90%8D">使用表的别名</a></li>
-<li><a href="#%E5%9C%A8in%E5%92%8Cexists%E4%B8%AD%E9%80%9A%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8B%E4%BD%BF%E7%94%A8exists%E5%9B%A0%E4%B8%BAin%E4%B8%8D%E8%B5%B0%E7%B4%A2%E5%BC%95">在in和exists中通常情况下使用EXISTS，因为in不走索引。</a></li>
-<li><a href="#%E9%81%BF%E5%85%8D%E5%9C%A8%E7%B4%A2%E5%BC%95%E4%B8%8A%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97">避免在索引上使用计算</a></li>
-<li><a href="#%E7%94%A8union-all%E6%9B%BF%E6%8D%A2union">用union all替换union</a></li>
-<li><a href="#%E9%81%BF%E5%85%8Dsql%E4%B8%AD%E5%87%BA%E7%8E%B0%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">避免SQL中出现隐式类型转换</a></li>
-<li><a href="#%E9%98%B2%E6%AD%A2%E6%A3%80%E7%B4%A2%E8%8C%83%E5%9B%B4%E8%BF%87%E5%AE%BD">防止检索范围过宽</a></li>
-<li><a href="#%E7%94%A8%E5%B0%8F%E8%A1%A8%E9%A9%B1%E5%8A%A8%E5%A4%A7%E8%A1%A8in%E5%92%8Cexist"><strong>用小表驱动大表IN和EXIST</strong></a></li>
-<li><a href="#orderby%E4%BC%98%E5%8C%96"><strong>ORDERBY优化</strong></a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%E6%9D%A5%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E5%88%86%E9%A1%B5">使用主键索引来优化数据分页</a><br>
-*
+<li><a href="#hashtable">HashTable</a>
 <ul>
-<li><a href="#%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8">有什么用？</a></li>
-<li><a href="#%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8">怎么使用？</a></li>
+<li><a href="#%E5%AE%9A%E4%B9%89-2">定义</a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95">构造方法</a></li>
+<li><a href="#%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95">主要方法</a></li>
 </ul>
 </li>
-<li><a href="#change-buffer"><strong>change buffer</strong></a></li>
-<li><a href="#%E4%BC%98%E5%8C%96%E5%99%A8%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E7%B4%A2%E5%BC%95"><strong>优化器如何选择索引</strong></a></li>
-<li><a href="#%E4%BA%8C%E6%AC%A1%E5%86%99double-write">二次写(double write)</a></li>
+<li><a href="#hashtable%E4%B8%8Ehashmap%E7%9A%84%E5%BC%82%E5%90%8C%E7%82%B9">HashTable与HashMap的异同点</a></li>
+<li><a href="#%E9%9D%A2%E8%AF%95%E9%A2%98hashmap%E5%92%8Chashtable%E7%9A%84%E5%8C%BA%E5%88%AB">面试题：HashMap和HashTable的区别</a></li>
 </ul>
 </li>
 </ul>
@@ -490,8 +477,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://jboone1989.github.io/post/tiaoyou/">
-      9、Mysql调优
+    <a class="post-title-link" href="https://jboone1989.github.io/post/HashMap/">
+      HashMap与HashTable
     </a>
   </h1>
   <div class="post-meta">
@@ -499,7 +486,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-11-19 18:06:16">2020-11-19</span>
+      <span class="publish-time" data-t="2020-11-20 16:46:44">2020-11-20</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -508,8 +495,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://jboone1989.github.io/tag/NP2MmsTrY/">
-        <span>Mysql</span>
+      <a href="https://jboone1989.github.io/tag/-OYvxk3u8/">
+        <span>Collection</span>
       </a>
       
       
@@ -518,284 +505,513 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>22<span class="language" data-lan="minute">分钟</span></span>
+      <span>25<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>6069<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>5888<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>除非单表数据未来会一直不断上涨，否则不要一开始就考虑拆分，拆分会带来逻辑、部署、运维的各种复杂度，一般以整型值为主的表在<code>千万级</code>以下，字符串为主的表在<code>五百万</code>以下是没有太大问题的。而事实上很多时候MySQL单表的性能依然有不少优化空间，甚至能正常支撑千万级以上的数据量：</p>
-<h2 id="字段">字段</h2>
-<ul>
-<li>尽量使用<code>TINYINT</code>、<code>SMALLINT</code>、<code>MEDIUM_INT</code>作为整数类型而非<code>INT</code>，如果非负则加上<code>UNSIGNED</code></li>
-<li><code>VARCHAR</code>的长度只分配真正需要的空间</li>
-<li>使用枚举或整数代替字符串类型</li>
-<li>尽量使用<code>TIMESTAMP</code>而非<code>DATETIME</code>，</li>
-<li>单表不要有太多字段，建议在20以内</li>
-<li>避免使用NULL字段，很难查询优化且占用额外索引空间</li>
-<li>用整型来存IP</li>
-</ul>
-<h2 id="索引">索引</h2>
-<ul>
-<li>索引并不是越多越好，要根据查询有针对性的创建，考虑在<code>WHERE</code>和<code>ORDER BY</code>命令上涉及的列建立索引，可根据<code>EXPLAIN</code>来查看是否用了索引还是全表扫描</li>
-<li>应尽量避免在<code>WHERE</code>子句中对字段进行<code>NULL</code>值判断，否则将导致引擎放弃使用索引而进行全表扫描</li>
-<li>值分布很稀少的字段不适合建索引，例如”性别”这种只有两三个值的字段</li>
-<li>字符字段只建前缀索引</li>
-<li>字符字段最好不要做主键</li>
-<li>不用外键，由程序保证约束</li>
-<li>尽量不用<code>UNIQUE</code>，由程序保证约束</li>
-<li>使用多列索引时主意顺序和查询条件保持一致，同时删除不必要的单列索引</li>
-</ul>
-<h2 id="查询sql">查询SQL</h2>
-<ul>
-<li>可通过开启<strong>慢查询日志</strong>来找出较慢的SQL</li>
-<li>不做列运算：<code>SELECT id WHERE age + 1 = 10</code>，任何对列的操作都将导致表扫描，它包括数据库教程函数、计算表达式等等，查询时要尽可能将操作移至等号右边</li>
-<li>sql语句尽可能简单：一条sql只能在一个cpu运算；大语句拆小语句，减少锁时间；一条大sql可以堵死整个库</li>
-<li>不用<code>SELECT *</code></li>
-<li><code>OR</code>改写成<code>IN</code>：<code>OR</code>的效率是n级别，<code>IN</code>的效率是log(n)级别，in的个数建议控制在200以内</li>
-<li>不用函数和触发器，在应用程序实现</li>
-<li>避免<code>%xxx</code>式查询</li>
-<li>少用<code>JOIN</code></li>
-<li>使用同类型进行比较，比如用<code>'123'</code>和<code>'123'</code>比，<code>123</code>和<code>123</code>比</li>
-<li>尽量避免在<code>WHERE</code>子句中使用!=或&lt;&gt;操作符，否则将引擎放弃使用索引而进行全表扫描</li>
-<li>对于连续数值，使用<code>BETWEEN</code>不用<code>IN</code>：<code>SELECT id FROM t WHERE num BETWEEN 1 AND 5</code></li>
-<li>列表数据不要拿全表，要使用<code>LIMIT</code>来分页，每页数量也不要太大</li>
-</ul>
-<h2 id="引擎">引擎</h2>
-<p>目前广泛使用的是MyISAM和InnoDB两种引擎：</p>
-<h3 id="myisam">MyISAM</h3>
-<p>MyISAM引擎是MySQL 5.1及之前版本的默认引擎，它的特点是：</p>
-<ul>
-<li>不支持行锁，读取时对需要读到的所有表加锁，写入时则对表加排它锁</li>
-<li>不支持事务</li>
-<li>不支持外键</li>
-<li>不支持崩溃后的安全恢复</li>
-<li>在表有读取查询的同时，支持往表中插入新纪录</li>
-<li>支持<code>BLOB</code>和<code>TEXT</code>的前500个字符索引，支持全文索引</li>
-<li>支持延迟更新索引，极大提升写入性能</li>
-<li>对于不会进行修改的表，支持压缩表，极大减少磁盘空间占用</li>
-</ul>
-<h3 id="innodb">InnoDB</h3>
-<p>InnoDB在MySQL 5.5后成为默认索引，它的特点是：</p>
-<ul>
-<li>支持行锁，采用MVCC来支持高并发</li>
-<li>支持事务</li>
-<li>支持外键</li>
-<li>支持崩溃后的安全恢复</li>
-<li>不支持全文索引</li>
-</ul>
-<p>总体来讲，MyISAM适合<code>SELECT</code>密集型的表，而InnoDB适合<code>INSERT</code>和<code>UPDATE</code>密集型的表</p>
-<h2 id="创建必要的索引">创建必要的索引</h2>
-<p>在经常需要进行检索的字段上创建索引，比如要按照姓名进行检索，那么就应该在姓名字段上创建索引，如果经常要按照员工部门和员工岗位级别 进行检索，那么就应该在员工部门和员工岗位级别这两个字段上创建索引。创建索引给检索带来的性能提升往往是巨大的，因此在发现检索速度过 慢的时候应该首先想到的就是创建索引。</p>
-<h2 id="使用预编译查询">使用预编译查询</h2>
-<p>程序中通常是根据用户的输入来动态执行SQL，这时应该尽量使用参数化SQL,这样不仅可以避免SQL注入漏洞攻击，最重要数据库会对这些参数化 SQL进行预编译，这样第一次执行的时候DBMS会为这个SQL语句进行查询优化并且执行预编译，这样以后再执行这个SQL的时候就直接使用预编译的 结果，这样可以大大提高执行的速度。</p>
-<h2 id="调整where字句中的连接顺序">调整Where字句中的连接顺序</h2>
-<p>DBMS一般采用自下而上的顺序解析where字句，根据这个原理表连接最好写在其他where条件之前，那些可以过滤掉最大数量记录。</p>
-<h2 id="index-condition-pushdownicp优化">Index Condition Pushdown（ICP)优化</h2>
-<p>MySQL在取出<strong>索引的同时判断是否可以进行where条件的过滤</strong>，也就是将where的部分过滤操作放在了存储引擎层，某些查询下可以减少上层SQL层对记录的索取，从而提高性能。当然where可以过滤的条件是要该索引可以覆盖到的范围。<br>
-ICP支持range、ref、eq_ref、ref_or_null类型的查询，支持MyISAM和InnoDB，当优化器选择ICP时，可在执行计划的列Extra看到Using index condition提示。</p>
-<h2 id="尽量将多条sql语句压缩到一句">尽量将多条SQL语句压缩到一句</h2>
-<p>SQL中每次执行SQL的时候都要建立网络连接、进行权限校验、进行SQL语句的查询优化、发送执行结果，这个过程是非常耗时的，因此应该尽量 避免过多的执行SQL语句，能够压缩到一句SQL执行的语句就不要用多条来执行。</p>
-<h2 id="用where字句替换having字句">用where字句替换HAVING字句</h2>
-<p>避免使用HAVING字句，因为<strong>HAVING只会在检索出所有记录之后才对结果集进行过滤</strong>，而<strong>where则是在聚合前刷选记录</strong>，如果能通过where字句限制记录的数目，那就能减少这方面的开销。HAVING中的条件一般用于聚合函数的过滤，除此之外，应该将条件写在where字句中。</p>
-<h2 id="使用表的别名">使用表的别名</h2>
-<p>当在SQL语句中连接多个表时，请使用表的别名并把别名前缀于每个列名上。这样就可以减少解析的时间并减少哪些友列名歧义引起的语法错误。</p>
-<h2 id="在in和exists中通常情况下使用exists因为in不走索引">在in和exists中通常情况下使用EXISTS，因为in不走索引。</h2>
-<h2 id="避免在索引上使用计算">避免在索引上使用计算</h2>
-<p>在where字句中，如果索引列是计算或者函数的一部分，DBMS的优化器将不会使用索引而使用全表查询,函数属于计算的一种 效率低：</p>
-<pre><code class="language-mysql">select * from Employee where dsalary*12&gt;2500.0(dsalary是索引列,索引不起作用) 效率高：
+              <h2 id="hashmap">HashMap</h2>
+<p>HashMap也是我们使用非常多的Collection，它是基于哈希表的 Map 接口的实现，以key-value的形式存在。在HashMap中，key-value总是会当做一个整体来处理，系统会根据hash算法来来计算key-value的存储位置，我们总是可以通过key快速地存、取value。下面就来分析HashMap的存取。</p>
+<h3 id="定义">定义</h3>
+<p>HashMap实现了Map接口，继承AbstractMap。其中Map接口定义了键映射到值的规则，而AbstractMap类提供 Map 接口的骨干实现，以最大限度地减少实现此接口所需的工作，其实AbstractMap类已经实现了Map，这里标注Map LZ觉得应该是更加清晰吧！</p>
+<pre><code>public class HashMap&lt;K,V&gt;
+    extends AbstractMap&lt;K,V&gt;
+    implements Map&lt;K,V&gt;, Cloneable, Serializable
+</code></pre>
+<h3 id="构造函数">构造函数</h3>
+<pre><code class="language-java">  HashMap提供了三个构造函数：
 
-select * from Employee where dsalary&gt;2500.0/12(dsalary是索引列) 
+  HashMap()：构造一个具有默认初始容量 (16) 和默认加载因子 (0.75) 的空 HashMap。
+
+  HashMap(int initialCapacity)：构造一个带指定初始容量和默认加载因子 (0.75) 的空 HashMap。
+
+  HashMap(int initialCapacity, float loadFactor)：构造一个带指定初始容量和加载因子的空 HashMap。
 </code></pre>
-<h2 id="用union-all替换union">用union all替换union</h2>
-<p>当SQL 语句需要UNION 两个查询结果集合时,这两个结果集合会以UNION-ALL 的方式被</p>
-<p>合并, 然后在输出最终结果前进行排序.<strong>如果用UNION ALL 替代UNION, 这样排序就不是必要了</strong>. 效率就会因此得到提高.</p>
-<h2 id="避免sql中出现隐式类型转换">避免SQL中出现隐式类型转换</h2>
-<p>当某一张表中的索引字段在作为where条件的时候，如果<strong>进行了隐式类型转换，则此索引字段将会不被识别，因为隐式类型转换也属于计算</strong>，所以 此时DBMS会使用全表扫面。</p>
-<h2 id="防止检索范围过宽">防止检索范围过宽</h2>
-<p>如果DBMS优化器认为检索范围过宽，那么将放弃索引查找而使用全表扫描。下面几种可能造成检索范围过宽的情况。</p>
-<ul>
-<li>a、使用is not null或者不等于判断，可能造成优化器假设匹配的记录数太多。</li>
-<li>b、使用like运算符的时候，“a%”将会使用索引，而“a%c”和“%a”则会使用全表扫描，因此“a%c”和“%a”不能被有效的评估匹配的数量，</li>
-</ul>
-<h2 id="用小表驱动大表in和exist"><strong>用小表驱动大表IN和EXIST</strong></h2>
-<p>1、驱动表的定义</p>
-<p>当进行多表连接查询时， [驱动表] 的定义为：</p>
-<p>1）<strong>指定了联接条件时</strong>，满足查询条件的记录行数少的表为[驱动表]</p>
-<p>2）未指定联接条件时，<strong>行数少的表为</strong>[驱动表]（Important!）</p>
-<p>忠告：如果你搞不清楚该让谁做驱动表、谁 join 谁，请让 MySQL 运行时自行判断</p>
-<p>2、mysql关联查询的概念:</p>
-<p>MySQL 表关联的算法是 Nest Loop Join，<strong>是通过驱动表的结果集作为循环基础数据</strong>，然后一条一条地通过该结果集中的数据作为过滤条件到 下一个表中查询数据，然后合并结果。</p>
-<p>优化的目标是尽可能减少JOIN中Nested Loop的循环次数。</p>
-<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/clipboa1313rd.png" alt="img" loading="lazy"></figure>
-<pre><code>select * from tbl_name where EXIST (subquery);
-可以理解为将主查询的数据，放到子查询中做条件验证，根据结果（TRUE或FALSE)
-</code></pre>
-<h2 id="orderby优化"><strong>ORDERBY优化</strong></h2>
-<p>在使用order by时，经常出现Using filesort，因此对于此类sql语句需尽力优化，使其尽量使用Using index。</p>
-<p>①MySQL支持两种方式的排序filesort和index，Using index是指MySQL扫描索引本身完成排序。index效率高，filesort效率低。</p>
-<p>②order by满足两种情况会使用Using index。</p>
-<p>1.<strong>order by语句使用索引最左前列</strong>。</p>
-<p>2.使用where子句与order by子句条件列组合满足索引最左前列。</p>
-<p>③尽量在索引列上完成排序，遵循索引建立（索引创建的顺序）时的最佳左前缀法则。</p>
-<p>④如果order by的条件不在索引列上，就会产生Using filesort。</p>
-<p>1.filesort有两种排序算法：双路排序和单路排序。</p>
-<p>​       双路排序：在MySQL4.1之前使用双路排序，就是两次磁盘扫描，得到最终数据。读取行指针和order by列，对他们进行排序，然后扫描已经排好序的列表，按照列表中的值重新从列表中读取对应的数据输出。即从磁盘读取排序字段，在buffer进行排序，再从磁盘取其他字段。<br>
-​    如果使用双路排序，取一批数据要对磁盘进行两次扫描，众所周知，I/O操作是很耗时的，因此在MySQL4.1以后，出现了改进的算法：单路排序。<br>
-​    单路排序：从磁盘中查询所需的列，按照order by列在buffer中对它们进行排序，然后扫描排序后的列表进行输出。它的效率更高一些，避免了第二次读取数据，并且把随机I/O变成了顺序I/O，但是会使用更多的空间，因为它把每一行都保存在内存中了。<br>
-​</p>
-<p>2.单路排序出现的问题。</p>
-<p>​     当读取数据超过sort_buffer的容量时，就会导致多次读取数据，并创建临时表，最后多路合并，产生多次I/O，反而增加其I/O运算。<br>
-​    解决方式：<br>
-​    a.增加sort_buffer_size参数的设置。<br>
-​    b.增大max_length_for_sort_data参数的设置。<br>
-⑤提升order by速度的方式：</p>
-<p>1.在使用order by时，不要用select *，只查询所需的字段。</p>
-<p>​    因为当查询字段过多时，会导致sort_buffer不够，从而使用多路排序或进行多次I/O操作。</p>
-<p>2.尝试提高sort_buffer_size。</p>
-<p>3.尝试提高max_length_for_sort_data。</p>
-<p>⑦group by与order by很类似，其实质是先排序后分组，遵照索引创建顺序的最佳左前缀法则。当无法使用索引列的时候，也要对sort_buffer_size和max_length_for_sort_data参数进行调整。注意where高于having，能写在where中的限定条件就不要去having限定了。</p>
-<h2 id="使用主键索引来优化数据分页">使用主键索引来优化数据分页</h2>
-<pre><code class="language-mysql">select * from user where id&gt;(select id from user where id&gt;=**100000** limit **1**) limit **20**;
-</code></pre>
-<p>##使用explain</p>
-<h4 id="有什么用">有什么用？</h4>
-<p>在MySQL中，当数据量增长的特别大的时候就需要用到索引来优化SQL语句，而如何才能判断我们辛辛苦苦写出的SQL语句是否优良？这时候<strong>explain</strong>就派上了用场。</p>
-<h4 id="怎么使用">怎么使用？</h4>
-<pre><code>explain + SQL语句即可 如：explain select * from table;
-</code></pre>
-<p>如下</p>
-<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/640" alt="img" loading="lazy"></figure>
-<p>相信第一次使用explain参数的朋友一定会疑惑这一大堆参数究竟有什么用呢？笔者搜集了一些资料，在这儿做一个总结希望能够帮助大家理解。</p>
-<p>explain（执行计划），使用explain关键字可以模拟优化器执行sql查询语句，从而知道MySQL是如何处理sql语句。 explain主要用于分析查询语句或表结构的性能瓶颈。</p>
-<p><strong>id</strong></p>
-<p>id的值表示select子句或表的执行顺序，id相同，执行顺序从上到下，id不同，值越大的执行优先级越高。</p>
-<p><strong>select_type</strong></p>
-<p>SIMPLE</p>
-<p>简单的select查询，查询中不包含子查询或union查询。</p>
-<p>PRIMARY</p>
-<p>查询中若包含任何复杂的子部分，最外层查询为PRIMARY，也就是最后加载的就是PRIMARY。</p>
-<p>SUBQUERY</p>
-<p>在select或where列表中包含了子查询，就为被标记为SUBQUERY。</p>
-<p>DERIVED</p>
-<p>在from列表中包含的子查询会被标记为DERIVED(衍生)，MySQL会递归执行这些子查询，将结果放在临时表中。    UNION</p>
-<p>若第二个select出现在union后，则被标记为UNION，若union包含在from子句的子查询中，外层select将被标记为DERIVED。</p>
-<p>UNION RESULT</p>
-<p>从union表获取结果的select。</p>
-<p><strong>type</strong></p>
-<p>表示查询所使用的访问类型，该值表示查询的sql语句好坏，从最好到最差依次为：system&gt;const&gt;eq_ref&gt;ref&gt;range&gt;index&gt;ALL。</p>
-<ul>
-<li>
-<p>1.system    表只有一行记录（等于系统表），是const的特例类型，平时不会出现，可以忽略不计。</p>
-</li>
-<li>
-<p>2.const    表示通过一次索引就找到了结果，常出现于primary key或unique索引。因为只匹配一行数据，所以查询非常快。    如将主键置于where条件中，MySQL就能将查询转换为一个常量。</p>
-</li>
-<li>
-<p>3.eq_ref：唯一索引扫描，对于每个索引键，表中只有一条记录与之匹配。常见主键或唯一索引扫描。</p>
-</li>
-<li>
-<p>4.ref：非唯一性索引扫描，返回匹配某个单独值的所有行。本质上也是一种索引访问，返回匹配某值（某条件）的多行值，属于查找和扫描的    混合体。</p>
-</li>
-<li>
-<p>5.range：只检索给定范围的行，使用一个索引来检索行，可以在key列中查看使用的索引，一般出现在where语句的条件中，如使用between、&gt;、&lt;、    in等查询。    这种索引的范围扫描比全索引扫描要好，因为索引的开始点和结束点都固定，范围相对较小。</p>
-</li>
-<li>
-<p>6.index：全索引扫描，index和ALL的区别：index只遍历索引树，通常比ALL快，因为索引文件通常比数据文件小。虽说index和ALL都是全表扫描，    但是index是从索引中读取，ALL是从磁盘中读取。</p>
-</li>
-<li>
-<p>7.ALL：全表扫描。</p>
-<ul>
-<li>
-<p>哪些索引可以使用。（对应possible_keys）</p>
-</li>
-<li>
-<p>哪些索引被实际使用。（对应key）</p>
-</li>
-<li>
-<p>表直接的引用。（对应ref）显示关联的字段。如果使用常数等值查询，则显示const，如果是连接查询，则会显示关联的字段。</p>
-</li>
-<li>
-<p>每张表有多少行被优化器查询。（对应rows）根据表统计信息及索引选用情况大致估算出找到所需记录所要读取的行数。当然该值越小越好。</p>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>Extra</strong><br>
-1.Using filesort</p>
-<p>Using filesort表明mysql会对数据使用一个外部的索引排序，而不是按照表内的索引顺序进行读取。    mysql中无法利用索引完成的排序操作称为“文件排序”。    出现Using filesort就非常危险了，在数据量非常大的时候几乎“九死一生”。出现Using filesort尽快优化sql语句。<br>
-2.Using temporary</p>
-<p>使用了临时表保存中间结果，常见于排序order by和分组查询group by。非常危险，“十死无生”，急需优化。</p>
-<p>3.Using index</p>
-<p>表明相应的select操作中使用了覆盖索引，避免访问表的额外数据行，效率不错。</p>
-<p>如果同时出现了Using where，表明索引被用来执行索引键值的查找。（where deptid=1）    如果没有同时出现Using where，表明索引用来读取数据而非执行查找动作。</p>
-<h2 id="change-buffer"><strong>change buffer</strong></h2>
-<p>当需要更新一个数据页时，如果数据页在内存中就直接更新，而如果这个数据页还没有在内存中的话，在不影响数据一致性的前提下，InooDB 会将这些更新操作缓存在 change buffer 中，这样就<strong>不需要从磁盘中读入这个数据页了</strong>。在下次查询需要访问这个数据页的时候，将数据页读入内存，然后执行 change buffer 中与这个页有关的操作。通过这种方式就能保证这个数据逻辑的正确性。<strong>虽然是只更新内存，但是在事务提交的时候，把 change buffer 的操作也记录到 redo log 里了，所以崩溃恢复的时候，change buffer 也能找回来。</strong></p>
-<p>​    将 change buffer 中的操作应用到原数据页，得到最新结果的过程称为 merge。除了**访问这个数据页会触发 merge 外，系统有后台线程会定期 merge。**在数据库正常关闭（shutdown）的过程中，也会执行 merge 操作。</p>
-<p>​    显然，如果能够将更新操作先记录在 change buffer，减少读磁盘，语句的执行速度会得到明显的提升。而且，数据读入内存是需要占用 buffer pool 的，所以这种方式能够避免占用内存，提高内存利用率。</p>
-<p>​    <strong>唯一索引的更新就不能使用 change buffer，实际上也只有普通索引可以使用。</strong></p>
-<p>change buffer 用的是 buffer pool 里的内存，因此不能无限增大。change buffer 的大小，可以通过参数 innodb_change_buffer_max_size 来动态设置。这个参数设置为 50 的时候，表示 change buffer 的大小最多只能占用 buffer pool 的 50%。</p>
-<p>如果要在这张表中插入一个新记录 (4,400) 的话，InnoDB 的处理流程是怎样的。</p>
-<p>第一种情况是，这个记录要<strong>更新的目标页在内存中</strong>。这时，InnoDB 的处理流程如下：</p>
-<ul>
-<li>
-<p>对于唯一索引来说，找到 3 和 5 之间的位置，<strong>判断到没有冲突</strong>，插入这个值，语句执行结束；</p>
-</li>
-<li>
-<p>对于普通索引来说，找到 3 和 5 之间的位置，插入这个值，语句执行结束。</p>
-</li>
-</ul>
-<p>第二种情况是，这个记录要<strong>更新的目标页不在内存中</strong>。这时，InnoDB 的处理流程如下：</p>
-<ul>
-<li><strong>对于唯一索引来说，需要将数据页读入内存，判断到没有冲突，插入这个值，语句执行结束</strong>；</li>
-<li><strong>对于普通索引来说，则是将更新记录在 change buffer，语句执行就结束了。</strong></li>
-</ul>
-<p>​    将数据从磁盘读入内存涉及随机 IO 的访问，是数据库里面成本最高的操作之一。change buffer 因为减少了随机磁盘访问，所以对更新性能的提升是会很明显的。</p>
-<p>​    <strong>change buffer 适用于写多读少的业务，比如账单类、日志类的系统。因为会记录很多change buffer（写的时候） 才会merge（读的时候）</strong></p>
-<p>​    反过来，读多写少的业务，几乎每次把更新记录在change buffer 后，就会<strong>立即出发merge</strong>，这样随机访问 IO 的次数不会减少，反而增加了change buffer 的维护代价。</p>
-<p>所以，对于身份证号这类字段，如果业务已经保证不会写入重复数据，不需要数据库做约束，加普通索引比加主键索引要好，如果所有的更新后面，都马上伴随着对这个记录的查询，那么应该关闭 change buffer。而在其他情况下，change buffer 都能提升更新性能。</p>
-<p>在实际使用中，可以发现，<strong>普通索引和 change buffer 的配合使用，对于数据量大的表的更新优化还是很明显的，特别是在使用机械硬盘时。</strong></p>
-<p><strong>change buffer 和 redo log 对比</strong></p>
+<p>在这里提到了两个参数：初始容量，加载因子。</p>
 <blockquote>
-<p>insert into t(id,k) values(id1,k1),(id2,k2);</p>
+<p>这两个参数是影响HashMap性能的重要参数，其中容量表示哈希表中桶的数量，初始容量是创建哈希表时的容量，加载因子是哈希表在其容量自动增加之前可以达到多满的一种尺度，它衡量的是一个散列表的空间的使用程度，负载因子越大表示散列表的装填程度越高，反之愈小。</p>
+<p>对于使用链表法的散列表来说，查找一个元素的平均时间是O(1+a)，因此如果负载因子越大，对空间的利用更充分，然而后果是查找效率的降低；如果负载因子太小，那么散列表的数据将过于稀疏，对空间造成严重浪费。系统默认负载因子为0.75，一般情况下我们是无需修改的。</p>
 </blockquote>
-<p>这条更新语句做了如下操作：</p>
-<ol>
-<li>Page 在内存中，直接更新内存；</li>
-<li>Page 没有在内存中，就在内存的 change buffer 区域，记录下“要往 Page 插入一行”这个信。</li>
-<li>将上述两个动作记入 redo log 中。</li>
-</ol>
-<p>后续的更新操作</p>
-<ol>
-<li>Page 在内存中，会直接从内存返回。</li>
-<li>Page 不在内容中，需要把 Page 从磁盘读入内存中，然后应用 change buffer 里面的操作日志，生成一个正确的版本并返回结果。</li>
-</ol>
-<p>所以，如果要简单地对比这两个机制在提升更新性能上的收益的话，<strong>redo log 主要节省的是随机写磁盘的 IO 消耗（转成顺序写），而 change buffer 主要节省的则是随机读磁盘的 IO 消耗。</strong></p>
-<h2 id="优化器如何选择索引"><strong>优化器如何选择索引</strong></h2>
-<p>优化器结合<strong>是否扫描行数、是否使用临时表、是否排序</strong>等因素进行综合判断。</p>
-<p>MySQL 在真正开始执行语句之前，并不能精确地知道满足条件的记录有多少条，而只能根据统计信息来估算记录数。</p>
-<p>这个统计信息就是索引的“区分度”。显然，一个索引上不同的值越多，这个索引的区分度就越好。而一个索引上不同的值的个数，称之为“基数”（cardinality）。也就是说，这个基数越大，索引的区分度越好。</p>
-<p><strong>可以使用 show index 方法，看到一个索引的基数。</strong><br>
-<img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bVbxvfx" alt="clipboard.png" loading="lazy"></p>
-<p>MySQL 采样统计的方法获得基数，InnoDB 默认会选择 N 个数据页，统计这些页面上的不同值，得到一个平均值，然后乘以这个索引的页面数，就得到了这个索引的基数。当变更的数据行数超过 1/M 的时候，会自动触发重新做一次索引统计。<strong>analyze table t 命令，可以用来重新统计索引信息。</strong></p>
-<p>在 MySQL 中，有两种存储索引统计的方式，可以通过设置参数 innodb_stats_persistent 的值来选择：</p>
-<ul>
-<li>设置为 on 的时候，表示统计信息会持久化存储。这时，默认的 N 是 20，M 是 10。</li>
-<li>设置为 off 的时候，表示统计信息只存储在内存中。这时，默认的 N 是 8，M 是 16。</li>
-</ul>
-<p>其实索引统计只是一个输入，对于一个具体的语句来说，优化器还要判断，执行这个语句本身要扫描多少行。</p>
-<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jboone1989/pictures@master/img/bVbxvfy" alt="clipboard.png" loading="lazy"></figure>
-<p>rows 这个字段表示的是预计扫描行数。</p>
-<h2 id="二次写double-write">二次写(double write)</h2>
-<p>doublewrite组成： 内存中的doublewrite buffer,大小2M。 物理磁盘上<strong>共享表空间</strong>中连续的128个页，即2个区（extend），大小同样为2M。</p>
-<p>Doublewrite缓存是位于<strong>系统表空间的存储区域</strong>，对缓冲池的脏页进行刷新时，不是直接写磁盘，而是会通过memcpy()函数将脏页先<strong>复制到内存中的doublewrite buffer</strong>，因为doublewrite页是连续的，因此这个过程是顺序写的，开销并不是很大。</p>
-<p>在完成doublewrite页的写入后，再将doublewrite buffer 中的页再分两次，每次1M顺序地写入各个表空间文件中，此时的写入则是离散的。</p>
-<p>如果操作系统在将页写入磁盘的过程中发生了崩溃，在恢复过程中，innodb可以 从系统表空间中的doublewrite中找到该页的一个副本，将其复制到表空间文件，再应用重做日志。</p>
+<p>HashMap是一种支持快速存取的数据结构，要了解它的性能必须要了解它的数据结构。</p>
+<h3 id="数据结构">数据结构</h3>
+<blockquote>
+<p>我们知道在Java中最常用的两种结构是数组和模拟指针(引用)，几乎所有的数据结构都可以利用这两种来组合实现，HashMap也是如此。实际上HashMap是一个“链表散列”，如下是它的数据结构：</p>
+</blockquote>
+<p>HashMap数据结构图</p>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/chenssy/blog-home/raw/master/image/sijava/152128351581.png" alt="HashMap数据结构图_thumb[13]" loading="lazy"></figure>
+<p>下图的table数组的每个格子都是一个桶。负载因子就是map中的元素占用的容量百分比。比如负载因子是0.75，初始容量（桶数量）为16时，那么允许装填的元素最大个数就是16*0.75 = 12，这个最大个数也被成为阈值，就是map中定义的threshold。超过这个阈值时，map就会自动扩容。</p>
+<h3 id="存储实现putkeyvlaue">存储实现：put(key,vlaue)</h3>
+<pre><code class="language-java">public V put(K key, V value) {
+        //当key为null，调用putForNullKey方法，保存null在table第一个位置中，这是HashMap允许为null的原因
+        if (key == null)
+            return putForNullKey(value);
+        //计算key的hash值，此处对原来元素的hashcode进行了再次hash
+        int hash = hash(key.hashCode());                  ------(1)
+        //计算key hash 值在 table 数组中的位置
+        int i = indexFor(hash, table.length);             ------(2)
+        //从i出开始迭代 e,找到 key 保存的位置
+        for (Entry&lt;K, V&gt; e = table[i]; e != null; e = e.next) {
+            Object k;
+            //判断该条链上是否有hash值相同的(key相同)
+            //若存在相同，则直接覆盖value，返回旧value
+            if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) {
+                V oldValue = e.value;    //旧值 = 新值
+                e.value = value;
+                e.recordAccess(this);
+                return oldValue;     //返回旧值
+            }
+        }
+        //修改次数增加1
+        modCount++;
+        //将key、value添加至i位置处
+        addEntry(hash, key, value, i);
+        return null;
+    }
+</code></pre>
+<p>通过源码我们可以清晰看到HashMap保存数据的过程为：首先判断key是否为null，若为null，则直接调用putForNullKey方法。</p>
+<p>若不为空则先计算key的hash值，然后根据hash值搜索在table数组中的索引位置，如果table数组在该位置处有元素，则通过比较是否存在相同的key，若存在则覆盖原来key的value，<mark>否则将该元素保存在链头（最先保存的元素放在链尾）</mark>。</p>
+<p>若table在该处没有元素，则直接保存。这个过程看似比较简单，其实深有内幕。有如下几点：</p>
+<blockquote>
+<p>1、 先看迭代处。此处迭代原因就是为了防止存在相同的key值，若发现两个hash值（key）相同时，HashMap的处理方式是用新value替换旧value，这里并没有处理key，这就解释了HashMap中没有两个相同的key。</p>
+<p>2、 在看（1）、（2）处。这里是HashMap的精华所在。首先是hash方法，该方法为一个纯粹的数学计算，就是计算h的hash值。</p>
+</blockquote>
+<pre><code class="language-java">static int hash(int h) {
+        h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);
+        return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
+    }
+</code></pre>
+<p>我们知道对于HashMap的table而言，数据分布需要均匀（最好每项都只有一个元素，这样就可以直接找到），不能太紧也不能太松，太紧会导致查询速度慢，太松则浪费空间。计算hash值后，怎么才能保证table元素分布均衡呢？我们会想到取模，但是由于取模的消耗较大，HashMap是这样处理的：调用indexFor方法。</p>
+<pre><code class="language-java">static int indexFor(int h, int length) {
+        return h &amp; (length-1);
+    }
+</code></pre>
+<p>HashMap的底层数组长度总是2的n次方，在构造函数中存在：capacity &lt;&lt;= 1;这样做总是能够保证HashMap的底层数组长度为2的n次方。当length为2的n次方时，h&amp;(length - 1)就相当于对length取模，而且速度比直接取模快得多，这是HashMap在速度上的一个优化。至于为什么是2的n次方下面解释。</p>
+<p><mark>对length取模来得到hash是常用的hash索引方法，这里采用位运算的话效率更高。</mark></p>
+<p>我们回到indexFor方法，该方法仅有一条语句：h&amp;(length - 1)，这句话除了上面的取模运算外还有一个非常重要的责任：均匀分布table数据和充分利用空间。</p>
+<p>这里我们假设length为16(2^n)和15，h为5、6、7。</p>
+<p>当n=15时，6和7的结果一样，这样表示他们在table存储的位置是相同的，也就是产生了碰撞，6、7就会在一个位置形成链表，这样就会导致查询速度降低。诚然这里只分析三个数字不是很多，那么我们就看0-15。</p>
+<blockquote>
+<p>而当length = 16时，length – 1 = 15 即1111，那么进行低位&amp;运算时，值总是与原来hash值相同，而进行高位运算时，其值等于其低位值。所以说当length = 2^n时，不同的hash值发生碰撞的概率比较小，这样就会使得数据在table数组中分布较均匀，查询速度也较快。</p>
+<p>这里我们再来复习put的流程：当我们想一个HashMap中添加一对key-value时，系统首先会计算key的hash值，然后根据hash值确认在table中存储的位置。若该位置没有元素，则直接插入。否则迭代该处元素链表并依此比较其key的hash值。</p>
+<p>如果两个hash值相等且key值相等(e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))),则用新的Entry的value覆盖原来节点的value。如果两个hash值相等但key值不等 ，则将该节点插入该链表的链头。具体的实现过程见addEntry方法，如下：</p>
+</blockquote>
+<pre><code class="language-java">void addEntry(int hash, K key, V value, int bucketIndex) {
+        //获取bucketIndex处的Entry
+        Entry&lt;K, V&gt; e = table[bucketIndex];
+        //将新创建的 Entry 放入 bucketIndex 索引处，并让新的 Entry 指向原来的 Entry 
+        table[bucketIndex] = new Entry&lt;K, V&gt;(hash, key, value, e);
+        //若HashMap中元素的个数超过极限了，则容量扩大两倍
+        if (size++ &gt;= threshold)
+            resize(2 * table.length);
+    }
+</code></pre>
+<p>这个方法中有两点需要注意：</p>
+<pre><code>后面添加的entry反而会接到前面。
+</code></pre>
+<p>一、是链的产生。</p>
+<p>这是一个非常优雅的设计。系统总是将新的Entry对象添加到bucketIndex处。如果bucketIndex处已经有了对象，那么新添加的Entry对象将指向原有的Entry对象，形成一条Entry链，但是若bucketIndex处没有Entry对象，也就是e==null,那么新添加的Entry对象指向null，也就不会产生Entry链了。</p>
+<p>二、扩容问题。</p>
+<p>随着HashMap中元素的数量越来越多，发生碰撞的概率就越来越大，所产生的链表长度就会越来越长，这样势必会影响HashMap的速度，为了保证HashMap的效率，系统必须要在某个临界点进行扩容处理。</p>
+<p>该临界点在当HashMap中元素的数量等于table数组长度*加载因子。但是扩容是一个非常耗时的过程，因为它需要重新计算这些数据在新table数组中的位置并进行复制处理。所以如果我们已经预知HashMap中元素的个数，那么预设元素的个数能够有效的提高HashMap的性能。</p>
+<h3 id="jdk18的hashmapput方法">JDK1.8的hashmap：put方法</h3>
+<pre><code>final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+        if ((p = tab[i = (n - 1) &amp; hash]) == null)
+            tab[i] = newNode(hash, key, value, null);
+        else {
+            Node&lt;K,V&gt; e; K k;
+            if (p.hash == hash &amp;&amp;
+                ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+                e = p;
+                //如果p是红黑树节点，则用另外的处理方法
+            else if (p instanceof TreeNode)
+                e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+            else {
+                for (int binCount = 0; ; ++binCount) {
+                    if ((e = p.next) == null) {
+                        p.next = newNode(hash, key, value, null);
+                        if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        //当链表节点数超过8个，则直接进行红黑树化。
+                            treeifyBin(tab, hash);
+                        break;
+                    }
+                    if (e.hash == hash &amp;&amp;
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                        break;
+                    p = e;
+                }
+            }
+            if (e != null) { // existing mapping for key
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value;
+                afterNodeAccess(e);
+                return oldValue;
+            }
+        }
+        ++modCount;
+        if (++size &gt; threshold)
+            resize();
+        afterNodeInsertion(evict);
+        return null;
+    }
+</code></pre>
+<p>JDK1.8在链表长度超过8时会转换为红黑树。 转换方法如下：</p>
+<pre><code>final void treeifyBin(Node&lt;K,V&gt;[] tab, int hash) {
+        int n, index; Node&lt;K,V&gt; e;
+        if (tab == null || (n = tab.length) &lt; MIN_TREEIFY_CAPACITY)
+        //如果节点数变小小于红黑树的节点数阈值时，调整空间
+            resize();
+        else if ((e = tab[index = (n - 1) &amp; hash]) != null) {
+            TreeNode&lt;K,V&gt; hd = null, tl = null;
+            do {
+            //该方法直接返回一个红黑树结点。
+                TreeNode&lt;K,V&gt; p = replacementTreeNode(e, null);
+                if (tl == null)
+                    hd = p;
+                else {
+                //从链表头开始依次插入红黑树
+                    p.prev = tl;
+                    tl.next = p;
+                }
+                tl = p;
+            } while ((e = e.next) != null);
+            if ((tab[index] = hd) != null)
+                hd.treeify(tab);
+        }
+    }
+    
+        // For treeifyBin
+TreeNode&lt;K,V&gt; replacementTreeNode(Node&lt;K,V&gt; p, Node&lt;K,V&gt; next) {
+    return new TreeNode&lt;&gt;(p.hash, p.key, p.value, next);
+}
+</code></pre>
+<h3 id="扩容">扩容</h3>
+<pre><code>final Node&lt;K,V&gt;[] resize() {
+        Node&lt;K,V&gt;[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap &gt; 0) {
+            //如果原容量大于最大空间，则让阈值为最大值。因为不能再扩容了，最大容量就是整数最大值。
+            if (oldCap &gt;= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            //两倍扩容，阈值也跟着变为两倍
+            else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+                     oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr &lt;&lt; 1; // double threshold
+        }
+        else if (oldThr &gt; 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        else {               // zero initial threshold signifies using defaults
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (newThr == 0) {
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+            Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+        table = newTab;
+        if (oldTab != null) {
+            for (int j = 0; j &lt; oldCap; ++j) {
+                Node&lt;K,V&gt; e;
+                if ((e = oldTab[j]) != null) {
+                    oldTab[j] = null;
+                    if (e.next == null)
+                        //当后面没有节点时，直接插入即可 //每个元素重新计算索引位置，此处的hash值并没有变，只是改变索引值
+                        newTab[e.hash &amp; (newCap - 1)] = e;
+                    else if (e instanceof TreeNode)
+                        ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+                    else { // preserve order
+                    //否则，就从头到尾依次将节点进行索引然后插入新数组，这样插入后的链表顺序会和原来的顺序相反。
+                        Node&lt;K,V&gt; loHead = null, loTail = null;
+                        Node&lt;K,V&gt; hiHead = null, hiTail = null;
+                        Node&lt;K,V&gt; next;
+                        do {
+                            next = e.next;
+                            if ((e.hash &amp; oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        if (loTail != null) {
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+</code></pre>
+<h3 id="读取实现getkey">读取实现：get(key)</h3>
+<pre><code>        相对于HashMap的存而言，取就显得比较简单了。通过key的hash值找到在table数组中的索引处的Entry，然后返回该key对应的value即可。
+
+public V get(Object key) {
+        // 若为null，调用getForNullKey方法返回相对应的value
+        if (key == null)
+            return getForNullKey();
+        // 根据该 key 的 hashCode 值计算它的 hash 码  
+        int hash = hash(key.hashCode());
+        // 取出 table 数组中指定索引处的值
+        for (Entry&lt;K, V&gt; e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
+            Object k;
+            //若搜索的key与查找的key相同，则返回相对应的value
+            if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k)))
+                return e.value;
+        }
+        return null;
+    }
+</code></pre>
+<blockquote>
+<p>在这里能够根据key快速的取到value除了和HashMap的数据结构密不可分外，还和Entry有莫大的关系，在前面就提到过，HashMap在存储过程中并没有将key，value分开来存储，而是当做一个整体key-value来处理的，这个整体就是Entry对象。</p>
+<p>同时value也只相当于key的附属而已。在存储的过程中，系统根据key的hashcode来决定Entry在table数组中的存储位置，在取的过程中同样根据key的hashcode取出相对应的Entry对象。</p>
+<p>在java中与有两个类都提供了一个多种用途的hashTable机制，他们都可以将可以key和value结合起来构成键值对通过put(key,value)方法保存起来，然后通过get(key)方法获取相对应的value值。</p>
+</blockquote>
+<h2 id="hashtable">HashTable</h2>
+<p>一个是前面提到的HashMap，还有一个就是马上要讲解的HashTable。对于HashTable而言，它在很大程度上和HashMap的实现差不多，如果我们对HashMap比较了解的话，对HashTable的认知会提高很大的帮助。他们两者之间只存在几点的不同，这个后面会阐述。</p>
+<h3 id="定义-2">定义</h3>
+<pre><code>  HashTable在Java中的定义如下：
+
+public class Hashtable&lt;K,V&gt;
+    extends Dictionary&lt;K,V&gt;
+    implements Map&lt;K,V&gt;, Cloneable, java.io.Serializable
+      从中可以看出HashTable继承Dictionary类，实现Map接口。其中Dictionary类是任何可将键映射到相应值的类（如 Hashtable）的抽象父类。每个键和每个值都是一个对象。在任何一个 Dictionary 对象中，每个键至多与一个值相关联。Map是&quot;key-value键值对&quot;接口。
+
+
+
+  HashTable采用&quot;拉链法&quot;实现哈希表，它定义了几个重要的参数：table、count、threshold、loadFactor、modCount。
+
+
+
+  table：为一个Entry[]数组类型，Entry代表了“拉链”的节点，每一个Entry代表了一个键值对，哈希表的&quot;key-value键值对&quot;都是存储在Entry数组中的。
+
+
+
+  count：HashTable的大小，注意这个大小并不是HashTable的容器大小，而是他所包含Entry键值对的数量。
+
+
+
+  threshold：Hashtable的阈值，用于判断是否需要调整Hashtable的容量。threshold的值=&quot;容量*加载因子&quot;。
+
+
+
+  loadFactor：加载因子。
+
+
+
+  modCount：用来实现“fail-fast”机制的（也就是快速失败）。所谓快速失败就是在并发集合中，其进行迭代操作时，若有其他线程对其进行结构性的修改，这时迭代器会立马感知到，并且立即抛出ConcurrentModificationException异常，而不是等到迭代完成之后才告诉你（你已经出错了）。
+</code></pre>
+<h3 id="构造方法">构造方法</h3>
+<pre><code>  在HashTabel中存在5个构造函数。通过这5个构造函数我们构建出一个我想要的HashTable。
+
+public Hashtable() {
+        this(11, 0.75f);
+    }
+      默认构造函数，容量为11，加载因子为0.75。
+
+public Hashtable(int initialCapacity) {
+        this(initialCapacity, 0.75f);
+    }
+      用指定初始容量和默认的加载因子 (0.75) 构造一个新的空哈希表。
+
+public Hashtable(int initialCapacity, float loadFactor) {
+        //验证初始容量
+        if (initialCapacity &lt; 0)
+            throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                                               initialCapacity);
+        //验证加载因子
+        if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+            throw new IllegalArgumentException(&quot;Illegal Load: &quot;+loadFactor);
+
+        if (initialCapacity==0)
+            initialCapacity = 1;
+
+        this.loadFactor = loadFactor;
+
+        //初始化table，获得大小为initialCapacity的table数组
+        table = new Entry[initialCapacity];
+        //计算阀值
+        threshold = (int)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+        //初始化HashSeed值
+        initHashSeedAsNeeded(initialCapacity);
+    }
+</code></pre>
+<blockquote>
+<p>用指定初始容量和指定加载因子构造一个新的空哈希表。其中initHashSeedAsNeeded方法用于初始化hashSeed参数，其中hashSeed用于计算key的hash值，它与key的hashCode进行按位异或运算。这个hashSeed是一个与实例相关的随机值，主要用于解决hash冲突。</p>
+</blockquote>
+<pre><code>private int hash(Object k) {
+        return hashSeed ^ k.hashCode();
+    }
+</code></pre>
+<p>构造一个与给定的 Map 具有相同映射关系的新哈希表。</p>
+<pre><code>public Hashtable(Map&lt;? extends K, ? extends V&gt; t) {
+        //设置table容器大小，其值==t.size * 2 + 1
+        this(Math.max(2*t.size(), 11), 0.75f);
+        putAll(t);
+    }
+</code></pre>
+<h3 id="主要方法">主要方法</h3>
+<p>HashTable的API对外提供了许多方法，这些方法能够很好帮助我们操作HashTable，但是这里我只介绍两个最根本的方法：put、get。</p>
+<pre><code>  首先我们先看put方法：将指定 key 映射到此哈希表中的指定 value。注意这里键key和值value都不可为空。
+
+public synchronized V put(K key, V value) {
+        // 确保value不为null
+        if (value == null) {
+            throw new NullPointerException();
+        }
+
+        /*
+         * 确保key在table[]是不重复的
+         * 处理过程：
+         * 1、计算key的hash值，确认在table[]中的索引位置
+         * 2、迭代index索引位置，如果该位置处的链表中存在一个一样的key，则替换其value，返回旧值
+         */
+        Entry tab[] = table;
+        int hash = hash(key);    //计算key的hash值
+        int index = (hash &amp; 0x7FFFFFFF) % tab.length;     //确认该key的索引位置
+        //迭代，寻找该key，替换
+        for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) {
+            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) {
+                V old = e.value;
+                e.value = value;
+                return old;
+            }
+        }
+
+        modCount++;
+        if (count &gt;= threshold) {  //如果容器中的元素数量已经达到阀值，则进行扩容操作
+            rehash();
+            tab = table;
+            hash = hash(key);
+            index = (hash &amp; 0x7FFFFFFF) % tab.length;
+        }
+
+        // 在索引位置处插入一个新的节点
+        Entry&lt;K,V&gt; e = tab[index];
+        tab[index] = new Entry&lt;&gt;(hash, key, value, e);
+        //容器中元素+1
+        count++;
+        return null;
+    }
+</code></pre>
+<blockquote>
+<p>put方法的整个处理流程是：计算key的hash值，根据hash值获得key在table数组中的索引位置，然后迭代该key处的Entry链表（我们暂且理解为链表），若该链表中存在一个这个的key对象，那么就直接替换其value值即可，否则在将改key-value节点插入该index索引位置处</p>
+</blockquote>
+<p>在HashTabled的put方法中有两个地方需要注意：</p>
+<p>1、HashTable的扩容操作，在put方法中，如果需要向table[]中添加Entry元素，会首先进行容量校验，如果容量已经达到了阀值，HashTable就会进行扩容处理rehash()，如下:</p>
+<pre><code>protected void rehash() {
+        int oldCapacity = table.length;
+        //元素
+        Entry&lt;K,V&gt;[] oldMap = table;
+
+        //新容量=旧容量 * 2 + 1
+        int newCapacity = (oldCapacity &lt;&lt; 1) + 1;
+        if (newCapacity - MAX_ARRAY_SIZE &gt; 0) {
+            if (oldCapacity == MAX_ARRAY_SIZE)
+                return;
+            newCapacity = MAX_ARRAY_SIZE;
+        }
+
+        //新建一个size = newCapacity 的HashTable
+        Entry&lt;K,V&gt;[] newMap = new Entry[];
+
+        modCount++;
+        //重新计算阀值
+        threshold = (int)Math.min(newCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+        //重新计算hashSeed
+        boolean rehash = initHashSeedAsNeeded(newCapacity);
+
+        table = newMap;
+        //将原来的元素拷贝到新的HashTable中
+        for (int i = oldCapacity ; i-- &gt; 0 ;) {
+            for (Entry&lt;K,V&gt; old = oldMap[i] ; old != null ; ) {
+                Entry&lt;K,V&gt; e = old;
+                old = old.next;
+
+                if (rehash) {
+                    e.hash = hash(e.key);
+                }
+                int index = (e.hash &amp; 0x7FFFFFFF) % newCapacity;
+                e.next = newMap[index];
+                newMap[index] = e;
+            }
+        }
+    }
+</code></pre>
+<p>在这个rehash()方法中我们可以看到容量扩大两倍+1，同时需要将原来HashTable中的元素一一复制到新的HashTable中，这个过程是比较消耗时间的，同时还需要重新计算hashSeed的，毕竟容量已经变了。</p>
+<p>这里对阀值啰嗦一下：比如初始值11、加载因子默认0.75，那么这个时候阀值threshold=8，当容器中的元素达到8时，HashTable进行一次扩容操作，容量 = 8 * 2 + 1 =17，而阀值threshold=17*0.75 = 13，当容器元素再一次达到阀值时，HashTable还会进行扩容操作，依次类推。</p>
+<p>下面是计算key的hash值，这里hashSeed发挥了作用。</p>
+<pre><code>private int hash(Object k) {
+        return hashSeed ^ k.hashCode();
+    }
+</code></pre>
+<p>相对于put方法，get方法就会比较简单，处理过程就是计算key的hash值，判断在table数组中的索引位置，然后迭代链表，匹配直到找到相对应key的value,若没有找到返回null。</p>
+<pre><code>public synchronized V get(Object key) {
+        Entry tab[] = table;
+        int hash = hash(key);
+        int index = (hash &amp; 0x7FFFFFFF) % tab.length;
+        for (Entry&lt;K,V&gt; e = tab[index] ; e != null ; e = e.next) {
+            if ((e.hash == hash) &amp;&amp; e.key.equals(key)) {
+                return e.value;
+            }
+        }
+        return null;
+    }
+</code></pre>
+<h2 id="hashtable与hashmap的异同点">HashTable与HashMap的异同点</h2>
+<p>HashTable和HashMap存在很多的相同点，但是他们还是有几个比较重要的不同点。</p>
+<blockquote>
+<p>第一：我们从他们的定义就可以看出他们的不同，HashTable基于Dictionary类，而HashMap是基于AbstractMap。Dictionary是什么？它是任何可将键映射到相应值的类的抽象父类，而AbstractMap是基于Map接口的骨干实现，它以最大限度地减少实现此接口所需的工作。</p>
+<p>第二：HashMap可以允许存在一个为null的key和任意个为null的value，但是HashTable中的key和value都不允许为null。如下：</p>
+<p>当HashMap遇到为null的key时，它会调用putForNullKey方法来进行处理。对于value没有进行任何处理，只要是对象都可以。</p>
+<pre><code>if (key == null)
+            return putForNullKey(value);
+      而当HashTable遇到null时，他会直接抛出NullPointerException异常信息。
+</code></pre>
+</blockquote>
+<pre><code>if (value == null) {
+    throw new NullPointerException();
+}
+</code></pre>
+<blockquote>
+<p>第三：Hashtable的方法是同步的，而HashMap的方法不是。所以有人一般都建议如果是涉及到多线程同步时采用HashTable，没有涉及就采用HashMap，但是在Collections类中存在一个静态方法：synchronizedMap()，该方法创建了一个线程安全的Map对象，并把它作为一个封装的对象来返回，所以通过Collections类的synchronizedMap方法是可以我们你同步访问潜在的HashMap。这样君该如何选择呢？？？</p>
+</blockquote>
+<h2 id="面试题hashmap和hashtable的区别">面试题：HashMap和HashTable的区别</h2>
+<p>HashMap线程不安全，HashTable是线程安全的。HashMap内部实现没有任何线程同步相关的代码，所以相对而言性能要好一点。如果在多线程中使用HashMap需要自己管理线程同步。HashTable大部分对外接口都使用synchronized包裹，所以是线程安全的，但是性能会相对差一些。</p>
+<p>二者的基类不一样。HashMap派生于AbstractMap，HashTable派生于Dictionary。它们都实现Map, Cloneable, Serializable这些接口。AbstractMap中提供的基础方法更多，并且实现了多个通用的方法，而在Dictionary中只有少量的接口，并且都是abstract类型。</p>
+<p>key和value的取值范围不同。HashMap的key和value都可以为null，但是HashTablekey和value都不能为null。对于HashMap如果get返回null，并不能表明HashMap不存在这个key，如果需要判断HashMap中是否包含某个key，就需要使用containsKey这个方法来判断。</p>
+<p>算法不一样。HashMap的initialCapacity为16，而HashTable的initialCapacity为11。HashMap中初始容量必须是2的幂,如果初始化传入的initialCapacity不是2的幂，将会自动调整为大于出入的initialCapacity最小的2的幂。HashMap使用自己的计算hash的方法(会依赖key的hashCode方法)，HashTable则使用key的hashCode方法得到。</p>
 
             </div>
             
@@ -812,7 +1028,7 @@ select * from Employee where dsalary&gt;2500.0/12(dsalary是索引列)
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://jboone1989.github.io/post/tiaoyou/" title="9、Mysql调优">https://jboone1989.github.io/post/tiaoyou/</a>
+      <a href="https://jboone1989.github.io/post/HashMap/" title="HashMap与HashTable">https://jboone1989.github.io/post/HashMap/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -821,18 +1037,22 @@ select * from Employee where dsalary&gt;2500.0/12(dsalary是索引列)
   </ul>
   <div class="tags">
     
-      <a href="https://jboone1989.github.io/tag/NP2MmsTrY/"># Mysql</a>
+      <a href="https://jboone1989.github.io/tag/-OYvxk3u8/"># Collection</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="6、事务" href="https://jboone1989.github.io/post/tanscation/">6、事务</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="6、事务" href="https://jboone1989.github.io/post/tanscation/">上一篇</a>
+        <a class="nav-pc-next" title="英语金句" href="https://jboone1989.github.io/post/ying-yu-jin-ju/">英语金句</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="英语金句" href="https://jboone1989.github.io/post/ying-yu-jin-ju/">上一篇</a>
       
     </div>
     <div class="nav-next">
+      
+        <a class="nav-pc-next" title="Iterator，fail-fast机制与比较器" href="https://jboone1989.github.io/post/iteratorfail-fast-ji-zhi-yu-bi-jiao-qi/">Iterator，fail-fast机制与比较器</a>
+        <a class="nav-mobile-next" title="Iterator，fail-fast机制与比较器" href="https://jboone1989.github.io/post/iteratorfail-fast-ji-zhi-yu-bi-jiao-qi/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>
